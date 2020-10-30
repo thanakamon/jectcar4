@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "48810284363",
+    "firebase_url": "https://cars-48d77.firebaseio.com",
+    "project_id": "cars-48d77",
+    "storage_bucket": "cars-48d77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:48810284363:android:670cc299f6f8a4505cc4ce",
+        "android_client_info": {
+          "package_name": "com.jectcar4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "48810284363-mt40nq343c2nhkbfkimthv03l0stiddr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jectcar4",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "48810284363-bk2bf41sc3cq8gm40dgu8ooh5cdabklt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ902xixi2zcun3jj0ijyfuKAtpLk1xwU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "48810284363-bk2bf41sc3cq8gm40dgu8ooh5cdabklt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
