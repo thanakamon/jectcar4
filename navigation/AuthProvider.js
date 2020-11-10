@@ -12,13 +12,6 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         setUser,
-        login: async (email, password) => {
-          try {
-            await auth().signInWithEmailAndPassword(email, password);
-          } catch (e) {
-            console.log(e);
-          }
-        },
         fbLogin: async () => {
           try {
             const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
@@ -56,13 +49,6 @@ export const AuthProvider = ({ children }) => {
           }
           catch (error) {
             console.log({ error });
-          }
-        },
-        register: async (email, password) => {
-          try {
-            await auth().createUserWithEmailAndPassword(email, password);
-          } catch (e) {
-            console.log(e);
           }
         },
         logout: async () => {
