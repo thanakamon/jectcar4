@@ -48,7 +48,6 @@ const AuthStack = () => {
         component={LoginScreen}
         options={{header: () => null}}
       />
-      
     </Stack.Navigator>
   );
 };

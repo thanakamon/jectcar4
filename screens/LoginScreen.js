@@ -1,13 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, Platform } from 'react-native';
-import FormInput from '../components/FormInput';
-import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
 import { AuthContext } from '../navigation/AuthProvider';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = () => {
   
-  const { googleLogin,fbLogin } = useContext(AuthContext);
+  const {  googleLogin,fbLogin } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
