@@ -1,52 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, Platform } from 'react-native';
-import FormInput from '../components/FormInput';
-import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
 import { AuthContext } from '../navigation/AuthProvider';
 
-const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-
-  const { login, googleLogin,fbLogin } = useContext(AuthContext);
+const LoginScreen = () => {
+  
+  const {  googleLogin,fbLogin } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../assets/logo.png')}
-        style={styles.logo}
-      />
-      <Text style={styles.text}>Car And Memos</Text>
-
-      <FormInput
-        labelValue={email}
-        onChangeText={(userEmail) => setEmail(userEmail)}
-        placeholderText="Email"
-        iconType="user"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-
-      <FormInput
-        labelValue={password}
-        onChangeText={(userPassword) => setPassword(userPassword)}
-        placeholderText="Password"
-        iconType="lock"
-        secureTextEntry={true}
-      />
-
-      <FormButton
-        buttonTitle="Sign In"
-        onPress={() => login(email, password)}
-      />
       
-
-      <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
-        <Text style={styles.navButtonText}>Forgot Password?</Text>
-    </TouchableOpacity>
-
       {Platform.OS === 'android' ? (
         <View>
           <SocialButton
@@ -66,7 +29,7 @@ const LoginScreen = ({ navigation }) => {
           />
         </View>
       ) : null}
-
+      {/*
       <TouchableOpacity
         style={styles.forgotButton}
         onPress={() => navigation.navigate('Signup')}>
@@ -74,6 +37,7 @@ const LoginScreen = ({ navigation }) => {
           Don't have an acount? Create here
         </Text>
       </TouchableOpacity>
+      */}
     </View>
   );
 };
