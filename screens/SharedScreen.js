@@ -5,12 +5,12 @@ import { AuthContext } from '../navigation/AuthProvider';
 
 
 
-const HomeScreen = ({navigation}) => {
+const Shared = ({navigation}) => {
   const { user, logout } = useContext(AuthContext);
   return (
 
     <View style={styles.container}>
-      <Text style={styles.text}>T_T </Text>
+      <Text style={styles.text}>อยากจะร้องให้ก้องไปทั่วโลกา</Text>
       
       {/*<Button
         title="Firebase"
@@ -24,7 +24,7 @@ const HomeScreen = ({navigation}) => {
 }
 
 
-export default HomeScreen;
+export default Shared;
 
 const styles = StyleSheet.create({
 
