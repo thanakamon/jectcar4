@@ -1,51 +1,68 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import FormButton from '../components/FormButton';
+import React, { Component,useContext } from "react";
+import { View, Text, StyleSheet,TouchableOpacity } from "react-native";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import SimpleLineIconsIcon from "react-native-vector-icons/SimpleLineIcons";
 import { AuthContext } from '../navigation/AuthProvider';
-import Icon from 'react-native-vector-icons/Ionicons';
-import ActionButton from 'react-native-action-button';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { State } from 'react-native-gesture-handler';
-import { createStackNavigator } from '@react-navigation/stack';
-import FirebaseScreen from './FirebaseScreen';
 
-
-const HomeScreen = ({navigation}) => {
+const HomeScreen = (props) => {
   const { user, logout } = useContext(AuthContext);
   return (
-
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome </Text>
-      <Text style={styles.text}>Name : {user.displayName}</Text>
-      <Text style={styles.text}>Email : {user.email}</Text>
-      <FormButton buttonTitle='Logout' onPress={() => logout()} />
-      
-      {/*<Button
-        title="Firebase"
-        onPress={() => navigation.navigate("Firebase")}
-        />
-      */}
-
+      <View style={styles.group}>
+        <TouchableOpacity style={styles.button} onPress={() => { props.navigation.navigate('CarHome') }} >
+          <FontAwesomeIcon name="car" style={styles.icon}></FontAwesomeIcon>
+          
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity style={styles.button2} onPress={() => { props.navigation.navigate('Memos') }}>
+        <SimpleLineIconsIcon
+          name="notebook"
+          style={styles.icon2}
+        ></SimpleLineIconsIcon>
+      </TouchableOpacity>
     </View>
-
   );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "rgba(13,90,104,1)"
+  },
+  group: {
+    width: 308,
+    height: 119,
+    marginTop: 87,
+    marginLeft: 50
+  },
+  button: {
+    width: 308,
+    height: 119,
+    backgroundColor: "#E6E6E6"
+  },
+  icon: {
+    color: "rgba(128,128,128,1)",
+    fontSize: 96,
+    height: 96,
+    width: 110,
+    marginTop: 12,
+    marginLeft: 15
+  },
+  button2: {
+    width: 308,
+    height: 119,
+    backgroundColor: "#E6E6E6",
+    marginTop: 28,
+    marginLeft: 50
+  },
+  icon2: {
+    color: "rgba(128,128,128,1)",
+    fontSize: 96,
+    height: 107,
+    width: 96,
+    marginTop: 6,
+    marginLeft: 15
+  }
+});
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({
-
-  container: {
-    backgroundColor: '#f9fafd',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  text: {
-    fontSize: 20,
-    color: '#333333'
-  }
-
-}); 
