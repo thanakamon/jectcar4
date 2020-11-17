@@ -66,6 +66,28 @@ export function DrawerContent(props) {
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
+                                name="firebase" 
+                                color={color}
+                                size={size}
+                                />
+                            )}
+                            label="Test Realtime database"
+                            onPress={() => {props.navigation.navigate('Realtime')}}
+                        />
+                        <DrawerItem 
+                            icon={({color, size}) => (
+                                <Icon 
+                                name="firebase" 
+                                color={color}
+                                size={size}
+                                />
+                            )}
+                            label="Test Storage"
+                            onPress={() => {props.navigation.navigate('Storage')}}
+                        />
+                        <DrawerItem 
+                            icon={({color, size}) => (
+                                <Icon 
                                 name="account-supervisor" 
                                 color={color}
                                 size={size}

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button,StyleSheet } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../navigation/AuthProvider'
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 class FireStore extends Component {
     static contextType = AuthContext;
     state = {
@@ -12,8 +13,8 @@ class FireStore extends Component {
     }
     constructor(props) {
         super(props);
-        this.getUser();
-        this.addUser();
+        //this.getUser();
+        //this.addUser();
         //console.log(firestore().collection('users').doc('gFSLp3pdAzunNZTaPpg6'));
         this.subscriber = firestore().collection("users").doc
             ('none@kmitl.ac.th').onSnapshot(doc => {
@@ -25,6 +26,7 @@ class FireStore extends Component {
                 })
             })
     }
+    /* 
     getUser = async () => {
         const userDocument = await firestore().collection("users").where('email', '==', 'non@kmitl.ac.th').get().then(querySnapshot => {
             //console.log('Total users: ', querySnapshot.size);
@@ -44,20 +46,38 @@ class FireStore extends Component {
               }).then(console.log)
         //console.log("userDoc"+userDocument)
     }
-    
+    */
 render() {
     const { user, logout } = (this.context);
 
     return (
-        <View>
-            <Text>Name: {this.state.user.name}</Text>
-            <Text>Email: {this.state.user.email} </Text>
-
-        </View>
+        <View style={styles.container}>
+        <Text style={styles.text}>{this.state.user.name}</Text>
+        <Text style={styles.text}>{this.state.user.email}</Text>
+        
+        
+        
+  
+      </View>
     );
 }
 }
-
+//<button onPress={() => { props.navigation.navigate('real') }}>Realtime</button>
 
 export default FireStore;
 
+const styles = StyleSheet.create({
+
+    container: {
+      backgroundColor: '#f9fafd',
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+    },
+    text: {
+      fontSize: 30,
+      color: '#333333'
+    }
+  
+  }); 
