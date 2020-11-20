@@ -16,6 +16,7 @@ import {
 } from 'native-base';
 import { AuthContext } from '../navigation/AuthProvider';
 import database from '@react-native-firebase/database';
+
 export const submitUser = (Id, Name, Email) => {
     alert("ส่งไปละจ้า")
     return new Promise(function(resolve, reject) {
