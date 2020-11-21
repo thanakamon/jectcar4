@@ -25,15 +25,19 @@
     "react": "^16.14.0",
     "react-native": "^0.63.3",
     "react-native-action-button": "^2.8.5",
+    "react-native-elements": "^3.0.0-alpha.1",
     "react-native-fbsdk": "^2.0.0",
     "react-native-gesture-handler": "^1.8.0",
+    "react-native-image-picker": "^2.3.4",
     "react-native-material-cards": "^1.0.15",
     "react-native-onboarding-swiper": "^1.1.4",
     "react-native-paper": "^4.4.0",
+    "react-native-progress": "^4.1.2",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.14.0",
-    "react-native-vector-icons": "^7.1.0"
+    "react-native-vector-icons": "^7.1.0",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@babel/core": "7.12.3",
