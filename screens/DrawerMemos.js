@@ -50,51 +50,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Home"
-                            onPress={() => { props.navigation.navigate('Application') }}
-                        />
-                        <DrawerItem 
-                            icon={({color, size}) => (
-                                <Icon 
-                                name="firebase" 
-                                color={color}
-                                size={size}
-                                />
-                            )}
-                            label="Test Cloud Firestore"
-                            onPress={() => {props.navigation.navigate('FireStore')}}
-                        />
-                        <DrawerItem 
-                            icon={({color, size}) => (
-                                <Icon 
-                                name="firebase" 
-                                color={color}
-                                size={size}
-                                />
-                            )}
-                            label="Test Realtime database"
-                            onPress={() => {props.navigation.navigate('Realtime')}}
-                        />
-                        <DrawerItem 
-                            icon={({color, size}) => (
-                                <Icon 
-                                name="firebase" 
-                                color={color}
-                                size={size}
-                                />
-                            )}
-                            label="Test Storage"
-                            onPress={() => {props.navigation.navigate('Storage')}}
-                        />
-                        <DrawerItem 
-                            icon={({color, size}) => (
-                                <Icon 
-                                name="account-supervisor" 
-                                color={color}
-                                size={size}
-                                />
-                            )}
-                            label="Shared"
-                            onPress={() => {props.navigation.navigate('Shared')}}
+                            onPress={() => { }}
                         />
                     </Drawer.Section>
                 </View>
