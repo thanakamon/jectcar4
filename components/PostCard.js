@@ -26,25 +26,6 @@ import moment from 'moment';
 const PostCard = ({item, onDelete}) => {
   const {user, logout} = useContext(AuthContext);
 
-  likeIcon = item.liked ? 'heart' : 'heart-outline';
-  likeIconColor = item.liked ? '#2e64e5' : '#333';
-
-  if (item.likes == 1) {
-    likeText = '1 Like';
-  } else if (item.likes > 1) {
-    likeText = item.likes + ' Likes';
-  } else {
-    likeText = 'Like';
-  }
-
-  if (item.comments == 1) {
-    commentText = '1 Comment';
-  } else if (item.comments > 1) {
-    commentText = item.comments + ' Comments';
-  } else {
-    commentText = 'Comment';
-  }
-
   return (
     <Card key={item.id}>
       <UserInfo>

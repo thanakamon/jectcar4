@@ -13,8 +13,9 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import AddPostScreen from '../screens/AddPostScreen';
-import MessagesScreen from '../screens/MessagesScreen';
+import HomeCar from '../screens/HomeCar';
 import HomeMemos from '../screens/HomeMemos';
+import AddCar from '../screens/AddCar';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -44,7 +45,50 @@ const FeedStack = ({navigation}) => (
 
 const CarStack = ({navigation}) => (
   <Stack.Navigator>
-    <Stack.Screen name="Car Maintenance" component={MessagesScreen} />
+    <Stack.Screen name="Car Maintenance" component={HomeCar} 
+    options={{
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        color: '#2e64e5',
+        fontFamily: 'Kufam-SemiBoldItalic',
+        fontSize: 18,
+      },
+      headerStyle: {
+        shadowColor: '#000',
+        elevation: 0,
+      },
+      headerRight: () => (
+        <View style={{marginRight: 10}}>
+          <FontAwesome5.Button
+            name="plus"
+            size={22}
+            backgroundColor="#fff"
+            color="#2e64e5"
+            onPress={() => navigation.navigate('addcar')}
+          />
+        </View>
+      ), 
+    }}
+    />
+    <Stack.Screen
+      name="addcar"
+      component={AddCar}
+      options={{
+        title: '',
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#2e64e515',
+          shadowColor: '#2e64e515',
+          elevation: 0,
+        },
+        headerBackTitleVisible: false,
+        headerBackImage: () => (
+          <View style={{marginLeft: 15}}>
+            <Ionicons name="arrow-back" size={25} color="#2e64e5" />
+          </View>
+        ),
+      }}
+    />
     
   </Stack.Navigator>
 );
@@ -103,7 +147,6 @@ const MemosStack = ({navigation}) => (
   </Stack.Navigator>
 );
 
-
 const AppStack = () => {
   
 
@@ -127,7 +170,6 @@ const AppStack = () => {
           ),
         })}
       />
-      
       <Tab.Screen
         name="Car"
         component={CarStack}
@@ -162,8 +204,6 @@ const AppStack = () => {
           ),
         }}
       />
-      
-
     </Tab.Navigator>
     
 
