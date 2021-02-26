@@ -16,6 +16,7 @@ import AddPostScreen from '../screens/AddPostScreen';
 import HomeCar from '../screens/HomeCar';
 import HomeMemos from '../screens/HomeMemos';
 import AddCar from '../screens/AddCar';
+import DetailCar from '../screens/DetailCar';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -73,6 +74,26 @@ const CarStack = ({navigation}) => (
     <Stack.Screen
       name="addcar"
       component={AddCar}
+      options={{
+        title: '',
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#2e64e515',
+          shadowColor: '#2e64e515',
+          elevation: 0,
+        },
+        headerBackTitleVisible: false,
+        headerBackImage: () => (
+          <View style={{marginLeft: 15}}>
+            <Ionicons name="arrow-back" size={25} color="#2e64e5" />
+          </View>
+        ),
+      }}
+    />
+
+    <Stack.Screen
+      name="detialCar"
+      component={DetailCar}
       options={{
         title: '',
         headerTitleAlign: 'center',

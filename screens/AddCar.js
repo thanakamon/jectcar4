@@ -3,13 +3,32 @@ import {View, Text, TouchableOpacity, Switch, StyleSheet} from 'react-native';
 import FormInput from '../components/FormInputAddcar';
 import FormButton from '../components/FormButton';
 import {AuthContext} from '../navigation/AuthProvider';
+import firestore from '@react-native-firebase/firestore';
 
-const SignupScreen = ({navigation}) => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+const Addcar = ({navigation}) => {
+  const {user, logout} = useContext(AuthContext);
+  const [brand, setBrand] = useState();
 
-  const {register} = useContext(AuthContext);
+  const Create = async () => {
+    firestore()
+    .collection('Car')
+    .add({
+      user: user.email,
+      Brand : brand,
+      
+    })
+    .then(() => {
+      console.log('Post Added!');
+      Alert.alert(
+        'บันทึกกกก',
+        'บันทึกสำเร็จ',
+      );
+      setBrand(null);
+    })
+    .catch((error) => {
+      console.log('Something went wrong with added post to firestore.', error);
+    });
+  }
 
   return (
     <View style={styles.container}>
@@ -17,6 +36,7 @@ const SignupScreen = ({navigation}) => {
 
       <FormInput
         placeholderText="Brand"
+        value={brand}
         iconType="user"
       />
       <FormInput
@@ -61,17 +81,14 @@ const SignupScreen = ({navigation}) => {
         keyboardType="email-address"
         
       />
-      <FormButton
-        buttonTitle="Create"
-        
+      <FormButton onPress={Create}
+        buttonTitle="Create"  
       />
-
-      
     </View>
   );
 };
 
-export default SignupScreen;
+export default Addcar;
 
 const styles = StyleSheet.create({
   container: {

@@ -5,7 +5,7 @@ import {
   Dimensions,
   Text,
   Animated,
-  Easing,
+  Easing,TouchableOpacity
 } from "react-native";
 import { styles } from "../styles/HomeCar";
 import { FlatList } from "react-native-gesture-handler";
@@ -63,6 +63,9 @@ export default class Luxury extends Component {
   };
 
   render() {
+
+    const { navigate } = this.props.navigation;
+
     const AnimatedBackground = {
       height: this.state.alignment,
     };
@@ -82,6 +85,7 @@ export default class Luxury extends Component {
           <FlatList
             data={this.state.cards}
             renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("detialCar")} >
               <Card
                 title={item.title}
                 image={item.image}
@@ -89,9 +93,11 @@ export default class Luxury extends Component {
                 description={item.description}
                 onPress={() => this.handlePress(item.id)}
               />
+              </TouchableOpacity>
             )}
           />
         </Animated.View>
+        
       </View>
     );
   }
