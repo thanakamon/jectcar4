@@ -1,29 +1,48 @@
 import React, {useContext, useState} from 'react';
-import {View, Text, TouchableOpacity, Switch, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, Switch, StyleSheet, Alert} from 'react-native';
 import FormInput from '../components/FormInputAddcar';
 import FormButton from '../components/FormButton';
 import {AuthContext} from '../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
+import DatePicker from 'react-native-datepicker';
 
-const Addcar = ({navigation}) => {
+
+const Addcar = (props) => {
+  
   const {user, logout} = useContext(AuthContext);
   const [brand, setBrand] = useState();
+  const [model, setModel] = useState();
+  const [carregis, setCarregis] = useState();
+  const [datetax, setDateTaxt] = useState();
+  const [dateins, setDateIns] = useState();
+  const [datefirst, setDateFirst] = useState();
 
   const Create = async () => {
     firestore()
     .collection('Car')
     .add({
-      user: user.email,
+      name : user.displayName,
+      email: user.email,
       Brand : brand,
-      
+      Model : model,
+      CarRegistration : carregis,
+      Insurance : dateins,
+      Tax : datetax,
+      DateFirst : datefirst,
     })
     .then(() => {
-      console.log('Post Added!');
+      console.log('Success');
       Alert.alert(
         'บันทึกกกก',
         'บันทึกสำเร็จ',
+        
       );
       setBrand(null);
+      setModel(null);
+      setCarregis(null);
+      setDateIns(null);
+      setDateTaxt(null);
+      setDateFirst(null);
     })
     .catch((error) => {
       console.log('Something went wrong with added post to firestore.', error);
@@ -37,42 +56,107 @@ const Addcar = ({navigation}) => {
       <FormInput
         placeholderText="Brand"
         value={brand}
-        iconType="user"
+        onChangeText={(content) => setBrand(content)}
       />
       <FormInput
         placeholderText="Model"
-        iconType="user"
+        value={model}
+        onChangeText={(content) => setModel(content)}
         
       />
       <FormInput
         placeholderText="Car registration"
-        iconType="user"keyboardType="email-address"
+        value={carregis}
+        onChangeText={(content) => setCarregis(content)}
         
       />
-      <FormInput
-        placeholderText="Insurance expiration date"
-        iconType="user"
-        
-      />
-      <FormInput
-        placeholderText="Tax expiration date"
-        iconType="user" 
-      />
-
+      <DatePicker
+          style={styles.datePickerStyle}
+          date={dateins} // Initial date from state
+          mode="date" // The enum of date, datetime and time
+          placeholder="Insurance expiration date"
+          format="DD-MM-YYYY"
+          minDate="01-01-2020"
+          maxDate="01-01-2030"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              //display: 'none',
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 36,
+            },
+          }}
+          onDateChange={(date) => {
+            setDateIns(date);
+          }}
+        />
+        <DatePicker
+          style={styles.datePickerStyle}
+          date={datetax} // Initial date from state
+          mode="date" // The enum of date, datetime and time
+          placeholder="Tax expiration date"
+          format="DD-MM-YYYY"
+          minDate="01-01-2020"
+          maxDate="01-01-2030"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              //display: 'none',
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 36,
+            },
+          }}
+          onDateChange={(date) => {
+            setDateTaxt(date);
+          }}
+        />
+      
       <View >
         <Text style={styles.TCar} >กรณีผ่อนรถ</Text>
       </View>
 
-      <FormInput
-        placeholderText="วันที่ชำระงวดแรก"
-        iconType="user"
-        keyboardType="email-address"
-        
-      />
+      <DatePicker
+          style={styles.datePickerStyle}
+          date={datefirst} // Initial date from state
+          mode="date" // The enum of date, datetime and time
+          placeholder="วันที่ชำระงวดแรก"
+          format="DD-MM-YYYY"
+          minDate="01-01-2020"
+          maxDate="01-01-2030"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              //display: 'none',
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 36,
+            },
+          }}
+          onDateChange={(date) => {
+            setDateFirst(date);
+          }}
+        />
       <FormInput
         placeholderText="จำนวนงวด"
         iconType="user"
-        keyboardType="email-address"
+        keyboardType="number"
         
       />
       <FormInput
@@ -82,7 +166,8 @@ const Addcar = ({navigation}) => {
         
       />
       <FormButton onPress={Create}
-        buttonTitle="Create"  
+        buttonTitle="Create" 
+        //onPress={() => { props.navigation.navigate('CarMaintenance') }} 
       />
     </View>
   );
@@ -132,6 +217,15 @@ const styles = StyleSheet.create({
       fontSize : 18,
       fontWeight: 'bold'
   },
-  
+  datePickerStyle: {
+    width: '100%',
+    marginTop: 5,
+    marginBottom: 5,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    borderWidth: 1,
+    backgroundColor: '#fff',
+    
+  },
   
 });

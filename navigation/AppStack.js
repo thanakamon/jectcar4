@@ -46,7 +46,7 @@ const FeedStack = ({navigation}) => (
 
 const CarStack = ({navigation}) => (
   <Stack.Navigator>
-    <Stack.Screen name="Car Maintenance" component={HomeCar} 
+    <Stack.Screen name="CarMaintenance" component={HomeCar} 
     options={{
       headerTitleAlign: 'center',
       headerTitleStyle: {
@@ -66,6 +66,7 @@ const CarStack = ({navigation}) => (
             backgroundColor="#fff"
             color="#2e64e5"
             onPress={() => navigation.navigate('addcar')}
+            
           />
         </View>
       ), 

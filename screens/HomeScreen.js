@@ -9,7 +9,7 @@ const HomeScreen = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.group}>
-        <TouchableOpacity style={styles.button} onPress={() => { props.navigation.navigate('Car Maintenance') }} >
+        <TouchableOpacity style={styles.button} onPress={() => { props.navigation.navigate('CarMaintenance') }} >
           <FontAwesomeIcon name="car" style={styles.icon}></FontAwesomeIcon>
           
         </TouchableOpacity>
