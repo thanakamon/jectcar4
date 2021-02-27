@@ -25,7 +25,7 @@ import moment from 'moment';
 
 const PostCard = ({item, onDelete}) => {
   const {user, logout} = useContext(AuthContext);
-
+  
   return (
     <Card key={item.id}>
       <UserInfo>

@@ -1,84 +1,104 @@
 import React, { Component,useContext } from "react";
-import { View, Text, StyleSheet,TouchableOpacity } from "react-native";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import SimpleLineIconsIcon from "react-native-vector-icons/SimpleLineIcons";
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  StatusBar,
+} from 'react-native';
+
+
+
+import {Card} from 'native-base'
+import AnimatedProgressWheel from 'react-native-progress-wheel';
 import { AuthContext } from '../navigation/AuthProvider';
 
 const HomeScreen = (props) => {
   const { user, logout } = useContext(AuthContext);
   return (
-    <View style={styles.container}>
-      <View style={styles.rect2Row}>
-        <View style={styles.rect2}>
-          <Text style={styles.home}>Home</Text>
-        </View>
-        <View style={styles.rect3}>
-          <Text style={styles.stat}>Stat</Text>
-        </View>
-      </View>
-      <View style={styles.rect5}>
-        <Text style={styles.carCare1}>For Circular Progress Bar</Text>
-      </View>
-      <View style={styles.rect6}>
-        <Text style={styles.fuelHistory}>Fuel History</Text>
-        <View style={styles.rect7}>
-          <View style={styles.fuelHistory1Row}>
-            <Text style={styles.fuelHistory1}>11/10/2564</Text>
-            <Text style={styles.fuelHistory2}>1200</Text>
-            <Text style={styles.thb}>THB</Text>
-          </View>
-        </View>
-        <View style={styles.fuelHistory3StackStack}>
-          <View style={styles.fuelHistory3Stack}>
-            <Text style={styles.fuelHistory3}>11/10/2564</Text>
-            <View style={styles.rect8}>
-              <View style={styles.fuelHistory5Row}>
-                <Text style={styles.fuelHistory5}>1/10/2564</Text>
-                <Text style={styles.fuelHistory6}>500</Text>
-                <Text style={styles.thb2}>THB</Text>
-              </View>
-            </View>
-          </View>
-          <Text style={styles.fuelHistory4}>1200</Text>
-          <Text style={styles.thb1}>THB</Text>
-        </View>
-        <View style={styles.readMoreRow}>
-          <Text style={styles.readMore}>Read More</Text>
-          <Text style={styles.add}>Add</Text>
-        </View>
-      </View>
-      <View style={styles.rect9}>
-        <Text style={styles.maintenanceHistory}>Maintenance History</Text>
-        <View style={styles.fuelHistory7Stack}>
-          <Text style={styles.fuelHistory7}>11/10/2564</Text>
-          <View style={styles.rect10}>
-            <View style={styles.fuelHistory8StackRow}>
-              <View style={styles.fuelHistory8Stack}>
-                <Text style={styles.fuelHistory8}>11/10/2564</Text>
-                <Text style={styles.order87}>Order.87</Text>
-              </View>
-              <Text style={styles.ladkrabang}>Ladkrabang</Text>
-              <Text style={styles.fuelHistory9}>3000</Text>
-              <Text style={styles.thb3}>THB</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.rect11}>
-          <View style={styles.fuelHistory10ColumnRow}>
-            <View style={styles.fuelHistory10Column}>
-              <Text style={styles.fuelHistory10}>5/10/2564</Text>
-              <Text style={styles.order86}>Order.86</Text>
-            </View>
-            <Text style={styles.bangkapi}>Bangkapi</Text>
-            <Text style={styles.fuelHistory11}>1500</Text>
-            <Text style={styles.thb4}>THB</Text>
-          </View>
-        </View>
-        <View style={styles.readMore1Row}>
-          <Text style={styles.readMore1}>Read More</Text>
-          <Text style={styles.add1}>Add</Text>
-        </View>
-      </View>
+    <View style = {styles.container}>
+      <Card style = {styles.contbox}>
+        <Card style = {styles.progressbox}>
+          <AnimatedProgressWheel style = {styles.cirpro}
+            size = {80}
+            width = {15}
+            color = {'lightgreen'}
+            progress = {30}
+            animateFromValue = {0}
+            backgroundColor = {'red'}
+          />
+          <View style = {styles.space}></View>
+          <AnimatedProgressWheel style = {styles.cirpro}
+            size = {80}
+            width = {15}
+            color = {'lightblue'}
+            progress = {75}
+            animateFromValue = {0}
+            backgroundColor = {'red'}
+          />
+          <View style = {styles.space}></View>
+          <AnimatedProgressWheel style = {styles.cirpro}
+            size = {80}
+            width = {15}
+            color = {'orange'}
+            progress = {60}
+            animateFromValue = {0}
+            backgroundColor = {'red'}
+          />
+        </Card>
+        <Card style = {styles.progressbox}>
+          <Text style = {styles.Text}>ภาษีสิ้นสุด/วัน</Text>
+          <View style = {styles.space}></View>
+          <Text style = {styles.Text}> จำนวนงวด{"\n"}คงเหลือ/วัน</Text>
+          <View style = {styles.space}></View>
+          <Text style = {styles.Text}>  ชำระงวด/วัน</Text>
+        </Card>
+      </Card>
+      <Card style = {styles.contbox1}>
+        <Text style = {styles.TextCen}>รายการบันทึกเติมเชื้อเพลิงล่าสุด</Text>
+        <Card style = {styles.historybox}>
+          <Text style = {styles.TextDate}>9/9/2020</Text>
+          <Text style = {styles.historyspace}></Text>
+          <Text style = {styles.TextLeft}>200 THB</Text>
+        </Card>
+        <Card style = {styles.historybox}>
+          <Text style = {styles.TextDate}>11/9/2020</Text>
+          <Text style = {styles.historyspace}></Text>
+          <Text style = {styles.TextLeft}>500 THB</Text>
+        </Card>
+        <Card style = {styles.historybox}>
+          <Text style = {styles.TextDate}>12/9/2020</Text>
+          <Text style = {styles.historyspace}></Text>
+          <Text style = {styles.TextLeft}>1000 THB</Text>
+        </Card>
+        <Card style = {styles.transparent}>
+          <Text style = {styles.Text}>แสดงเพิ่มเติม</Text>
+          <Text style = {styles.Text}>เพิ่ม</Text>
+        </Card>
+      </Card>
+      <Card style = {styles.contbox1}>
+        <Text style = {styles.TextCen}>รายการบันทึกซ่อมบำรุงล่าสุด</Text>
+        <Card style = {styles.historybox}>
+          <Text style = {styles.TextDate}> 9/9/2020{'\n'} Ord.10</Text>
+          <Text style = {styles.historyspace}></Text>
+          <Text style = {styles.TextLeft}>200 THB</Text>
+        </Card>
+        <Card style = {styles.historybox}>
+          <Text style = {styles.TextDate}> 11/9/2020{'\n'} Ord.11</Text>
+          <Text style = {styles.historyspace}></Text>
+          <Text style = {styles.TextLeft}>500 THB</Text>
+        </Card>
+        <Card style = {styles.historybox}>
+          <Text style = {styles.TextDate}> 12/9/2020{'\n'} Ord.12</Text>
+          <Text style = {styles.historyspace}></Text>
+          <Text style = {styles.TextLeft}>1000 THB</Text>
+        </Card>
+        <Card style = {styles.transparent}>
+          <Text style = {styles.Text}>แสดงเพิ่มเติม</Text>
+          <Text style = {styles.Text}>เพิ่ม</Text>
+        </Card>
+      </Card>
     </View>
   );
 }
@@ -86,345 +106,81 @@ const HomeScreen = (props) => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#3e3d3d"
-    },
-    rect2: {
-      width: 180,
-      height: 41,
-      backgroundColor: "#215f80",
-      borderWidth: 1,
-      borderColor: "#656464"
-    },
-    home: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginTop: 11,
-      marginLeft: 68
-    },
-    rect3: {
-      width: 180,
-      height: 41,
-      backgroundColor: "#215f80",
-      borderWidth: 1,
-      borderColor: "#656464",
-      marginLeft: 1
-    },
-    stat: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginTop: 11,
-      marginLeft: 75
-    },
-    rect2Row: {
-      height: 41,
-      flexDirection: "row",
-      marginTop: 98,
-      marginLeft: -1
-    },
-    rect5: {
-      width: 360,
-      height: 175,
-      backgroundColor: "#242020",
-      marginTop: 75
-    },
-    carCare1: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 25,
-      marginTop: 73,
-      marginLeft: 39
-    },
-    rect6: {
-      width: 361,
-      height: 188,
-      backgroundColor: "#242020",
-      marginTop: 19,
-      marginLeft: -1
-    },
-    fuelHistory: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginTop: 11,
-      marginLeft: 137
-    },
-    rect7: {
-      width: 292,
-      height: 45,
-      backgroundColor: "#3e3d3d",
-      flexDirection: "row",
-      marginTop: 12,
-      marginLeft: 30
-    },
-    fuelHistory1: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16
-    },
-    fuelHistory2: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginLeft: 105
-    },
-    thb: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginLeft: 4
-    },
-    fuelHistory1Row: {
-      height: 19,
-      flexDirection: "row",
-      flex: 1,
-      marginRight: 16,
-      marginLeft: 13,
-      marginTop: 13
-    },
-    fuelHistory3: {
-      top: 13,
-      left: 13,
-      position: "absolute",
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16
-    },
-    rect8: {
-      top: 0,
-      left: 0,
-      width: 292,
-      height: 45,
-      position: "absolute",
-      backgroundColor: "#3e3d3d",
-      flexDirection: "row"
-    },
-    fuelHistory5: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16
-    },
-    fuelHistory6: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginLeft: 122
-    },
-    thb2: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginLeft: 5
-    },
-    fuelHistory5Row: {
-      height: 19,
-      flexDirection: "row",
-      flex: 1,
-      marginRight: 16,
-      marginLeft: 13,
-      marginTop: 13
-    },
-    fuelHistory3Stack: {
-      top: 0,
-      left: 0,
-      width: 292,
-      height: 45,
-      position: "absolute"
-    },
-    fuelHistory4: {
-      top: 13,
-      left: 204,
-      position: "absolute",
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16
-    },
-    thb1: {
-      top: 13,
-      left: 245,
-      position: "absolute",
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16
-    },
-    fuelHistory3StackStack: {
-      width: 292,
-      height: 45,
-      marginTop: 14,
-      marginLeft: 30
-    },
-    readMore: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16
-    },
-    add: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginLeft: 225
-    },
-    readMoreRow: {
-      height: 19,
-      flexDirection: "row",
-      marginTop: 12,
-      marginLeft: 16,
-      marginRight: 13
-    },
-    rect9: {
-      width: 361,
-      height: 188,
-      backgroundColor: "#242020",
-      marginTop: 25
-    },
-    maintenanceHistory: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginTop: 14,
-      marginLeft: 106
-    },
-    fuelHistory7: {
-      top: 13,
-      left: 13,
-      position: "absolute",
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16
-    },
-    rect10: {
-      top: 0,
-      left: 0,
-      width: 292,
-      height: 45,
-      position: "absolute",
-      backgroundColor: "#3e3d3d",
-      flexDirection: "row"
-    },
-    fuelHistory8: {
-      top: 0,
-      left: 0,
-      position: "absolute",
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16
-    },
-    order87: {
-      top: 18,
-      left: 0,
-      position: "absolute",
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 14
-    },
-    fuelHistory8Stack: {
-      width: 86,
-      height: 35
-    },
-    ladkrabang: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginLeft: 12,
-      marginTop: 7
-    },
-    fuelHistory9: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginLeft: 9,
-      marginTop: 7
-    },
-    thb3: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginLeft: 4,
-      marginTop: 7
-    },
-    fuelHistory8StackRow: {
-      height: 35,
-      flexDirection: "row",
-      flex: 1,
-      marginRight: 19,
-      marginLeft: 9,
-      marginTop: 6
-    },
-    fuelHistory7Stack: {
-      width: 292,
-      height: 45,
-      marginTop: 13,
-      marginLeft: 29
-    },
-    rect11: {
-      width: 292,
-      height: 45,
-      backgroundColor: "#3e3d3d",
-      marginTop: 15,
-      marginLeft: 29
-    },
-    fuelHistory10: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16
-    },
-    order86: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 14
-    },
-    fuelHistory10Column: {
-      width: 76
-    },
-    bangkapi: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginLeft: 22,
-      marginTop: 4
-    },
-    fuelHistory11: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginLeft: 27,
-      marginTop: 4
-    },
-    thb4: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginLeft: 4,
-      marginTop: 4
-    },
-    fuelHistory10ColumnRow: {
-      height: 36,
-      flexDirection: "row",
-      marginTop: 5,
-      marginLeft: 9,
-      marginRight: 19
-    },
-    readMore1: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16
-    },
-    add1: {
-      fontFamily: "roboto-700",
-      color: "rgba(255,255,255,1)",
-      fontSize: 16,
-      marginLeft: 220
-    },
-    readMore1Row: {
-      height: 19,
-      flexDirection: "row",
-      marginTop: 9,
-      marginLeft: 20,
-      marginRight: 14
-    }
-  });
+  container:{
+    flex:1,
+    flexDirection: 'column',
+    backgroundColor: '#707070',
+  },
+  card:{
+    backgroundColor: '#242020',
+    justifyContent: 'center',
+    margin: 10,
+    padding: 35,
+    height: 175,
+  },
+  contbox:{
+    flexDirection: 'column',
+    backgroundColor: '#242020',
+    justifyContent: 'center',
+    margin: 20,
+    padding: 35,
+    height: 175,
+  },
+  contbox1:{
+    flexDirection: 'column',
+    backgroundColor: '#242020',
+    justifyContent: 'center',
+    margin: 20,
+    padding: 35,
+    height: 260
+  },
+  progressbox:{
+    flexDirection: 'row',
+    backgroundColor: '#242020',
+    borderColor: 'transparent',
+    elevation: 0
+  },
+  cirpro:{
+  backgroundColor: '#242020',
+  },
+  space: {
+    margin:20
+  },
+  Text:{
+    color: 'white'
+  },
+  TextDate:{
+    color: 'white',
+    margin: 10
+  },
+  TextLeft:{
+    color: 'white',
+    margin: 10
+  },
+  TextCen:{
+    color: 'white',
+    marginHorizontal: 60,
+    marginVertical: 5
+  },
+  historybox:{
+    height:55,
+    flexDirection: 'row',
+    backgroundColor: '#707070'
+  },
+  historyspace:{
+    margin: 70
+  },
+  none:{
+    opacity: 0,
+    height:10
+  },
+  transparent:{
+    justifyContent: 'space-between',
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    flexDirection: 'row',
+    elevation: 0
+  },
+});
 
   

@@ -1,104 +1,159 @@
-import React, { Component } from "react";
+import React, {useEffect, useState} from 'react';
 import {
   View,
-  ImageBackground,
-  Dimensions,
+  ScrollView,
   Text,
-  Animated,
-  Easing,TouchableOpacity
-} from "react-native";
-import { styles } from "../styles/HomeCar";
-import { FlatList } from "react-native-gesture-handler";
-import Card from "../components/CarCard";
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+  Alert,
+} from 'react-native';
+import SkeletonPlaceholder from "react-native-skeleton-placeholder";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import CarCard from '../components/CarCard';
+import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
 
-const { width, height } = Dimensions.get("screen");
+import {Container} from '../styles/HomeCar';
 
-export default class Luxury extends Component {
-  state = {
-    alignment: new Animated.Value(height),
-    cardAlignment: new Animated.Value(400),
-    cards: [
-      {
-        id: 1,
-        title: "Brand",
-        description: "Car registration",
-        image: require("../assets/Logo2.png"),
-      },
+const HomeCar = (props) => {
+  const [car, setCar] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [deleted, setDeleted] = useState(false);
 
-      {
-        id: 2,
-        title: "KUBOTA YARIS",
-        description: "น ม 6 เลย",
-        image: require("../assets/toyota.jpg"),
-      },
-    ],
+  const fetchCar = async () => {
+    try {
+      const list = [];
+
+      await firestore()
+      .collection('Car')
+      .get()
+      .then((querySnapshot) => {
+        console.log('Total : ', querySnapshot.size);
+
+          querySnapshot.forEach((doc) => {
+            const {
+              Brand,
+              CarRegistration,
+              
+            } = doc.data();
+            list.push({
+              id: doc.id,
+              Brand,
+              CarRegistration,
+              
+            });
+          });
+        });
+
+      setCar(list);
+
+      if (loading) {
+        setLoading(false);
+      }
+
+      console.log('Car: ', car);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  AnimateUI = () => {
-    Animated.sequence([
-      Animated.timing(this.state.alignment, {
-        toValue: height / 3,
-        duration: 800,
-        easing: Easing.back(),
-      }),
-      Animated.timing(this.state.cardAlignment, {
-        toValue: 0,
-        duration: 700,
-        easing: Easing.ease,
-      }),
-    ]).start();
-  };
+  useEffect(() => {
+    fetchCar();
+  }, []);
 
-  componentDidMount() {
-    this.AnimateUI();
-  }
+  useEffect(() => {
+    fetchCar();
+    setDeleted(false);
+  }, [deleted]);
 
-  handlePress = (id) => {
-    // Find The Item By ID
-    const card = this.state.cards.find((item) => item.id === id);
-
-    // Navigate To Details Screen With The Card Data
-
-    this.props.navigation.navigate("Details", { card });
-  };
-
-  render() {
-
-    const { navigate } = this.props.navigation;
-
-    const AnimatedBackground = {
-      height: this.state.alignment,
-    };
-
-    const AnimatedCards = {
-      transform: [
+  const handleDelete = (postId) => {
+    Alert.alert(
+      'Delete post',
+      'Are you sure?',
+      [
         {
-          translateX: this.state.cardAlignment,
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed!'),
+          style: 'cancel',
+        },
+        {
+          text: 'Confirm',
+          onPress: () => deletePost(postId),
         },
       ],
-    };
-
-    return (
-      <View>
-        
-        <Animated.View style={[styles.cardView, AnimatedCards]}>
-          <FlatList
-            data={this.state.cards}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("detialCar")} >
-              <Card
-                title={item.title}
-                image={item.image}
-                location={item.location}
-                description={item.description}
-                onPress={() => this.handlePress(item.id)}
-              />
-              </TouchableOpacity>
-            )}
-          />
-        </Animated.View>
-        
-      </View>
+      {cancelable: false},
     );
-  }
-}
+  };
+
+  const ListHeader = () => {
+    return null;
+  };
+  return (
+    <SafeAreaView style={{flex: 1, }}>
+      {loading ? (
+        <ScrollView
+          style={{flex: 1}}
+          contentContainerStyle={{alignItems: 'center'}}>
+          <SkeletonPlaceholder>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{width: 60, height: 60, borderRadius: 50}} />
+              <View style={{marginLeft: 20}}>
+                <View style={{width: 120, height: 20, borderRadius: 4}} />
+                <View
+                  style={{marginTop: 6, width: 80, height: 20, borderRadius: 4}}
+                />
+              </View>
+            </View>
+            <View style={{marginTop: 10, marginBottom: 30}}>
+              <View style={{width: 300, height: 20, borderRadius: 4}} />
+              <View
+                style={{marginTop: 6, width: 250, height: 20, borderRadius: 4}}
+              />
+              <View
+                style={{marginTop: 6, width: 350, height: 200, borderRadius: 4}}
+              />
+            </View>
+          </SkeletonPlaceholder>
+          <SkeletonPlaceholder>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{width: 60, height: 60, borderRadius: 50}} />
+              <View style={{marginLeft: 20}}>
+                <View style={{width: 120, height: 20, borderRadius: 4}} />
+                <View
+                  style={{marginTop: 6, width: 80, height: 20, borderRadius: 4}}
+                />
+              </View>
+            </View>
+            <View style={{marginTop: 10, marginBottom: 30}}>
+              <View style={{width: 300, height: 20, borderRadius: 4}} />
+              <View
+                style={{marginTop: 6, width: 250, height: 20, borderRadius: 4}}
+              />
+              <View
+                style={{marginTop: 6, width: 350, height: 200, borderRadius: 4}}
+              />
+            </View>
+          </SkeletonPlaceholder>
+        </ScrollView>
+      ) : (
+        
+        <Container>
+          <FlatList 
+            data={car}
+            renderItem={({item}) => (
+              <CarCard  item={item}  onDelete={handleDelete} parentProps={props}/>
+            )}
+            keyExtractor={(item) => item.id}
+            ListHeaderComponent={ListHeader}
+            ListFooterComponent={ListHeader}
+            showsVerticalScrollIndicator={false}
+          />
+        </Container>
+        
+      )}
+    </SafeAreaView>
+  );
+};
+
+export default HomeCar;

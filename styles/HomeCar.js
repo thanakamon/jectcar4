@@ -1,19 +1,26 @@
 import { StyleSheet, Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("screen");
+import styled from 'styled-components';
+
+export const Container = styled.View`
+  flex: 1;
+  align-items: center;
+  background-color: #2980B9;
+`;
 
 export const styles = StyleSheet.create({
   card: {
+    flex: 1,
+    justifyContent: 'center',
     marginVertical: 10,
-    backgroundColor: "#fff",
+    backgroundColor: "#F8F9F9",
     paddingVertical: 10,
     paddingHorizontal: 15,
     width: width / 1.1,
     marginHorizontal: 20,
     borderRadius: 20,
-
     height: height / 8,
-
     shadowColor: "#000",
     shadowOffset: {
       width: 2,
@@ -25,16 +32,23 @@ export const styles = StyleSheet.create({
 
   cardTitle: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 25,
     marginLeft: 10,
   },
   cardDescription: {
-    fontSize: 16,
+    fontSize: 18,
     marginVertical: 8,
     marginLeft: 10,
-    marginTop: -10,
+    marginTop: 5,
+    
   },
   cardImage: {
     flex: 0.3,
   },
+  Container:{
+  flex: 1,
+  justifyContent: 'center'
+  }
+  
 });
+

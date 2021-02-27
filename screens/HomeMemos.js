@@ -9,11 +9,8 @@ import {
   Alert,
 } from 'react-native';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
-
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import PostCard from '../components/PostCard';
-
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 
@@ -48,7 +45,7 @@ const HomeMemos = () => {
         .orderBy('postTime', 'desc')
         .get()
         .then((querySnapshot) => {
-          // console.log('Total Posts: ', querySnapshot.size);
+          console.log('Total Posts: ', querySnapshot.size);
 
           querySnapshot.forEach((doc) => {
             const {
