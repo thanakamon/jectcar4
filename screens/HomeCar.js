@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState,useContext} from 'react';
 import {
   View,
   ScrollView,
@@ -9,14 +9,14 @@ import {
   Alert,
 } from 'react-native';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import CarCard from '../components/CarCard';
-import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
-
 import {Container} from '../styles/HomeCar';
+import {AuthContext} from '../navigation/AuthProvider';
 
 const HomeCar = (props) => {
+  const {user, logout} = useContext(AuthContext);
+
   const [car, setCar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleted, setDeleted] = useState(false);
@@ -27,6 +27,7 @@ const HomeCar = (props) => {
 
       await firestore()
       .collection('Car')
+      .where('email','==',user.email)
       .get()
       .then((querySnapshot) => {
         console.log('Total : ', querySnapshot.size);
@@ -96,45 +97,20 @@ const HomeCar = (props) => {
           style={{flex: 1}}
           contentContainerStyle={{alignItems: 'center'}}>
           <SkeletonPlaceholder>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View style={{width: 60, height: 60, borderRadius: 50}} />
-              <View style={{marginLeft: 20}}>
-                <View style={{width: 120, height: 20, borderRadius: 4}} />
-                <View
-                  style={{marginTop: 6, width: 80, height: 20, borderRadius: 4}}
-                />
-              </View>
-            </View>
+            
             <View style={{marginTop: 10, marginBottom: 30}}>
-              <View style={{width: 300, height: 20, borderRadius: 4}} />
               <View
-                style={{marginTop: 6, width: 250, height: 20, borderRadius: 4}}
+                style={{marginTop: 10, width: 350, height: 120, borderRadius: 4,borderRadius: 20}}
               />
               <View
-                style={{marginTop: 6, width: 350, height: 200, borderRadius: 4}}
+                style={{marginTop: 10, width: 350, height: 120, borderRadius: 4,borderRadius: 20}}
+              />
+              <View
+                style={{marginTop: 10, width: 350, height: 120, borderRadius: 4,borderRadius: 20}}
               />
             </View>
           </SkeletonPlaceholder>
-          <SkeletonPlaceholder>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View style={{width: 60, height: 60, borderRadius: 50}} />
-              <View style={{marginLeft: 20}}>
-                <View style={{width: 120, height: 20, borderRadius: 4}} />
-                <View
-                  style={{marginTop: 6, width: 80, height: 20, borderRadius: 4}}
-                />
-              </View>
-            </View>
-            <View style={{marginTop: 10, marginBottom: 30}}>
-              <View style={{width: 300, height: 20, borderRadius: 4}} />
-              <View
-                style={{marginTop: 6, width: 250, height: 20, borderRadius: 4}}
-              />
-              <View
-                style={{marginTop: 6, width: 350, height: 200, borderRadius: 4}}
-              />
-            </View>
-          </SkeletonPlaceholder>
+          
         </ScrollView>
       ) : (
         
