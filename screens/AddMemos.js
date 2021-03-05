@@ -21,17 +21,19 @@ import {
   SubmitBtn,
   SubmitBtnText,
   StatusWrapper,
-} from '../styles/AddPost';
+} from '../styles/AddMemos';
 
 import { AuthContext } from '../navigation/AuthProvider';
 
-const AddPostScreen = () => {
+const AddMemosScreen = () => {
   const {user, logout} = useContext(AuthContext);
 
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
-  const [post, setPost] = useState(null);
+  const [memos, setMemos] = useState(null);
+  const [title, settitle] = useState(null);
+
 
   const takePhotoFromCamera = () => {
     const options = {
@@ -57,20 +59,21 @@ const AddPostScreen = () => {
     });
   };
 
-  const submitPost = async () => {
+  const submitMemos = async () => {
     const imageUrl = await uploadImage();
     console.log('Image Url: ', imageUrl);
-    console.log('Post: ', post);
+    console.log('memos: ', memos);
 
     firestore()
-    .collection('posts')
+    .collection('Memos')
     .add({
-      userId: user.uid,
-      post: post,
+      Name: user.displayName,
+      Email: user.email,
+      title: title,
+      memosDetails: memos,
       postImg: imageUrl,
       postTime: firestore.Timestamp.fromDate(new Date()),
-      likes: null,
-      comments: null,
+      
     })
     .then(() => {
       console.log('Post Added!');
@@ -78,7 +81,7 @@ const AddPostScreen = () => {
         'บันทึกกกก',
         'บันทึกสำเร็จ',
       );
-      setPost(null);
+      setMemos(null);
     })
     .catch((error) => {
       console.log('Something went wrong with added post to firestore.', error);
@@ -140,13 +143,15 @@ const AddPostScreen = () => {
           placeholder="ชื่อเรื่อง"
           multiline
           numberOfLines={1}
+          value={title}
+          onChangeText={(content) => settitle(content)}
         />
         <InputField
           placeholder="เขียนบันทึก"
           multiline
           numberOfLines={4}
-          value={post}
-          onChangeText={(content) => setPost(content)}
+          value={memos}
+          onChangeText={(content) => setMemos(content)}
         />
         {uploading ? (
           <StatusWrapper>
@@ -154,7 +159,7 @@ const AddPostScreen = () => {
             <ActivityIndicator size="large" color="#0000ff" />
           </StatusWrapper>
         ) : (
-          <SubmitBtn onPress={submitPost}>
+          <SubmitBtn onPress={submitMemos}>
             <SubmitBtnText>บันทึก</SubmitBtnText>
           </SubmitBtn>
         )}
@@ -166,13 +171,12 @@ const AddPostScreen = () => {
           onPress={takePhotoFromCamera}>
           <Icon name="camera-outline" style={styles.actionButtonIcon} />
         </ActionButton.Item>
-        
       </ActionButton>
     </View>
   );
 };
 
-export default AddPostScreen;
+export default AddMemosScreen;
 
 const styles = StyleSheet.create({
   container: {

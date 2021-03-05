@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
 
   cardTitle: {
     fontWeight: "bold",
-    fontSize: 25,
+    fontSize: 20,
     marginLeft: 10,
   },
   cardDescription: {

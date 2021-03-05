@@ -29,6 +29,7 @@ const Addcar = (props) => {
       Insurance : dateins,
       Tax : datetax,
       DateFirst : datefirst,
+      Time: firestore.Timestamp.fromDate(new Date()),
     })
     .then(() => {
       console.log('Success');

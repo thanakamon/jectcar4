@@ -7,13 +7,6 @@ export const Container = styled.View`
   padding: 20px;
 `;
 
-export const Card = styled.View`
-    background-color: #f8f8f8;
-    width: 500px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-`;
-
 export const UserInfo = styled.View`
     flex-direction: row;
     justify-content: flex-start;
@@ -33,19 +26,19 @@ export const UserInfoText = styled.View`
 `;
 
 export const UserName = styled.Text`
-    font-size: 14px;
+    font-size: 22px;
     font-weight: bold;
     font-family: 'Lato-Regular';
 `;
 
 export const PostTime = styled.Text`
-    font-size: 12px;
+    font-size: 15px;
     font-family: 'Lato-Regular';
     color: #666;
 `;
 
 export const PostText = styled.Text`
-    font-size: 14px;
+    font-size: 18px;
     font-family: 'Lato-Regular';
     padding-left: 15px;
     padding-right: 15px;

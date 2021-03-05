@@ -11,7 +11,6 @@ const HomeScreen = (props) => {
       <View style={styles.group}>
         <TouchableOpacity style={styles.button} onPress={() => { props.navigation.navigate('CarMaintenance') }} >
           <FontAwesomeIcon name="car" style={styles.icon}></FontAwesomeIcon>
-          
         </TouchableOpacity>
       </View>
       <TouchableOpacity style={styles.button2} onPress={() => { props.navigation.navigate('Memos') }}>

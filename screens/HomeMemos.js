@@ -10,86 +10,65 @@ import {
 } from 'react-native';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import PostCard from '../components/PostCard';
+import MemosCard from '../components/MemosCard';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 
-import {Container} from '../styles/FeedStyles';
-
-const Posts = [
-  {
-    id: '1',
-    userName: 'Jenny Doe',
-    userImg: require('../assets/users/user-3.jpg'),
-    postTime: '4 mins ago',
-    post:
-      'Hey there, this is my test for a post of my social app in React Native.',
-    postImg: require('../assets/posts/post-img-3.jpg'),
-    liked: true,
-    likes: '14',
-    comments: '5',
-  },
-];
+import {Container} from '../styles/HomeMemos';
 
 const HomeMemos = () => {
-  const [posts, setPosts] = useState(null);
+  const [Memos, setMemos] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleted, setDeleted] = useState(false);
 
-  const fetchPosts = async () => {
+  const fetchMemos = async () => {
     try {
       const list = [];
 
       await firestore()
-        .collection('posts')
+        .collection('Memos')
         .orderBy('postTime', 'desc')
         .get()
         .then((querySnapshot) => {
-          console.log('Total Posts: ', querySnapshot.size);
+          console.log('Total Memos: ', querySnapshot.size);
 
           querySnapshot.forEach((doc) => {
             const {
-              userId,
-              post,
+              title,
+              memosDetails,
               postImg,
               postTime,
-              likes,
-              comments,
+              
             } = doc.data();
             list.push({
               id: doc.id,
-              userId,
-              userName: 'Test Name',
-              userImg:
-                'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+              Title : title,
+              MemosDetails: memosDetails,
+        
               postTime: postTime,
-              post,
               postImg,
-              liked: false,
-              likes,
-              comments,
             });
           });
         });
 
-      setPosts(list);
+      setMemos(list);
 
       if (loading) {
         setLoading(false);
       }
 
-      console.log('Posts: ', posts);
+      console.log('Memos: ', Memos);
     } catch (e) {
       console.log(e);
     }
   };
 
   useEffect(() => {
-    fetchPosts();
+    fetchMemos();
   }, []);
 
   useEffect(() => {
-    fetchPosts();
+    fetchMemos();
     setDeleted(false);
   }, [deleted]);
 
@@ -169,52 +148,28 @@ const HomeMemos = () => {
           style={{flex: 1}}
           contentContainerStyle={{alignItems: 'center'}}>
           <SkeletonPlaceholder>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View style={{width: 60, height: 60, borderRadius: 50}} />
-              <View style={{marginLeft: 20}}>
-                <View style={{width: 120, height: 20, borderRadius: 4}} />
-                <View
-                  style={{marginTop: 6, width: 80, height: 20, borderRadius: 4}}
-                />
-              </View>
-            </View>
-            <View style={{marginTop: 10, marginBottom: 30}}>
-              <View style={{width: 300, height: 20, borderRadius: 4}} />
-              <View
-                style={{marginTop: 6, width: 250, height: 20, borderRadius: 4}}
-              />
+            <View style={{marginTop: 10, marginBottom: 30}}>   
               <View
                 style={{marginTop: 6, width: 350, height: 200, borderRadius: 4}}
               />
             </View>
           </SkeletonPlaceholder>
           <SkeletonPlaceholder>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View style={{width: 60, height: 60, borderRadius: 50}} />
-              <View style={{marginLeft: 20}}>
-                <View style={{width: 120, height: 20, borderRadius: 4}} />
-                <View
-                  style={{marginTop: 6, width: 80, height: 20, borderRadius: 4}}
-                />
-              </View>
-            </View>
-            <View style={{marginTop: 10, marginBottom: 30}}>
-              <View style={{width: 300, height: 20, borderRadius: 4}} />
-              <View
-                style={{marginTop: 6, width: 250, height: 20, borderRadius: 4}}
-              />
+            <View style={{marginTop: 10, marginBottom: 30}}>   
               <View
                 style={{marginTop: 6, width: 350, height: 200, borderRadius: 4}}
               />
             </View>
           </SkeletonPlaceholder>
+          
         </ScrollView>
+        
       ) : (
         <Container>
           <FlatList
-            data={posts}
+            data={Memos}
             renderItem={({item}) => (
-              <PostCard item={item} onDelete={handleDelete} />
+              <MemosCard item={item} onDelete={handleDelete} />
             )}
             keyExtractor={(item) => item.id}
             ListHeaderComponent={ListHeader}

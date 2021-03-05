@@ -28,6 +28,7 @@ const HomeCar = (props) => {
       await firestore()
       .collection('Car')
       .where('email','==',user.email)
+      //.orderBy('Time', 'desc')
       .get()
       .then((querySnapshot) => {
         console.log('Total : ', querySnapshot.size);
@@ -37,11 +38,13 @@ const HomeCar = (props) => {
               Brand,
               CarRegistration,
               
+              
             } = doc.data();
             list.push({
               id: doc.id,
               Brand,
               CarRegistration,
+              
               
             });
           });

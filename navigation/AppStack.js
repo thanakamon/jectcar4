@@ -11,7 +11,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import AddPostScreen from '../screens/AddPostScreen';
+import AddMemos from '../screens/AddMemos';
 import HomeCar from '../screens/HomeCar';
 import HomeMemos from '../screens/HomeMemos';
 import AddCar from '../screens/AddCar';
@@ -137,7 +137,7 @@ const MemosStack = ({navigation}) => (
             size={22}
             backgroundColor="#fff"
             color="#2e64e5"
-            onPress={() => navigation.navigate('AddPost')}
+            onPress={() => navigation.navigate('addMemos')}
           />
         </View>
       ), 
@@ -145,8 +145,8 @@ const MemosStack = ({navigation}) => (
     }}
     />
     <Stack.Screen
-      name="AddPost"
-      component={AddPostScreen}
+      name="addMemos"
+      component={AddMemos}
       options={{
         title: '',
         headerTitleAlign: 'center',
