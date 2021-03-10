@@ -4,7 +4,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {CarCard} from '../components/CarCard'
-
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -130,17 +129,7 @@ const MemosStack = ({navigation}) => (
         elevation: 0,
       },
       
-      headerRight: () => (
-        <View style={{marginRight: 10}}>
-          <FontAwesome5.Button
-            name="plus"
-            size={22}
-            backgroundColor="#fff"
-            color="#2e64e5"
-            onPress={() => navigation.navigate('addMemos')}
-          />
-        </View>
-      ), 
+      
       
     }}
     />
@@ -148,17 +137,29 @@ const MemosStack = ({navigation}) => (
       name="addMemos"
       component={AddMemos}
       options={{
-        title: '',
+        title: 'Add Note',
         headerTitleAlign: 'center',
         headerStyle: {
-          backgroundColor: '#2e64e515',
-          shadowColor: '#2e64e515',
-          elevation: 0,
+        backgroundColor: '#2e64e515',
+        shadowColor: '#2e64e515',
+        elevation: 0,
         },
         headerBackTitleVisible: false,
         headerBackImage: () => (
           <View style={{marginLeft: 15}}>
             <Ionicons name="arrow-back" size={25} color="#2e64e5" />
+          </View>
+        ),
+        headerRight: () => (
+          <View style={{marginRight: 10}}>
+            <FontAwesome5.Button
+              name="save"
+              size={25}
+              backgroundColor="2e64e515"
+              color="#2e64e5"
+              
+              
+            />
           </View>
         ),
       }}

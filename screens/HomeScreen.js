@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
   button: {
     width: 308,
     height: 119,
-    backgroundColor: "#E6E6E6"
+    backgroundColor: "#E6E6E6",
+    borderRadius:13,
   },
   icon: {
     color: "rgba(128,128,128,1)",
@@ -52,7 +53,8 @@ const styles = StyleSheet.create({
     height: 119,
     backgroundColor: "#E6E6E6",
     marginTop: 28,
-    marginLeft: 50
+    marginLeft: 50,
+    borderRadius:13,
   },
   icon2: {
     color: "rgba(128,128,128,1)",
@@ -61,6 +63,7 @@ const styles = StyleSheet.create({
     width: 96,
     marginTop: 6,
     marginLeft: 15
+    
   }
 });
 

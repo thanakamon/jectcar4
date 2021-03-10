@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState,useContext} from 'react';
 import {
   View,
   ScrollView,
@@ -7,6 +7,9 @@ import {
   FlatList,
   SafeAreaView,
   Alert,
+  StatusBar,
+  TextInput,
+  TouchableOpacity,
 } from 'react-native';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -15,8 +18,12 @@ import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 
 import {Container} from '../styles/HomeMemos';
+import {AuthContext} from '../navigation/AuthProvider';
 
-const HomeMemos = () => {
+  
+const HomeMemos = ({navigation}) => {
+
+  const {user, logout} = useContext(AuthContext);
   const [Memos, setMemos] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleted, setDeleted] = useState(false);
@@ -27,7 +34,8 @@ const HomeMemos = () => {
 
       await firestore()
         .collection('Memos')
-        .orderBy('postTime', 'desc')
+        .where('Email','==', user.email || 'Name','==', user.displayName )
+        //.orderBy('postTime', 'desc')
         .get()
         .then((querySnapshot) => {
           console.log('Total Memos: ', querySnapshot.size);
@@ -142,6 +150,7 @@ const HomeMemos = () => {
     return null;
   };
   return (
+    
     <SafeAreaView style={{flex: 1}}>
       {loading ? (
         <ScrollView
@@ -165,21 +174,80 @@ const HomeMemos = () => {
         </ScrollView>
         
       ) : (
-        <Container>
-          <FlatList
-            data={Memos}
-            renderItem={({item}) => (
-              <MemosCard item={item} onDelete={handleDelete} />
-            )}
-            keyExtractor={(item) => item.id}
-            ListHeaderComponent={ListHeader}
-            ListFooterComponent={ListHeader}
-            showsVerticalScrollIndicator={false}
-          />
-        </Container>
+
+        <View style={styles.parentView}>
+				<StatusBar backgroundColor="white" barStyle="dark-content" />
+				<TextInput 
+					style={styles.search}
+					placeholder="search..."
+				/>
+				<FlatList 
+					style={styles.flatList}
+					data={Memos}
+					numColumns={2}
+					keyExtractor={(item) => item.id.toString()}
+					renderItem={({item}) => (
+            <MemosCard item={item} />
+          )}
+          keyExtractor={(item) => item.id}
+            
+				/>
+				<TouchableOpacity 
+					style={styles.actionButton}
+					onPress={() => navigation.navigate('addMemos')}
+				>
+					<Text style={styles.actionButtonLogo}>+</Text>
+				</TouchableOpacity>
+			</View>
+        
       )}
     </SafeAreaView>
   );
 };
 
 export default HomeMemos;
+const styles = StyleSheet.create({
+	parentView: {
+		backgroundColor: '#FFFFFF',
+		flex: 1,
+		position: 'relative'
+	},
+	search: {
+		width: '90%',
+		alignSelf: 'center',
+		marginTop: 30,
+		backgroundColor: 'white',
+		elevation: 4,
+		borderRadius: 50,
+		paddingHorizontal: 25,
+		fontSize: 20,
+	},
+	flatList: {
+		paddingHorizontal: 10,
+		marginTop: 20,
+	},
+	actionButton: {
+		width: 70,
+		height: 70,
+		backgroundColor: 'white',
+		borderRadius: 100, 
+		position: 'absolute',
+		elevation: 10,
+		alignItems: 'center',
+		justifyContent: 'center',
+		bottom: 30,
+		right: 30
+	},
+	actionButtonLogo: {
+		fontSize: 30,
+		fontWeight:'bold'
+	},
+	isLoading: {
+		marginTop: 100,
+	},
+	isError: {
+		alignSelf: 'center',
+		fontSize: 20,
+		marginTop: 100,
+	}
+})

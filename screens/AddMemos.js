@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
+  TextInput,
 } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -136,23 +137,20 @@ const AddMemosScreen = () => {
 
   return (
     <View style={styles.container}>
-      <InputWrapper>
+          <TextInput 
+            placeholder="ADD TITLE..."
+            value={title}
+            onChangeText={(content) => settitle(content)}
+          />
+          <TextInput 
+            underlineColorAndroid="transparent"
+            placeholder="ADD DESCRIPTION..."
+            multiline={true} 
+            value={memos}
+            onChangeText={(content) => setMemos(content)}
+          />
+       
         {image != null ? <AddImage source={{uri: image.uri}} /> : null}
-
-        <InputField style={styles.H1}
-          placeholder="ชื่อเรื่อง"
-          multiline
-          numberOfLines={1}
-          value={title}
-          onChangeText={(content) => settitle(content)}
-        />
-        <InputField
-          placeholder="เขียนบันทึก"
-          multiline
-          numberOfLines={4}
-          value={memos}
-          onChangeText={(content) => setMemos(content)}
-        />
         {uploading ? (
           <StatusWrapper>
             <Text>{transferred} % Completed!</Text>
@@ -163,7 +161,7 @@ const AddMemosScreen = () => {
             <SubmitBtnText>บันทึก</SubmitBtnText>
           </SubmitBtn>
         )}
-      </InputWrapper>
+      
       <ActionButton buttonColor="#2e64e5">
         <ActionButton.Item
           buttonColor="#9b59b6"
@@ -173,6 +171,8 @@ const AddMemosScreen = () => {
         </ActionButton.Item>
       </ActionButton>
     </View>
+
+    
   );
 };
 
@@ -181,8 +181,7 @@ export default AddMemosScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    
   },
   actionButtonIcon: {
     fontSize: 20,
