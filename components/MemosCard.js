@@ -9,12 +9,16 @@ import {
 import { AuthContext } from '../navigation/AuthProvider';
 import moment from 'moment';
 
-const MemosCard = ({item, onDelete}) => {
+const MemosCard = (props) => {
+  const {item, parentProps}=props;
+  const {navigation} = parentProps;
   const {user, logout} = useContext(AuthContext);
   
   return (
 
-    <TouchableOpacity  key={item.id} style={styles.parentView} >
+    <TouchableOpacity  key={item.id} style={styles.parentView} 
+    onPress={() => { navigation.navigate('detailsMemos') }}
+      >
         <View style={{
             borderRadius: 10, 
             padding: 15,

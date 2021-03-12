@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext,Component} from 'react';
 import {
   View,
   Text,
@@ -7,8 +7,11 @@ import {
   Alert,
   ActivityIndicator,
   TextInput,
+  TouchableOpacity,
+  Button,
+  
 } from 'react-native';
-import ActionButton from 'react-native-action-button';
+
 import Icon from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-picker';
 
@@ -26,7 +29,7 @@ import {
 
 import { AuthContext } from '../navigation/AuthProvider';
 
-const AddMemosScreen = () => {
+const AddMemosScreen = (props) => {
   const {user, logout} = useContext(AuthContext);
 
   const [image, setImage] = useState(null);
@@ -60,7 +63,7 @@ const AddMemosScreen = () => {
     });
   };
 
-  const submitMemos = async () => {
+const submitMemos = async () => {
     const imageUrl = await uploadImage();
     console.log('Image Url: ', imageUrl);
     console.log('memos: ', memos);
@@ -79,8 +82,8 @@ const AddMemosScreen = () => {
     .then(() => {
       console.log('Post Added!');
       Alert.alert(
-        'บันทึกกกก',
-        'บันทึกสำเร็จ',
+        'Saved',
+        'Suscess',
       );
       setMemos(null);
     })
@@ -137,18 +140,20 @@ const AddMemosScreen = () => {
 
   return (
     <View style={styles.container}>
-          <TextInput 
+          <TextInput style={styles.textTitle}
             placeholder="ADD TITLE..."
             value={title}
             onChangeText={(content) => settitle(content)}
           />
-          <TextInput 
+          <TextInput style={styles.textDescription}
             underlineColorAndroid="transparent"
             placeholder="ADD DESCRIPTION..."
+            
             multiline={true} 
             value={memos}
             onChangeText={(content) => setMemos(content)}
           />
+          
        
         {image != null ? <AddImage source={{uri: image.uri}} /> : null}
         {uploading ? (
@@ -157,19 +162,20 @@ const AddMemosScreen = () => {
             <ActivityIndicator size="large" color="#0000ff" />
           </StatusWrapper>
         ) : (
-          <SubmitBtn onPress={submitMemos}>
+          <SubmitBtn onPress={() => { submitMemos();  props.navigation.navigate('Memos') }}>
             <SubmitBtnText>บันทึก</SubmitBtnText>
           </SubmitBtn>
         )}
       
-      <ActionButton buttonColor="#2e64e5">
-        <ActionButton.Item
-          buttonColor="#9b59b6"
-          title="Take Photo"
-          onPress={takePhotoFromCamera}>
+      <TouchableOpacity 
+					style={styles.actionButton}
+					onPress={takePhotoFromCamera}
+				>
           <Icon name="camera-outline" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-      </ActionButton>
+					
+				</TouchableOpacity>
+        
+        
     </View>
 
     
@@ -184,8 +190,44 @@ const styles = StyleSheet.create({
     
   },
   actionButtonIcon: {
-    fontSize: 20,
-    height: 22,
+    fontSize: 25,
+    height: 28,
     color: 'white',
   },
+  actionButton: {
+		width: 60,
+		height: 60,
+		backgroundColor: '#2e64e5',
+		borderRadius: 100, 
+		position: 'absolute',
+		elevation: 10,
+		alignItems: 'center',
+		justifyContent: 'center',
+		bottom: 30,
+		right: 30
+	},
+  textTitle:{
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+    fontFamily: 'Lato-Regular',
+    marginTop: 20,
+    marginLeft:10,
+    marginRight:10,
+    borderBottomColor: 'black',
+    borderBottomWidth: 3,
+  },
+  textDescription:{
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000',
+    fontFamily: 'Lato-Regular',
+    marginTop: 20,
+    marginLeft:10,
+    marginRight:10,
+    
+  },
+  
+  
+	
 });

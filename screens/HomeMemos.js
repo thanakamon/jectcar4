@@ -1,4 +1,4 @@
-import React, {useEffect, useState,useContext} from 'react';
+import React, {useEffect, useState,useContext,useCallback} from 'react';
 import {
   View,
   ScrollView,
@@ -10,6 +10,7 @@ import {
   StatusBar,
   TextInput,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -21,12 +22,23 @@ import {Container} from '../styles/HomeMemos';
 import {AuthContext} from '../navigation/AuthProvider';
 
   
-const HomeMemos = ({navigation}) => {
+const HomeMemos = (props) => {
+
+  const [refreshing, setRefreshing] = useState(false);
 
   const {user, logout} = useContext(AuthContext);
   const [Memos, setMemos] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleted, setDeleted] = useState(false);
+  const [listData, setListData] = useState(fetchMemos);
+  
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    fetchMemos().then(() => {
+      setRefreshing(false);
+    });
+  }, [refreshing]);
+  
 
   const fetchMemos = async () => {
     try {
@@ -187,14 +199,19 @@ const HomeMemos = ({navigation}) => {
 					numColumns={2}
 					keyExtractor={(item) => item.id.toString()}
 					renderItem={({item}) => (
-            <MemosCard item={item} />
+            <MemosCard item={item} onDelete={handleDelete} parentProps={props} />
           )}
           keyExtractor={(item) => item.id}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          
             
 				/>
 				<TouchableOpacity 
 					style={styles.actionButton}
-					onPress={() => navigation.navigate('addMemos')}
+					
+          onPress={() => { props.navigation.navigate('addMemos') }}
 				>
 					<Text style={styles.actionButtonLogo}>+</Text>
 				</TouchableOpacity>
@@ -227,9 +244,9 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 	},
 	actionButton: {
-		width: 70,
-		height: 70,
-		backgroundColor: 'white',
+		width: 60,
+		height: 60,
+		backgroundColor: '#2e64e5',
 		borderRadius: 100, 
 		position: 'absolute',
 		elevation: 10,
@@ -240,7 +257,8 @@ const styles = StyleSheet.create({
 	},
 	actionButtonLogo: {
 		fontSize: 30,
-		fontWeight:'bold'
+		fontWeight:'bold',
+    color: 'white'
 	},
 	isLoading: {
 		marginTop: 100,
