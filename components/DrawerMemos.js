@@ -17,10 +17,11 @@ import {
 } from '@react-navigation/drawer'
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import Icon1 from 'react-native-vector-icons/Ionicons'
 
 export function DrawerContent(props) {
     const { user, logout } = useContext(AuthContext);
-    console.log(user);
+    //console.log(user);
     return (
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView {...props}>
@@ -55,14 +56,26 @@ export function DrawerContent(props) {
                         <DrawerItem
                             icon={({ color, size }) => (
                                 <Icon
-                                    name="menu-swap-outline"
+                                    name="share-outline"
                                     color={color}
                                     size={size}
                                 />
                             )}
-                            label="Home"
+                            label="Shared with me"
                             onPress={() => { props.navigation.navigate('addcar') }}
                         />
+                        <DrawerItem
+                            icon={({ color, size }) => (
+                                <Icon1
+                                    name="notifications-outline"
+                                    color={color}
+                                    size={size}
+                                />
+                            )}
+                            label="Notification"
+                            onPress={() => { props.navigation.navigate('addcar') }}
+                        />
+                        
                         
                     </Drawer.Section>
                 </View>

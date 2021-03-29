@@ -1,70 +1,75 @@
-import React, { Component,useContext } from "react";
-import { View, Text, StyleSheet,TouchableOpacity } from "react-native";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import SimpleLineIconsIcon from "react-native-vector-icons/SimpleLineIcons";
+import React, { useState,useContext } from "react";
+import { View, Text, StyleSheet,TouchableOpacity,Image,Button } from "react-native";
 import { AuthContext } from '../navigation/AuthProvider';
+import { Card } from 'react-native-elements';
+import moment from 'moment';
+import {Divider} from '../styles/HomeMemos';
+import ProgressiveImage from '../components/ProgressiveImage';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const HomeScreen = (props) => {
+const  DetailsMemos= (props) => {
   const { user, logout } = useContext(AuthContext);
+  const {item}=props.route.params
+  //console.log("item = ",item);
+
+
   return (
-    <View style={styles.container}>
-      <View style={styles.group}>
-        <TouchableOpacity style={styles.button} onPress={() => { props.navigation.navigate('CarMa') }} >
-          <FontAwesomeIcon name="car" style={styles.icon}></FontAwesomeIcon>
-        </TouchableOpacity>
-      </View>
-      <TouchableOpacity style={styles.button2} onPress={() => { props.navigation.navigate('Memos') }}>
-        <SimpleLineIconsIcon
-          name="notebook"
-          style={styles.icon2}
-        ></SimpleLineIconsIcon>
-      </TouchableOpacity>
-    </View>
+    <Card style = {styles.container} >
+        <TouchableOpacity style={styles.actionButton} >
+			<Icon name="share-alt" size={30} color="#4F8EF7"/>
+		</TouchableOpacity>
+        
+        <Text style = {styles.Title} >{item.Title}</Text>
+        
+        <Card.Divider/>
+            <Text style = {styles.date}>{moment(item.postTime.toDate()).format('DD MMMM YYYY')}</Text>
+        <Card.FeaturedTitle/>
+        <Text  style = {styles.Details} >{item.MemosDetails}</Text>
+        
+        {item.postImg != null ? (
+        <ProgressiveImage 
+          source={{uri: item.postImg}}
+          style={{width: '100%', height: 250}}
+          resizeMode='cover'
+        />
+      ) : <Divider />}
+        
+            
+        <TouchableOpacity 
+			style={styles.actionButton}
+			onPress={() => { props.navigation.navigate('addMemos') }}>
+			
+		</TouchableOpacity>
+
+        
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "rgba(13,90,104,1)"
-  },
-  group: {
-    width: 308,
-    height: 119,
-    marginTop: 87,
-    marginLeft: 50
-  },
-  button: {
-    width: 308,
-    height: 119,
-    backgroundColor: "#E6E6E6",
-    borderRadius:13,
-  },
-  icon: {
-    color: "rgba(128,128,128,1)",
-    fontSize: 96,
-    height: 96,
-    width: 110,
-    marginTop: 12,
-    marginLeft: 15
-  },
-  button2: {
-    width: 308,
-    height: 119,
-    backgroundColor: "#E6E6E6",
-    marginTop: 28,
-    marginLeft: 50,
-    borderRadius:13,
-  },
-  icon2: {
-    color: "rgba(128,128,128,1)",
-    fontSize: 96,
-    height: 107,
-    width: 96,
-    marginTop: 6,
-    marginLeft: 15
+	container:{
+        flex:1,
+    },
+    actionButton:{
+        alignSelf : "flex-end",
+        marginRight: 5,
+    },
+    Title:{
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom:5,
+        
+    },
+    date:{
+        fontSize: 13,
+        
+    },
+    Details:{
+        fontSize: 18,
+    }
     
-  }
-});
+})
 
-export default HomeScreen;
+
+export default DetailsMemos;

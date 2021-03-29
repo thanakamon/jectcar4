@@ -13,12 +13,9 @@ import {
   RefreshControl,
 } from 'react-native';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import MemosCard from '../components/MemosCard';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
-
-import {Container} from '../styles/HomeMemos';
 import {AuthContext} from '../navigation/AuthProvider';
 
   
@@ -30,7 +27,7 @@ const HomeMemos = (props) => {
   const [Memos, setMemos] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleted, setDeleted] = useState(false);
-  const [listData, setListData] = useState(fetchMemos);
+  
   
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -92,9 +89,9 @@ const HomeMemos = (props) => {
     setDeleted(false);
   }, [deleted]);
 
-  const handleDelete = (postId) => {
+  const handleDelete = (memosId) => {
     Alert.alert(
-      'Delete post',
+      'Delete Memos',
       'Are you sure?',
       [
         {
@@ -104,54 +101,54 @@ const HomeMemos = (props) => {
         },
         {
           text: 'Confirm',
-          onPress: () => deletePost(postId),
+          onPress: () => deleteMemos(memosId),
         },
       ],
       {cancelable: false},
     );
   };
 
-  const deletePost = (postId) => {
-    console.log('Current Post Id: ', postId);
+  const deleteMemos = (memosId) => {
+    console.log('Current Memos Id: ', memosId);
 
     firestore()
-      .collection('posts')
-      .doc(postId)
+      .collection('Memos')
+      .doc(memosId)
       .get()
       .then((documentSnapshot) => {
         if (documentSnapshot.exists) {
-          const {postImg} = documentSnapshot.data();
+          const {memosImg} = documentSnapshot.data();
 
-          if (postImg != null) {
-            const storageRef = storage().refFromURL(postImg);
+          if (memosImg != null) {
+            const storageRef = storage().refFromURL(memosImg);
             const imageRef = storage().ref(storageRef.fullPath);
 
             imageRef
               .delete()
               .then(() => {
-                console.log(`${postImg} has been deleted successfully.`);
-                deleteFirestoreData(postId);
+                console.log(`${memosImg} has been deleted successfully.`);
+                deleteFirestoreData(memosId);
               })
               .catch((e) => {
                 console.log('Error while deleting the image. ', e);
               });
             // If the post image is not available
           } else {
-            deleteFirestoreData(postId);
+            deleteFirestoreData(memosId);
           }
         }
       });
   };
 
-  const deleteFirestoreData = (postId) => {
+  const deleteFirestoreData = (memosId) => {
     firestore()
-      .collection('posts')
-      .doc(postId)
+      .collection('Memos')
+      .doc(memosId)
       .delete()
       .then(() => {
         Alert.alert(
-          'Post deleted!',
-          'Your post has been deleted successfully!',
+          'Memos deleted!',
+          'Your Memos has been deleted successfully!',
         );
         setDeleted(true);
       })
@@ -186,7 +183,7 @@ const HomeMemos = (props) => {
         </ScrollView>
         
       ) : (
-
+        
         <View style={styles.parentView}>
 				<StatusBar backgroundColor="white" barStyle="dark-content" />
 				<TextInput 
@@ -200,14 +197,19 @@ const HomeMemos = (props) => {
 					keyExtractor={(item) => item.id.toString()}
 					renderItem={({item}) => (
             <MemosCard item={item} onDelete={handleDelete} parentProps={props} />
+            
           )}
           keyExtractor={(item) => item.id}
+          ListHeaderComponent={ListHeader}
+          ListFooterComponent={ListHeader}
+          showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           
             
 				/>
+        
 				<TouchableOpacity 
 					style={styles.actionButton}
 					

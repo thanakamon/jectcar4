@@ -41,6 +41,7 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 5,
     
+    
   },
   cardImage: {
     flex: 0.3,

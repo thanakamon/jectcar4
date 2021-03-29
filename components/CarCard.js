@@ -6,13 +6,16 @@ import { styles } from "../styles/HomeCar";
 import { NavigationContainer } from "@react-navigation/native";
 
 const CarCard = (props) => {
-  const {item, parentProps}=props;
+  const {item, onDelete,parentProps}=props;
   const {navigation} = parentProps;
   const {user, logout} = useContext(AuthContext);
 
   return (
     <>
-    <TouchableOpacity key={item.id}  style={styles.card} onPress={() => { navigation.navigate('detialCar') }} >
+    <TouchableOpacity key={item.id}  style={styles.card} 
+      onPress={() => { navigation.navigate('detialCar', {item: item}) }}
+      onLongPress={() => onDelete(item.id)}
+       >
         <View style={{ flexDirection: "row" }}>
           <View style={styles.cardImage}>
             <Image

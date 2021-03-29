@@ -1,4 +1,4 @@
-import React, {useEffect, useState,useContext} from 'react';
+import React, {useEffect, useState,useContext,useCallback} from 'react';
 import {
   View,
   ScrollView,
@@ -7,6 +7,7 @@ import {
   FlatList,
   SafeAreaView,
   Alert,
+  RefreshControl,
 } from 'react-native';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import CarCard from '../components/CarCard';
@@ -20,6 +21,14 @@ const HomeCar = (props) => {
   const [car, setCar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleted, setDeleted] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    fetchCar().then(() => {
+      setRefreshing(false);
+    });
+  }, [refreshing]);
 
   const fetchCar = async () => {
     try {
@@ -71,7 +80,7 @@ const HomeCar = (props) => {
     setDeleted(false);
   }, [deleted]);
 
-  const handleDelete = (postId) => {
+  const handleDelete = (carId) => {
     Alert.alert(
       'Delete post',
       'Are you sure?',
@@ -83,11 +92,58 @@ const HomeCar = (props) => {
         },
         {
           text: 'Confirm',
-          onPress: () => deletePost(postId),
+          onPress: () => deleteCar(carId),
         },
       ],
       {cancelable: false},
     );
+  };
+
+  const deleteCar = (carId) => {
+    console.log('Current Memos Id: ', carId);
+
+    firestore()
+      .collection('Car')
+      .doc(carId)
+      .get()
+      .then((documentSnapshot) => {
+        if (documentSnapshot.exists) {
+          const {carImg} = documentSnapshot.data();
+
+          if (carImg != null) {
+            const storageRef = storage().refFromURL(carImg);
+            const imageRef = storage().ref(storageRef.fullPath);
+
+            imageRef
+              .delete()
+              .then(() => {
+                console.log(`${carImg} has been deleted successfully.`);
+                deleteFirestoreData(carId);
+              })
+              .catch((e) => {
+                console.log('Error while deleting the image. ', e);
+              });
+            // If the post image is not available
+          } else {
+            deleteFirestoreData(carId);
+          }
+        }
+      });
+  };
+
+  const deleteFirestoreData = (carId) => {
+    firestore()
+      .collection('Car')
+      .doc(carId)
+      .delete()
+      .then(() => {
+        Alert.alert(
+          'Memos deleted!',
+          'Your Memos has been deleted successfully!',
+        );
+        setDeleted(true);
+      })
+      .catch((e) => console.log('Error deleting posst.', e));
   };
 
   const ListHeader = () => {
@@ -127,6 +183,9 @@ const HomeCar = (props) => {
             ListHeaderComponent={ListHeader}
             ListFooterComponent={ListHeader}
             showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           />
         </Container>
         

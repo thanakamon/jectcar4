@@ -9,15 +9,16 @@ import {
 import { AuthContext } from '../navigation/AuthProvider';
 import moment from 'moment';
 
-const MemosCard = (props) => {
-  const {item, parentProps}=props;
+export const MemosCard = (props) => {
+  const {item,onDelete, parentProps}=props;
   const {navigation} = parentProps;
   const {user, logout} = useContext(AuthContext);
   
   return (
 
     <TouchableOpacity  key={item.id} style={styles.parentView} 
-    onPress={() => { navigation.navigate('detailsMemos') }}
+    onPress={() => { navigation.navigate('detailsMemos',{item: item}) }}
+    onLongPress={() => onDelete(item.id)}
       >
         <View style={{
             borderRadius: 10, 
@@ -25,14 +26,16 @@ const MemosCard = (props) => {
             backgroundColor: "#2FC2DF",
             }}>
         <Text style={styles.date}>
-            {moment(item.postTime.toDate()).format('DD MMMM')}
+            {moment(item.postTime.toDate()).format('DD MMMM ')}
         </Text>
         
         <Text numberOfLines={1} style={styles.title}>
             {item.Title}
         </Text>
         
-        <Text numberOfLines={5} style={styles.note}>
+        
+
+        <Text numberOfLines={2}  style={styles.note}>
               {item.MemosDetails}
         </Text>
         

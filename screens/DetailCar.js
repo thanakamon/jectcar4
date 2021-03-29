@@ -1,109 +1,149 @@
-import React, { Component,useContext } from "react";
+import React, { useState,useContext,useEffect,useCallback } from "react";
 import {
-  SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
   Text,
-  StatusBar,
+  TouchableOpacity,
+  FlatList,
+  RefreshControl,
 } from 'react-native';
-
-
-
-import {Card} from 'native-base'
+import { Header, Card, Container, Body, Title, Tabs, Tab } from 'native-base';
 import AnimatedProgressWheel from 'react-native-progress-wheel';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { AuthContext } from '../navigation/AuthProvider';
+import GasCard from '../components/GasCard';
+import firestore from '@react-native-firebase/firestore';
 
-const HomeScreen = (props) => {
+
+const DetailsCar = (props) => {
   const { user, logout } = useContext(AuthContext);
-  return (
-    <View style = {styles.container}>
-      <Card style = {styles.contbox}>
-        <Card style = {styles.progressbox}>
-          <AnimatedProgressWheel style = {styles.cirpro}
-            size = {80}
-            width = {15}
-            color = {'lightgreen'}
-            progress = {30}
-            animateFromValue = {0}
-            backgroundColor = {'red'}
-          />
-          <View style = {styles.space}></View>
-          <AnimatedProgressWheel style = {styles.cirpro}
-            size = {80}
-            width = {15}
-            color = {'lightblue'}
-            progress = {75}
-            animateFromValue = {0}
-            backgroundColor = {'red'}
-          />
-          <View style = {styles.space}></View>
-          <AnimatedProgressWheel style = {styles.cirpro}
-            size = {80}
-            width = {15}
-            color = {'orange'}
-            progress = {60}
-            animateFromValue = {0}
-            backgroundColor = {'red'}
-          />
-        </Card>
-        <Card style = {styles.progressbox}>
-          <Text style = {styles.Text}>ภาษีสิ้นสุด/วัน</Text>
-          <View style = {styles.space}></View>
-          <Text style = {styles.Text}> จำนวนงวด{"\n"}คงเหลือ/วัน</Text>
-          <View style = {styles.space}></View>
-          <Text style = {styles.Text}>  ชำระงวด/วัน</Text>
-        </Card>
-      </Card>
-      <Card style = {styles.contbox1}>
-        <Text style = {styles.TextCen}>รายการบันทึกเติมเชื้อเพลิงล่าสุด</Text>
-        <Card style = {styles.historybox}>
-          <Text style = {styles.TextDate}>9/9/2020</Text>
-          <Text style = {styles.historyspace}></Text>
-          <Text style = {styles.TextLeft}>200 THB</Text>
-        </Card>
-        <Card style = {styles.historybox}>
-          <Text style = {styles.TextDate}>11/9/2020</Text>
-          <Text style = {styles.historyspace}></Text>
-          <Text style = {styles.TextLeft}>500 THB</Text>
-        </Card>
-        <Card style = {styles.historybox}>
-          <Text style = {styles.TextDate}>12/9/2020</Text>
-          <Text style = {styles.historyspace}></Text>
-          <Text style = {styles.TextLeft}>1000 THB</Text>
-        </Card>
-        <Card style = {styles.transparent}>
-          <Text style = {styles.Text}>แสดงเพิ่มเติม</Text>
-          <Text style = {styles.Text}>เพิ่ม</Text>
-        </Card>
-      </Card>
-      <Card style = {styles.contbox1}>
-        <Text style = {styles.TextCen}>รายการบันทึกซ่อมบำรุงล่าสุด</Text>
-        <Card style = {styles.historybox}>
-          <Text style = {styles.TextDate}> 9/9/2020{'\n'} Ord.10</Text>
-          <Text style = {styles.historyspace}></Text>
-          <Text style = {styles.TextLeft}>200 THB</Text>
-        </Card>
-        <Card style = {styles.historybox}>
-          <Text style = {styles.TextDate}> 11/9/2020{'\n'} Ord.11</Text>
-          <Text style = {styles.historyspace}></Text>
-          <Text style = {styles.TextLeft}>500 THB</Text>
-        </Card>
-        <Card style = {styles.historybox}>
-          <Text style = {styles.TextDate}> 12/9/2020{'\n'} Ord.12</Text>
-          <Text style = {styles.historyspace}></Text>
-          <Text style = {styles.TextLeft}>1000 THB</Text>
-        </Card>
-        <Card style = {styles.transparent}>
-          <Text style = {styles.Text}>แสดงเพิ่มเติม</Text>
-          <Text style = {styles.Text}>เพิ่ม</Text>
-        </Card>
-      </Card>
-    </View>
-  );
-}
+  const {item}=props.route.params
 
-export default HomeScreen;
+  console.log("item = ",item);
+  
+  const [gas, setGas] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [deleted, setDeleted] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    fetchGas().then(() => {
+      setRefreshing(false);
+    });
+  }, [refreshing]);
+
+  const fetchGas = async () => {
+    try {
+      const list = [];
+
+      await firestore()
+      .collection('Gas')
+      .where('CarRegistration','==',item.CarRegistration)
+      
+      //.orderBy('GasDate', 'desc')
+      
+      .get()
+      .then((querySnapshot) => {
+        console.log('Total : ', querySnapshot.size);
+
+          querySnapshot.forEach((doc) => {
+            const {
+              Raka,
+              GasDate,
+              
+              
+            } = doc.data();
+            list.push({
+              id: doc.id,
+              Raka,
+              GasDate,
+              
+            });
+          });
+        });
+
+      setGas(list);
+
+      if (loading) {
+        setLoading(false);
+      }
+
+      console.log('gas: ', gas);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    fetchGas();
+  }, []);
+
+  useEffect(() => {
+    fetchGas();
+    setDeleted(false);
+  }, [deleted]);
+
+  
+
+
+  const ListHeader = () => {
+    return null;
+  };
+  
+  return (
+    <Tabs>
+      <Tab heading="Home">
+        <View style = {styles.container}>
+        <ScrollView>
+        
+
+          <Card style = {styles.Gas}>
+          <Text style = {styles.TextCen}>รายการบันทึกเติมเชื้อเพลิงล่าสุด</Text>
+          <FlatList 
+					
+					data={gas}
+					numColumns={1}
+					keyExtractor={(item) => item.id.toString()}
+					renderItem={({item}) => (
+            <GasCard item={item}  parentProps={props} />
+            
+          )}
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={ListHeader}
+          ListFooterComponent={ListHeader}
+          showsVerticalScrollIndicator={false}  
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+				/>
+          <Card style = {styles.transparent}>
+            <TouchableOpacity>
+              <Text style = {styles.Text}onPress={() => { props.navigation.navigate('serviceList',{item: item})}} >แสดงเพิ่มเติม</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style = {styles.Text} onPress={() => { props.navigation.navigate('addgas',{item: item})}}>เพิ่ม</Text>
+            </TouchableOpacity>
+          </Card>
+        </Card>
+
+
+        
+        
+      </ScrollView>
+    </View>
+          </Tab>
+          <Tab heading="State">
+            <View>
+              <Text>Tab 1 content</Text>
+            </View>
+          </Tab>
+    </Tabs>
+    
+    
+  );
+};
 
 const styles = StyleSheet.create({
   container:{
@@ -111,12 +151,31 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#707070',
   },
-  card:{
+  Gas:{
+    flexDirection: 'column',
     backgroundColor: '#242020',
     justifyContent: 'center',
-    margin: 10,
-    padding: 35,
-    height: 175,
+    margin: wp('10%'),
+    padding: wp('5%'),
+    height: wp('72%')
+  },
+  TextCen:{
+    color: 'white',
+    alignSelf: 'center',
+    marginHorizontal: wp('17%'),
+    marginVertical: wp('2%')
+  },
+  
+  transparent:{
+    justifyContent: 'space-between',
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    flexDirection: 'row',
+    elevation: 0
+  },
+  Text:{
+    color: 'white',
+    textAlign: 'center',
   },
   contbox:{
     flexDirection: 'column',
@@ -126,61 +185,18 @@ const styles = StyleSheet.create({
     padding: 35,
     height: 175,
   },
-  contbox1:{
-    flexDirection: 'column',
-    backgroundColor: '#242020',
-    justifyContent: 'center',
-    margin: 20,
-    padding: 35,
-    height: 260
-  },
-  progressbox:{
-    flexDirection: 'row',
-    backgroundColor: '#242020',
-    borderColor: 'transparent',
-    elevation: 0
-  },
-  cirpro:{
-  backgroundColor: '#242020',
-  },
-  space: {
-    margin:20
-  },
-  Text:{
-    color: 'white'
-  },
-  TextDate:{
-    color: 'white',
-    margin: 10
-  },
-  TextLeft:{
-    color: 'white',
-    margin: 10
-  },
-  TextCen:{
-    color: 'white',
-    marginHorizontal: 60,
-    marginVertical: 5
-  },
-  historybox:{
-    height:55,
-    flexDirection: 'row',
-    backgroundColor: '#707070'
-  },
-  historyspace:{
-    margin: 70
-  },
-  none:{
-    opacity: 0,
-    height:10
-  },
-  transparent:{
-    justifyContent: 'space-between',
-    backgroundColor: 'transparent',
-    borderColor: 'transparent',
-    flexDirection: 'row',
-    elevation: 0
-  },
-});
+
+
+ 
+  
+
 
   
+
+  
+  
+  
+  
+});
+
+export default DetailsCar;
