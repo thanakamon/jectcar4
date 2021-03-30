@@ -1,15 +1,59 @@
-import React, { useContext, useState } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Platform } from 'react-native';
+import React, {useContext, useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Platform,
+  StyleSheet,
+  ScrollView
+} from 'react-native';
+import FormInput from '../components/FormInput';
+import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
-import { AuthContext } from '../navigation/AuthProvider';
+import {AuthContext} from '../navigation/AuthProvider';
 
-const LoginScreen = () => {
-  
-  const {  googleLogin,fbLogin } = useContext(AuthContext);
+const LoginScreen = ({navigation}) => {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const {login, googleLogin, fbLogin} = useContext(AuthContext);
 
   return (
-    <View style={styles.container}>
-      
+    <ScrollView contentContainerStyle={styles.container}>
+      <Image
+        source={require('../assets/Logo50.png')}
+        style={styles.logo}
+      />
+      <Text style={styles.text}>Car Maintenance and Memos</Text>
+
+      <FormInput
+        labelValue={email}
+        onChangeText={(userEmail) => setEmail(userEmail)}
+        placeholderText="Email"
+        iconType="user"
+        keyboardType="email-address"
+        autoCapitalize="none"
+        autoCorrect={false}
+      />
+
+      <FormInput
+        labelValue={password}
+        onChangeText={(userPassword) => setPassword(userPassword)}
+        placeholderText="Password"
+        iconType="lock"
+        secureTextEntry={true}
+      />
+
+      <FormButton
+        buttonTitle="Sign In"
+        onPress={() => login(email, password)}
+      />
+
+      <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
+        <Text style={styles.navButtonText}>Forgot Password?</Text>
+      </TouchableOpacity>
+
       {Platform.OS === 'android' ? (
         <View>
           <SocialButton
@@ -29,7 +73,7 @@ const LoginScreen = () => {
           />
         </View>
       ) : null}
-      {/*
+
       <TouchableOpacity
         style={styles.forgotButton}
         onPress={() => navigation.navigate('Signup')}>
@@ -37,8 +81,7 @@ const LoginScreen = () => {
           Don't have an acount? Create here
         </Text>
       </TouchableOpacity>
-      */}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -46,11 +89,10 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f9fafd',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    paddingTop: 50
   },
   logo: {
     height: 150,
@@ -59,7 +101,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'Kufam-SemiBoldItalic',
-    fontSize: 28,
+    fontSize: 20,
     marginBottom: 10,
     color: '#051d5f',
   },

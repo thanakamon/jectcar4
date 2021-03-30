@@ -17,10 +17,11 @@ import {
 } from '@react-navigation/drawer'
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import Icon1 from 'react-native-vector-icons/Ionicons'
 
 export function DrawerContent(props) {
     const { user, logout } = useContext(AuthContext);
-    console.log(user);
+    //console.log(user);
     return (
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView {...props}>
@@ -52,50 +53,30 @@ export function DrawerContent(props) {
                             label="Home"
                             onPress={() => { props.navigation.navigate('Application') }}
                         />
-                        <DrawerItem 
-                            icon={({color, size}) => (
-                                <Icon 
-                                name="firebase" 
-                                color={color}
-                                size={size}
+                        <DrawerItem
+                            icon={({ color, size }) => (
+                                <Icon
+                                    name="share-outline"
+                                    color={color}
+                                    size={size}
                                 />
                             )}
-                            label="Test Cloud Firestore"
-                            onPress={() => {props.navigation.navigate('FireStore')}}
+                            label="Shared with me"
+                            onPress={() => { props.navigation.navigate('addcar') }}
                         />
-                        <DrawerItem 
-                            icon={({color, size}) => (
-                                <Icon 
-                                name="firebase" 
-                                color={color}
-                                size={size}
+                        <DrawerItem
+                            icon={({ color, size }) => (
+                                <Icon1
+                                    name="notifications-outline"
+                                    color={color}
+                                    size={size}
                                 />
                             )}
-                            label="Test Realtime database"
-                            onPress={() => {props.navigation.navigate('Realtime')}}
+                            label="Notification"
+                            onPress={() => { props.navigation.navigate('addcar') }}
                         />
-                        <DrawerItem 
-                            icon={({color, size}) => (
-                                <Icon 
-                                name="firebase" 
-                                color={color}
-                                size={size}
-                                />
-                            )}
-                            label="Test Storage"
-                            onPress={() => {props.navigation.navigate('Storage')}}
-                        />
-                        <DrawerItem 
-                            icon={({color, size}) => (
-                                <Icon 
-                                name="account-supervisor" 
-                                color={color}
-                                size={size}
-                                />
-                            )}
-                            label="Shared"
-                            onPress={() => {props.navigation.navigate('Shared')}}
-                        />
+                        
+                        
                     </Drawer.Section>
                 </View>
             </DrawerContentScrollView>
