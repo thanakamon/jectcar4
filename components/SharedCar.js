@@ -2,7 +2,7 @@ import React, {useContext,Component} from 'react';
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { AuthContext } from '../navigation/AuthProvider';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-const CarCard = (props) => {
+const SharedCar = (props) => {
   const {item, onDelete,parentProps}=props;
   const {navigation} = parentProps;
   const {user, logout} = useContext(AuthContext);
@@ -23,6 +23,14 @@ const CarCard = (props) => {
                 <Text style = {{fontSize:14}}>Registration: {item.CarRegistration}</Text>
               </View>
           </View>
+          <View style = {{marginRight:hp('1.5%')}}>
+            <Text style = {styles.created}>
+              Created by 
+            </Text>
+            <Text style = {styles.email}>
+             {user.displayName}
+            </Text>
+          </View>
         </View>
   </TouchableOpacity>
       </>
@@ -33,11 +41,11 @@ const CarCard = (props) => {
   );
 };
 
-export default CarCard;
+export default SharedCar;
 
 const styles = StyleSheet.create({
   Card:{
-    height:hp('22%'),
+    height:hp('23%'),
     width: wp('90%'),
     borderRadius: 15,
     marginTop: hp('1.8%'),
@@ -57,9 +65,16 @@ const styles = StyleSheet.create({
     marginLeft:wp('9%'),
     marginTop:hp('0%'),
   },
-  author:{
+  created:{
     alignSelf:'flex-end',
     fontSize:12,
-    color:'#808080'
+    color:'#808080',
+    marginRight: 20,
+  },
+  email:{
+    alignSelf:'flex-end',
+    fontSize:12,
+    color:'#808080',
+    
   }
 })

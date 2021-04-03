@@ -15,11 +15,13 @@ export const StatusWrapper = styled.View`
 export const SubmitBtn = styled.TouchableOpacity`
     flex-direction: row;
     justify-content: center;
-    background-color: #fff;
+    background-color: #f1a2ff;
     border-radius: 5px;
     padding: 10px 25px;
     margin-left: 155px;
     margin-right: 155px;
+    margin-bottom: 20px;
+
     
 `;
 

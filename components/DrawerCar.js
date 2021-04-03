@@ -52,6 +52,17 @@ export function DrawerCar(props) {
                             label="Home"
                             onPress={() => { props.navigation.navigate('Application') }}
                         />
+                        <DrawerItem
+                            icon={({ color, size }) => (
+                                <Icon
+                                    name="share-outline"
+                                    color={color}
+                                    size={size}
+                                />
+                            )}
+                            label="Shared with me"
+                            onPress={() => { props.navigation.navigate('SharedCar') }}
+                        />
                         
                         
                     </Drawer.Section>

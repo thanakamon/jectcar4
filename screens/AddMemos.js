@@ -9,9 +9,10 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
+  ScrollView
   
 } from 'react-native';
-
+import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-picker';
 
@@ -29,7 +30,7 @@ import {
 
 import { AuthContext } from '../navigation/AuthProvider';
 
-const AddMemosScreen = (props) => {
+ const AddMemosScreen = (props) => {
   const {user, logout} = useContext(AuthContext);
 
   const [image, setImage] = useState(null);
@@ -38,7 +39,7 @@ const AddMemosScreen = (props) => {
   const [memos, setMemos] = useState(null);
   const [title, settitle] = useState(null);
 
-
+  
   const takePhotoFromCamera = () => {
     const options = {
         maxWidth: 2000,
@@ -63,7 +64,7 @@ const AddMemosScreen = (props) => {
     });
   };
 
-const submitMemos = async () => {
+    const submitMemos = async () => {
     const imageUrl = await uploadImage();
     console.log('Image Url: ', imageUrl);
     console.log('memos: ', memos);
@@ -140,6 +141,7 @@ const submitMemos = async () => {
 
   return (
     <View style={styles.container}>
+      <ScrollView>
           <TextInput style={styles.textTitle}
             placeholder="ADD TITLE..."
             value={title}
@@ -162,19 +164,30 @@ const submitMemos = async () => {
             <ActivityIndicator size="large" color="#0000ff" />
           </StatusWrapper>
         ) : (
-          <SubmitBtn onPress={() => { submitMemos();  props.navigation.navigate('Memos') }}>
-            <SubmitBtnText>บันทึก</SubmitBtnText>
-          </SubmitBtn>
+          <Button
+          
+          title="Learn More"
+          color="#fff"
+        />
         )}
-      
-      <TouchableOpacity 
-					style={styles.actionButton}
-					onPress={takePhotoFromCamera}
-				>
+      </ScrollView> 
+      <ActionButton buttonColor="#2e64e5">
+        <ActionButton.Item
+          buttonColor="#9b59b6"
+          title="Take Photo"
+          onPress={takePhotoFromCamera}>
           <Icon name="camera-outline" style={styles.actionButtonIcon} />
-					
-				</TouchableOpacity>
-        
+        </ActionButton.Item>
+        <ActionButton.Item
+          buttonColor="#9b59b6"
+          title="Take Photo"
+          >
+          <Icon name="save" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+      </ActionButton>
+        <SubmitBtn onPress={() => { submitMemos();  props.navigation.navigate('Memos') }}>
+            <SubmitBtnText>บันทึก</SubmitBtnText>
+        </SubmitBtn>
         
     </View>
 
@@ -187,6 +200,7 @@ export default AddMemosScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'white',
     
   },
   actionButtonIcon: {

@@ -1,5 +1,5 @@
 import React, { useState,useContext } from "react";
-import { View, Text, StyleSheet,TouchableOpacity,Image,Button } from "react-native";
+import { View, Text, StyleSheet,TouchableOpacity,Image,Button, ScrollView } from "react-native";
 import { AuthContext } from '../navigation/AuthProvider';
 import { Card } from 'react-native-elements';
 import moment from 'moment';
@@ -11,16 +11,12 @@ const  DetailsMemos= (props) => {
   const { user, logout } = useContext(AuthContext);
   const {item}=props.route.params
   //console.log("item = ",item);
-
+  
 
   return (
-    <Card style = {styles.container} >
-        <TouchableOpacity style={styles.actionButton} >
-			<Icon name="share-alt" size={30} color="#4F8EF7"/>
-		</TouchableOpacity>
-        
+    <View style = {styles.container} >
+       <ScrollView>    
         <Text style = {styles.Title} >{item.Title}</Text>
-        
         <Card.Divider/>
             <Text style = {styles.date}>{moment(item.postTime.toDate()).format('DD MMMM YYYY')}</Text>
         <Card.FeaturedTitle/>
@@ -34,15 +30,17 @@ const  DetailsMemos= (props) => {
         />
       ) : <Divider />}
         
-            
-        <TouchableOpacity 
-			style={styles.actionButton}
-			onPress={() => { props.navigation.navigate('addMemos') }}>
-			
-		</TouchableOpacity>
+    </ScrollView>
+    <TouchableOpacity 
+					style={styles.actionButton}
+					
+          onPress={() => { props.navigation.navigate('editMemos' , {item: item}) }} 
+          
 
-        
-    </Card>
+				/>
+					
+			
+    </View>
   );
 }
 
@@ -59,15 +57,31 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 10,
         marginBottom:5,
+        marginLeft: 20,
         
     },
     date:{
         fontSize: 13,
+        marginLeft: 20,
         
     },
     Details:{
         fontSize: 18,
-    }
+    },
+    actionButton: {
+      
+      width: 60,
+		height: 60,
+		backgroundColor: '#2e64e5',
+		borderRadius: 100, 
+		position: 'absolute',
+		elevation: 10,
+		alignItems: 'center',
+		justifyContent: 'center',
+		bottom: 30,
+		right: 30
+    },
+    
     
 })
 

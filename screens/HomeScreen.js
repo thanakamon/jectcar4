@@ -4,6 +4,11 @@ import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import SimpleLineIconsIcon from "react-native-vector-icons/SimpleLineIcons";
 import { AuthContext } from '../navigation/AuthProvider';
 
+import {showNotification,
+   handScheduleNotification ,
+    handCancel
+  } from '../components/NoficationCar.android';
+
 const HomeScreen = (props) => {
   const { user, logout } = useContext(AuthContext);
   return (
@@ -17,7 +22,9 @@ const HomeScreen = (props) => {
           <FontAwesomeIcon name="car" style={styles.icon}></FontAwesomeIcon>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.button2} onPress={() => { props.navigation.navigate('Memos') }}>
+      <TouchableOpacity style={styles.button2} 
+      activeOpacity={0.6}
+      onPress={() => showNotification('title', 'massage')}>
         <SimpleLineIconsIcon
           name="notebook"
           style={styles.icon2}

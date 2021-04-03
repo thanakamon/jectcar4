@@ -21,6 +21,8 @@ import {AuthContext} from '../navigation/AuthProvider';
   
 const HomeMemos = (props) => {
 
+  
+
   const [refreshing, setRefreshing] = useState(false);
 
   const {user, logout} = useContext(AuthContext);
@@ -44,7 +46,7 @@ const HomeMemos = (props) => {
       await firestore()
         .collection('Memos')
         .where('Email','==', user.email || 'Name','==', user.displayName )
-        //.orderBy('postTime', 'desc')
+        .orderBy('postTime', 'asc')
         .get()
         .then((querySnapshot) => {
           console.log('Total Memos: ', querySnapshot.size);
@@ -104,6 +106,7 @@ const HomeMemos = (props) => {
           onPress: () => deleteMemos(memosId),
         },
       ],
+      
       {cancelable: false},
     );
   };
@@ -154,6 +157,8 @@ const HomeMemos = (props) => {
       })
       .catch((e) => console.log('Error deleting posst.', e));
   };
+
+ 
 
   const ListHeader = () => {
     return null;

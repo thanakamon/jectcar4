@@ -7,7 +7,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import HomeScreen from '../screens/HomeScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 import AddMemos from '../screens/AddMemos';
 import HomeCar from '../screens/HomeCar';
 import HomeMemos from '../screens/HomeMemos';
@@ -19,11 +18,16 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import DetailsMemos from '../screens/DetailsMemos';
 import AddGas from '../screens/AddGas';
 import ServiceList from '../screens/ServiceList';
-
+import EditMemos from '../screens/EditMemos'
 import DetailService from '../screens/DetailService'
+import Shared from '../screens/SharedCar'
+import SharedCar from '../screens/SharedCar';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+
+
 
 const MemosDrawer = ({navigation}) => (
   <Drawer.Navigator headerMode='none' drawerContent={props => <DrawerContent{...props}/>}>
@@ -197,6 +201,26 @@ const CarStack = ({navigation}) => (
       }}
     />
 
+    <Stack.Screen
+            name="SharedCar"
+            component={SharedCar}
+            options={{
+              title: 'Shared with me',
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: '#2e64e515',
+                shadowColor: '#2e64e515',
+                elevation: 0,
+              },
+              headerBackTitleVisible: false,
+              headerBackImage: () => (
+                <View style={{marginLeft: 15}}>
+                  <Ionicons name="arrow-back" size={25} color="#2e64e5" />
+                </View>
+              ),
+            }}
+    />
+
 
     
   </Stack.Navigator>
@@ -242,7 +266,7 @@ const MemosStack = ({navigation}) => (
         title: 'Add Note',
         headerTitleAlign: 'center',
         headerStyle: {
-        backgroundColor: '#2e64e515',
+        backgroundColor: 'red',
         shadowColor: '#2e64e515',
         elevation: 0,
         },
@@ -253,6 +277,7 @@ const MemosStack = ({navigation}) => (
           </View>
         ),
         
+        
       }}
     />
 
@@ -261,6 +286,29 @@ const MemosStack = ({navigation}) => (
       component={DetailsMemos}
       options={{
         title: 'Details',
+        headerTitleAlign: 'center',
+        headerStyle: {
+        backgroundColor: '#2e64e515',
+        shadowColor: '#2e64e515',
+        elevation: 0,
+        
+        },
+        headerBackTitleVisible: false,
+        headerBackImage: () => (
+          <View style={{marginLeft: 15}}>
+            <Ionicons name="arrow-back" size={25} color="#2e64e5" />
+          </View>
+        ),
+        
+        
+      }}
+    />
+
+<Stack.Screen
+      name="editMemos"
+      component={EditMemos}
+      options={{
+        title: 'Edit',
         headerTitleAlign: 'center',
         headerStyle: {
         backgroundColor: '#2e64e515',
