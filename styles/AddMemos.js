@@ -31,3 +31,11 @@ export const SubmitBtnText = styled.Text`
     font-weight: bold;
     color: #2e64e5;
 `;
+
+export const AddReceipt = styled.Image`
+    width: 90%;
+    height: 250px;
+    margin-bottom: 15px;
+    margin-left: 18px;
+    border-radius: 10px;
+`;

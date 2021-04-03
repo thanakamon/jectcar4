@@ -8,23 +8,24 @@ import {
 } from "react-native";
 import { AuthContext } from '../navigation/AuthProvider';
 import moment from 'moment';
-import {Card} from 'native-base'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-export const GasCardTotal = (props) => {
+export const GasCard = (props) => {
   const {item,onDelete, parentProps}=props;
   const {navigation} = parentProps;
   const {user, logout} = useContext(AuthContext);
   
   return (
 
-    
-        <Card key={item.id} style = {styles.historybox} >
+    <TouchableOpacity key={item.id} style = {styles.container} >
           <Text style = {styles.TextDate}>{moment(item.GasDate.toDate()).format('MMM Do YY')}</Text>
-          
           <Text style = {styles.raka}>{item.Raka}</Text>
           <Text style = {styles.bat}>บาท</Text>
+    </TouchableOpacity> 
+        
           
-        </Card>
+          
+        
     
 
 
@@ -32,18 +33,22 @@ export const GasCardTotal = (props) => {
   );
 };
 
-export default GasCardTotal;
+export default GasCard;
 
 const styles = StyleSheet.create({
-    historybox:{
-        height:55,
+    container:{
+        height:hp('10%'),
+        width: wp('91%'),
         flexDirection: 'row',
         backgroundColor: '#707070',
         justifyContent: 'space-between',
+        marginTop: 10,
+        marginLeft : 15,
+        
       },
       TextDate:{
         color: 'white',
-        marginTop:17,
+        marginTop:29,
         marginLeft:15,
       },
       raka:{
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
       bat:{
         color: 'white',
         marginRight: 30,
-        marginTop:17,
+        marginTop:29,
         
       },
 

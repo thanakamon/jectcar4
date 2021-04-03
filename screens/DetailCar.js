@@ -14,13 +14,14 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { AuthContext } from '../navigation/AuthProvider';
 import GasCard from '../components/GasCard';
 import firestore from '@react-native-firebase/firestore';
-
+import ServiceCard from '../components/ServiceCard';
 
 const DetailsCar = (props) => {
   const { user, logout } = useContext(AuthContext);
   const {item}=props.route.params
 
   console.log("item = ",item);
+  const [service, setService] = useState(null);
   
   const [gas, setGas] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -30,6 +31,9 @@ const DetailsCar = (props) => {
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     fetchGas().then(() => {
+      setRefreshing(false);
+    });
+    fetchService().then(() => {
       setRefreshing(false);
     });
   }, [refreshing]);
@@ -42,7 +46,7 @@ const DetailsCar = (props) => {
       .collection('Gas')
       .where('CarRegistration','==',item.CarRegistration)
       
-      //.orderBy('GasDate', 'desc')
+      .orderBy('GasDate', 'desc')
       
       .get()
       .then((querySnapshot) => {
@@ -85,7 +89,66 @@ const DetailsCar = (props) => {
     setDeleted(false);
   }, [deleted]);
 
-  
+  const fetchService = async () => {
+    try {
+      const list1 = [];
+
+      await firestore()
+      .collection('Service')
+      .where('CarRegistration','==',item.CarRegistration)
+      
+      //.orderBy('GasDate', 'desc')
+      
+      .get()
+      .then((querySnapshot) => {
+        console.log('Total : ', querySnapshot.size);
+
+          querySnapshot.forEach((doc) => {
+            const {
+              Cost,
+              Note,
+              Receipt,
+              Service,
+              ServiceDate,
+              ServiceProvider,
+              TotalKilo,
+              
+              
+            } = doc.data();
+            list1.push({
+              id1: doc.id,
+              Cost: Cost,
+              Note: Note,
+              Receipt: Receipt,
+              Service: Service,
+              ServiceDate:ServiceDate,
+              ServiceProvider: ServiceProvider,
+              TotalKilo: TotalKilo,
+              
+            });
+          });
+        });
+
+      setService(list1);
+
+      if (loading) {
+        setLoading(false);
+      }
+
+      console.log('gas: ', service);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    fetchService();
+  }, []);
+
+  useEffect(() => {
+    fetchService();
+    setDeleted(false);
+  }, [deleted]);
 
 
   const ListHeader = () => {
@@ -96,7 +159,15 @@ const DetailsCar = (props) => {
     <Tabs>
       <Tab heading="Home">
         <View style = {styles.container}>
-        <ScrollView>
+        
+        <ScrollView 
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+        >
         
 
           <Card style = {styles.Gas}>
@@ -114,13 +185,11 @@ const DetailsCar = (props) => {
           ListHeaderComponent={ListHeader}
           ListFooterComponent={ListHeader}
           showsVerticalScrollIndicator={false}  
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
+          
 				/>
           <Card style = {styles.transparent}>
             <TouchableOpacity>
-              <Text style = {styles.Text}onPress={() => { props.navigation.navigate('serviceList',{item: item})}} >แสดงเพิ่มเติม</Text>
+              <Text style = {styles.Text}onPress={() => { props.navigation.navigate('GasTotal',{item: item})}} >แสดงเพิ่มเติม</Text>
             </TouchableOpacity>
             <TouchableOpacity>
               <Text style = {styles.Text} onPress={() => { props.navigation.navigate('addgas',{item: item})}}>เพิ่ม</Text>
@@ -128,7 +197,34 @@ const DetailsCar = (props) => {
           </Card>
         </Card>
 
+        <Card style = {styles.Gas}>
+          <Text style = {styles.TextCen}>รายการบันทึกการซ่อมบำรุง</Text>
+          <FlatList 
+					
+					data={service}
+					numColumns={1}
+					keyExtractor={(item) => item.id.toString()}
+					renderItem={({item}) => (
+            <ServiceCard item={item}  parentProps={props} />
+            
+          )}
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={ListHeader}
+          ListFooterComponent={ListHeader}
+          showsVerticalScrollIndicator={false}  
+          
+				/>
+          <Card style = {styles.transparent}>
+            <TouchableOpacity>
+              <Text style = {styles.Text}onPress={() => { props.navigation.navigate('ServiceTotal',{item: item})}} >แสดงเพิ่มเติม</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style = {styles.Text} onPress={() => { props.navigation.navigate('addService',{item: item})}}>เพิ่ม</Text>
+            </TouchableOpacity>
+          </Card>
+        </Card>
 
+        
         
         
       </ScrollView>

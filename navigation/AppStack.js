@@ -17,11 +17,15 @@ import {DrawerCar} from '../components/DrawerCar'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import DetailsMemos from '../screens/DetailsMemos';
 import AddGas from '../screens/AddGas';
-import ServiceList from '../screens/ServiceList';
+import GasTotal from '../screens/GasTotal';
 import EditMemos from '../screens/EditMemos'
 import DetailService from '../screens/DetailService'
-import Shared from '../screens/SharedCar'
 import SharedCar from '../screens/SharedCar';
+import AddService from '../screens/Addservice';
+import Service from '../screens/ServiceTotal ';
+
+
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -147,7 +151,7 @@ const CarStack = ({navigation}) => (
       name="detialCar"
       component={DetailCar}
       options={{
-        title: '',
+        title: 'Dashboard',
         headerTitleAlign: 'center',
         headerStyle: {
           backgroundColor: '#2e64e515',
@@ -163,10 +167,10 @@ const CarStack = ({navigation}) => (
       }}
     />
     <Stack.Screen
-      name="serviceList"
-      component={ServiceList}
+      name="GasTotal"
+      component={GasTotal}
       options={{
-        title: '',
+        title: 'Total',
         headerTitleAlign: 'center',
         headerStyle: {
           backgroundColor: '#2e64e515',
@@ -221,6 +225,45 @@ const CarStack = ({navigation}) => (
             }}
     />
 
+    <Stack.Screen
+            name="addService"
+            component={AddService}
+            options={{
+              title: 'Add',
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: '#2e64e515',
+                shadowColor: '#2e64e515',
+                elevation: 0,
+              },
+              headerBackTitleVisible: false,
+              headerBackImage: () => (
+                <View style={{marginLeft: 15}}>
+                  <Ionicons name="arrow-back" size={25} color="#2e64e5" />
+                </View>
+              ),
+            }}
+    />
+
+    <Stack.Screen
+            name="ServiceTotal"
+            component={Service}
+            options={{
+              title: 'Total',
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: '#2e64e515',
+                shadowColor: '#2e64e515',
+                elevation: 0,
+              },
+              headerBackTitleVisible: false,
+              headerBackImage: () => (
+                <View style={{marginLeft: 15}}>
+                  <Ionicons name="arrow-back" size={25} color="#2e64e5" />
+                </View>
+              ),
+            }}
+    />
 
     
   </Stack.Navigator>

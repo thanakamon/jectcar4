@@ -46,6 +46,7 @@ const HomeCar = (props) => {
             const {
               Brand,
               CarRegistration,
+              img,
               
               
             } = doc.data();
@@ -53,6 +54,7 @@ const HomeCar = (props) => {
               id: doc.id,
               Brand,
               CarRegistration,
+              img,
               
               
             });

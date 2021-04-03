@@ -11,8 +11,8 @@ const  AddGas = (props)=> {
     const {item}=props.route.params
     const {user, logout} = useContext(AuthContext);
     const [miles, setMiles] = useState(null);
-    const [raka, setRaka] = useState(null);
-    const [total, setTotal] = useState();
+    const [raka, setRaka] = useState();
+    
     
     console.log("item=",item);
     const submitGas = async () => {
@@ -24,7 +24,7 @@ const  AddGas = (props)=> {
         GasDate: firestore.Timestamp.fromDate(new Date()),
         Miles: miles,
         Raka: raka,
-        total: total,
+        
 
       })
       .then(() => {
@@ -35,7 +35,7 @@ const  AddGas = (props)=> {
         );
         setMiles(null);
         setRaka(null);
-        setTotal();
+        
       })
       .catch((error) => {
         console.log('Something went wrong with added post to firestore.', error);
@@ -53,17 +53,7 @@ const  AddGas = (props)=> {
           value={miles}
           onChangeText={(content) => setMiles(content)}
         />
-        <Text style={styles.headerText}>
-         ราคาลิตร
-        </Text>
-
-        <TextInput
-          style={styles.InputText}
-          underlineColorAndroid ='transparent'
-          keyboardType= "numeric"
-          value={raka}
-          onChangeText={(content) => setRaka(content)}
-        />
+        
          <Text style={styles.headerText}>
          ค่าใช้จ่าย
         </Text>
@@ -71,8 +61,8 @@ const  AddGas = (props)=> {
           style={styles.InputText}
           underlineColorAndroid="transparent"
           keyboardType= "numeric"
-          value={total}
-          onChangeText={(content) => setTotal(content)}
+          value={raka}
+          onChangeText={(content) => setRaka(content)}
         />
         <Button
           icon={

@@ -16,7 +16,9 @@ const CarCard = (props) => {
         <View style = {styles.Card}>
           <View style = {{flexDirection:'row'}}>
               <View>
-                <Image style ={styles.img} source={{uri:user.photoURL}}/>
+                <Image style ={styles.img} 
+                //defaultSource={{uri:user.PhotoURL}}
+                source={{ uri: item.img }}/>
               </View>
               <View style = {styles.carregis} >
                 <Text style = {{fontSize:20,marginBottom:hp('1.5%')}} >Brand: {item.Brand}</Text>
