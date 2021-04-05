@@ -6,7 +6,7 @@ const SharedCar = (props) => {
   const {item, onDelete,parentProps}=props;
   const {navigation} = parentProps;
   const {user, logout} = useContext(AuthContext);
-
+  console.log(item.img)
   return (
     <>
     <TouchableOpacity key={item.id} 
@@ -16,28 +16,27 @@ const SharedCar = (props) => {
         <View style = {styles.Card}>
           <View style = {{flexDirection:'row'}}>
               <View>
-                <Image style ={styles.img} source={{uri:user.photoURL}}/>
+              <Image style ={styles.img} 
+                //defaultSource={{uri:user.PhotoURL}}
+                source={{ uri: item.img }}/>
               </View>
               <View style = {styles.carregis} >
-                <Text style = {{fontSize:20,marginBottom:hp('1.5%')}} >Brand: {item.Brand}</Text>
-                <Text style = {{fontSize:14}}>Registration: {item.CarRegistration}</Text>
+                <Text style = {{fontSize:20,marginTop:('15%')}} >Brand: {item.Brand}</Text>
+                <Text style = {{fontSize:14,marginTop:hp('0.5%')}}>Registration: {item.CarRegistration}</Text>
+                <View style = {styles.vc}>
+                  <Text style = {styles.created}>
+                    Created by 
+                  </Text>
+                  <Text style = {styles.email}>
+                    {item.email}
+                  </Text>
+                </View>
               </View>
           </View>
-          <View style = {{marginRight:hp('1.5%')}}>
-            <Text style = {styles.created}>
-              Created by 
-            </Text>
-            <Text style = {styles.email}>
-             {user.displayName}
-            </Text>
-          </View>
+         
         </View>
   </TouchableOpacity>
-      </>
-
-  
-
-    
+      </>  
   );
 };
 
@@ -45,16 +44,16 @@ export default SharedCar;
 
 const styles = StyleSheet.create({
   Card:{
-    height:hp('23%'),
+    height:hp('18%'),
     width: wp('90%'),
     borderRadius: 15,
     marginTop: hp('1.8%'),
     backgroundColor: 'white',
   },
   img:{
-    height:hp('15%'),
-    width:wp('30%'),
-    marginTop:hp('3%'),
+    height:hp('13%'),
+    width:wp('29%'),
+    marginTop:hp('2.8%'),
     marginLeft:wp('5%'),
     alignSelf:'flex-start',
     borderRadius: 40,
@@ -65,8 +64,13 @@ const styles = StyleSheet.create({
     marginLeft:wp('9%'),
     marginTop:hp('0%'),
   },
+  vc:{
+    alignSelf:'flex-start',
+    marginTop:hp('2%'),
+  },
   created:{
-    alignSelf:'flex-end',
+    alignSelf:'flex-start',
+    
     fontSize:12,
     color:'#808080',
     marginRight: 20,

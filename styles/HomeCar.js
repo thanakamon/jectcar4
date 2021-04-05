@@ -6,7 +6,7 @@ import styled from 'styled-components';
 export const Container = styled.View`
   flex: 1;
   align-items: center;
-  background-color: #2980B9;
+  background-color: #D9F1F1;
 `;
 
 export const styles = StyleSheet.create({

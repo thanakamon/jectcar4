@@ -1,5 +1,5 @@
 import React, {useContext, useState,Component} from 'react';
-import {ActivityIndicator,View, Text,  TouchableOpacity,TouchableHighlight, Switch, StyleSheet, Alert, Icon, ScrollView, StatusBar,TextInput} from 'react-native';
+import {Modal,ActivityIndicator,View, Text,  TouchableOpacity,TouchableHighlight, Switch, StyleSheet, Alert, Icon, ScrollView, StatusBar,TextInput,Button} from 'react-native';
 import FormInput from '../components/FormInputAddcar';
 import FormButton from '../components/FormButton';
 import {AuthContext} from '../navigation/AuthProvider';
@@ -7,6 +7,8 @@ import firestore from '@react-native-firebase/firestore';
 import DatePicker from 'react-native-datepicker';
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import storage from '@react-native-firebase/storage';
+import Icon2 from 'react-native-vector-icons/Feather'
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {
   Avatar,
   
@@ -21,14 +23,20 @@ const Addcar = (props) => {
   
   const {user, logout} = useContext(AuthContext);
   const [brand, setBrand] = useState();
-  const [model, setModel] = useState();
   const [carregis, setCarregis] = useState();
   const [datetax, setDateTaxt] = useState();
   const [dateins, setDateIns] = useState();
   const [datefirst, setDateFirst] = useState();
+  const [repayment, setRepayment] = useState();
+  const [installment, setInstallment] = useState();
   const [showDatePicker,setShowDatePicker]=useState(false);
-  const [showShare,setShowShare]=useState(false);
-
+  const [Modalshare,setModalshare] = useState(false);
+  const [shared1, setShared1] = useState();
+  const [shared2, setShared2] = useState();
+  const [shared3, setShared3] = useState();
+  const [shared4, setShared4] = useState();
+  const [shared5, setShared5] = useState();
+  
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
@@ -42,23 +50,23 @@ const Addcar = (props) => {
       name : user.displayName,
       email: user.email,
       Brand : brand,
-      Model : model,
       CarRegistration : carregis,
       Insurance : dateins,
       Tax : datetax,
       DateFirst : datefirst,
+      Repayment: repayment,
+      Installment: installment,
       Time: firestore.Timestamp.fromDate(new Date()),
       img:imageUrl,
-    })
+      Shared1:shared1,
+      Shared2:shared2,
+      Shared3:shared3, 
+      Shared4:shared4, 
+      Shared5:shared5,  })
     .then(() => {
       console.log('Success');
-      Alert.alert(
-        'บันทึกกกก',
-        'บันทึกสำเร็จ',
-        
-      );
+      
       setBrand(null);
-      setModel(null);
       setCarregis(null);
       setDateIns(null);
       setDateTaxt(null);
@@ -142,10 +150,6 @@ const Addcar = (props) => {
   
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.text}>Add Car</Text>
-      
-      
-
       <View style={styles.picture}>
       {image != null ? <Avatar.Image source={{uri: image.uri}} size={180} 
       style={styles.picture}
@@ -165,17 +169,13 @@ const Addcar = (props) => {
       
       
       </View>
+      
       <FormInput
         placeholderText="Brand"
         value={brand}
         onChangeText={(content) => setBrand(content)}
       />
-      <FormInput
-        placeholderText="Model"
-        value={model}
-        onChangeText={(content) => setModel(content)}
-        
-      />
+      
       <FormInput
         placeholderText="Car registration"
         value={carregis}
@@ -236,7 +236,7 @@ const Addcar = (props) => {
         />
       <View>
           <View style={styles.vsw}>
-            <Text style={styles.TCar} >กรณีผ่อนรถ</Text>
+            <Text style={styles.TCar} >Car installment</Text>
             <Switch onValueChange={()=>setShowDatePicker(!showDatePicker)} value={showDatePicker}/>
           </View>
 
@@ -247,7 +247,7 @@ const Addcar = (props) => {
               style={styles.datePickerStyle}
               date={datefirst} // Initial date from state
               mode="date" // The enum of date, datetime and time
-              placeholder="วันที่ชำระงวดแรก"
+              placeholder="First payment date"
               format="DD-MM-YYYY"
               minDate="01-01-2020"
               maxDate="01-01-2030"
@@ -270,15 +270,19 @@ const Addcar = (props) => {
               }}
             />
           <FormInput
-            placeholderText="จำนวนงวด"
+            placeholderText="Repayment period"
             iconType="user"
             keyboardType="number"
+            value={repayment}
+            onChangeText={(content) => setRepayment(content)}
             
           />
           <FormInput
-            placeholderText="ค่างวด"
+            placeholderText="Installment"
             iconType="user"
             keyboardType="email-address"
+            value={installment}
+            onChangeText={(content) => setInstallment(content)}
             
           />
 
@@ -288,32 +292,66 @@ const Addcar = (props) => {
 
         <View>
           <View style={styles.vsw}>
-            <Text style={styles.TCar} >แชร์ข้อมูล</Text>
-            <Switch onValueChange={()=>setShowShare(!showShare)} value={showShare}/>
+            <Text style={styles.TCar} >Share</Text>
+            <Switch onValueChange={()=>setModalshare(!Modalshare)} value={Modalshare}/>
           </View>
 
-      {showShare&&(
+      {Modalshare&&(
         <>
-        <View>
-        <Text> if you want to share</Text>
-          <View style={styles.Search}>
-				  <StatusBar backgroundColor="grey"  barStyle="dark-content" />
-				  <TextInput placeholder="search..."/>
-          </View>
-        </View>
+        <FormInput
+            placeholderText="Email 1"
+            iconType="user"
+            keyboardType="email-address"
+            value={shared1}
+            onChangeText={(content) => setShared1(content)}
+            
+          />
+          <FormInput
+            placeholderText="Email 2"
+            iconType="user"
+            keyboardType="email-address"
+            value={shared2}
+            onChangeText={(content) => setShared2(content)}
+            
+          />
+          <FormInput
+            placeholderText="Email 3"
+            iconType="user"
+            keyboardType="email-address"
+            value={shared3}
+            onChangeText={(content) => setShared3(content)}
+            
+          />
+          <FormInput
+            placeholderText="Email 4"
+            iconType="user"
+            keyboardType="email-address5"
+            value={shared4}
+            onChangeText={(content) => setShared4(content)}
+            
+          />
+          <FormInput
+            placeholderText="Email 5"
+            iconType="user"
+            keyboardType="email-address"
+            value={shared5}
+            onChangeText={(content) => setShared5(content)}
+          />
         </>
         )
       }
       </View>
-        
-      <FormButton onPress={Create} 
+      <View style = {styles.vbtn}>
+      <FormButton  
         buttonTitle="Create" 
+        onPress={() => { Create();  props.navigation.navigate('Car Maintenance') }}
         //onPress={() => { props.nreavigation.navigate('CarMaintenance') }} 
       />
-       
+       </View>
+
     </ScrollView>
   )
-}
+}  
 
 export default Addcar;
 
@@ -329,8 +367,11 @@ const styles = StyleSheet.create({
 		position: 'relative',
    
   },
+  vbtn:{
+    paddingBottom:'10%'
+  },
   vsw:{
-    flexDirection: "row"
+    flexDirection:'row'
   },
   text: {
     fontFamily: 'Kufam-SemiBoldItalic',

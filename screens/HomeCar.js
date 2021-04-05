@@ -175,7 +175,11 @@ const HomeCar = (props) => {
         </ScrollView>
       ) : (
         
-        <Container>
+        <Container> 
+          <ScrollView 
+           refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
           <FlatList 
             data={car}
             renderItem={({item}) => (
@@ -185,10 +189,9 @@ const HomeCar = (props) => {
             ListHeaderComponent={ListHeader}
             ListFooterComponent={ListHeader}
             showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
+           
           />
+          </ScrollView>
         </Container>
         
       )}

@@ -36,8 +36,8 @@ const SharedCar = (props) => {
 
       await firestore()
       .collection('Car')
-      .where('shared1','==',user.email)
-      //.orderBy('Time', 'desc')
+      .where('Shared1','==',user.email || 'Shared2','==',user.email || 'Shared3','==',user.email || 'Shared4','==',user.email || 'Shared5','==',user.email)
+      .orderBy('Time', 'desc')
       .get()
       .then((querySnapshot) => {
         console.log('Total : ', querySnapshot.size);
@@ -46,6 +46,8 @@ const SharedCar = (props) => {
             const {
               Brand,
               CarRegistration,
+              email,
+              img,
               
               
             } = doc.data();
@@ -53,6 +55,8 @@ const SharedCar = (props) => {
               id: doc.id,
               Brand,
               CarRegistration,
+              email,
+              img: img,
               
               
             });
@@ -173,7 +177,15 @@ const SharedCar = (props) => {
         </ScrollView>
       ) : (
         
-        <Container>
+        <Container >
+          <ScrollView 
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
+          >
           <FlatList 
             data={car}
             renderItem={({item}) => (
@@ -183,10 +195,9 @@ const SharedCar = (props) => {
             ListHeaderComponent={ListHeader}
             ListFooterComponent={ListHeader}
             showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
+            
           />
+          </ScrollView>
         </Container>
         
       )}

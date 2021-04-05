@@ -17,8 +17,9 @@ const CarCard = (props) => {
           <View style = {{flexDirection:'row'}}>
               <View>
                 <Image style ={styles.img} 
-                //defaultSource={{uri:user.PhotoURL}}
-                source={{ uri: item.img }}/>
+                source={{ uri: item.img }}
+                //defaultSource={require('../assets/users/user-1.jpg')}
+                />
               </View>
               <View style = {styles.carregis} >
                 <Text style = {{fontSize:20,marginBottom:hp('1.5%')}} >Brand: {item.Brand}</Text>
@@ -39,20 +40,21 @@ export default CarCard;
 
 const styles = StyleSheet.create({
   Card:{
-    height:hp('22%'),
+    height:hp('17%'),
     width: wp('90%'),
     borderRadius: 15,
     marginTop: hp('1.8%'),
     backgroundColor: 'white',
+    flexDirection:'row'
   },
   img:{
-    height:hp('15%'),
-    width:wp('30%'),
-    marginTop:hp('3%'),
+    display:'flex',
+    height:hp('12%'),
+    width:wp('26%'),
     marginLeft:wp('5%'),
-    alignSelf:'flex-start',
-    borderRadius: 40,
-    borderWidth: 1
+    borderRadius: 18,
+    borderWidth: 1,
+    marginTop:hp('2.8%')
   },
   carregis:{
     alignSelf:'center',

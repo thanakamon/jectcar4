@@ -48,7 +48,7 @@ const CarDrawer = ({navigation}) => (
 const FeedStack = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
-      name="Application"
+      name="Car and Memos"
       component={HomeScreen}
       options={{
         headerTitleAlign: 'center',
@@ -73,7 +73,7 @@ const FeedStack = ({navigation}) => (
 const CarStack = ({navigation}) => (
   <Stack.Navigator >
     <Stack.Screen 
-    name="CarMa" 
+    name="Car Maintenance" 
     component={HomeCar} 
     options={{
       headerTitleAlign: 'center',
@@ -117,12 +117,17 @@ const CarStack = ({navigation}) => (
       name="addcar"
       component={AddCar}
       options={{
-        title: '',
+        title: 'Add Car',
         headerTitleAlign: 'center',
         headerStyle: {
-          backgroundColor: '#2e64e515',
-          shadowColor: '#2e64e515',
+          backgroundColor: '#fff',
+          shadowColor: '#fff',
           elevation: 0,
+        },
+        headerTitleStyle: {
+          color: '#2e64e5',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
         },
         headerBackTitleVisible: false,
         headerBackImage: () => (
@@ -153,9 +158,14 @@ const CarStack = ({navigation}) => (
       options={{
         title: 'Dashboard',
         headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#2e64e5',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
+        },
         headerStyle: {
-          backgroundColor: '#2e64e515',
-          shadowColor: '#2e64e515',
+          backgroundColor: '#fff',
+          shadowColor: '#fff',
           elevation: 0,
         },
         headerBackTitleVisible: false,
@@ -211,9 +221,15 @@ const CarStack = ({navigation}) => (
             options={{
               title: 'Shared with me',
               headerTitleAlign: 'center',
+              headerTitleStyle: {
+                color: '#2e64e5',
+                fontFamily: 'Kufam-SemiBoldItalic',
+                fontSize: 18,
+              },
+
               headerStyle: {
-                backgroundColor: '#2e64e515',
-                shadowColor: '#2e64e515',
+                backgroundColor: '#fff',
+                shadowColor: '#fff',
                 elevation: 0,
               },
               headerBackTitleVisible: false,
