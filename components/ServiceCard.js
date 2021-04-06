@@ -44,26 +44,16 @@ const styles = StyleSheet.create({
   historybox:{
       height:55,
       flexDirection: 'row',
-      backgroundColor: '#707070',
+      backgroundColor: '#fff',
       justifyContent: 'space-between',
+      borderRadius:10,
     },
     TextDate:{
-      color: 'white',
-      marginTop:1,
+      color: 'black',
+      marginTop:9,
       marginLeft:15,
     },
-    raka:{
-      color: 'white',
-      marginTop: 17,
-      marginLeft: 150,
-      
-    },
-    bat:{
-      color: 'white',
-      marginRight: 30,
-      marginTop:17,
-      
-    },
+    
 
 });
 

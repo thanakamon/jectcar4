@@ -141,12 +141,17 @@ const CarStack = ({navigation}) => (
       name="addgas"
       component={AddGas}
       options={{
-        title: '',
+        title: 'Add Fuel',
         headerTitleAlign: 'center',
         headerStyle: {
-          backgroundColor: '#2e64e515',
-          shadowColor: '#2e64e515',
+          backgroundColor: '#fff',
+          
           elevation: 0,
+        },
+        headerTitleStyle: {
+          color: '#2e64e5',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
         },
         
       }}
@@ -180,12 +185,17 @@ const CarStack = ({navigation}) => (
       name="GasTotal"
       component={GasTotal}
       options={{
-        title: 'Total',
+        title: 'Fuel Logs',
         headerTitleAlign: 'center',
         headerStyle: {
-          backgroundColor: '#2e64e515',
-          shadowColor: '#2e64e515',
+          backgroundColor: '#fff',
+          shadowColor: '#fff',
           elevation: 0,
+        },
+        headerTitleStyle: {
+          color: '#2e64e5',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
         },
         headerBackTitleVisible: false,
         headerBackImage: () => (
@@ -199,12 +209,17 @@ const CarStack = ({navigation}) => (
       name="detailService"
       component={DetailService}
       options={{
-        title: '',
+        title: 'Detail Sevice',
         headerTitleAlign: 'center',
         headerStyle: {
-          backgroundColor: '#2e64e515',
+          backgroundColor: '#fff',
           shadowColor: '#2e64e515',
           elevation: 0,
+        },
+        headerTitleStyle: {
+          color: '#2e64e5',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
         },
         headerBackTitleVisible: false,
         headerBackImage: () => (
@@ -245,12 +260,17 @@ const CarStack = ({navigation}) => (
             name="addService"
             component={AddService}
             options={{
-              title: 'Add',
+              title: 'Add Service',
               headerTitleAlign: 'center',
               headerStyle: {
-                backgroundColor: '#2e64e515',
-                shadowColor: '#2e64e515',
+                backgroundColor: '#fff',
+        
                 elevation: 0,
+              },
+              headerTitleStyle: {
+                color: '#2e64e5',
+                fontFamily: 'Kufam-SemiBoldItalic',
+                fontSize: 18,
               },
               headerBackTitleVisible: false,
               headerBackImage: () => (
@@ -265,12 +285,17 @@ const CarStack = ({navigation}) => (
             name="ServiceTotal"
             component={Service}
             options={{
-              title: 'Total',
+              title: 'Maintenance Logs',
               headerTitleAlign: 'center',
               headerStyle: {
-                backgroundColor: '#2e64e515',
-                shadowColor: '#2e64e515',
+                backgroundColor: '#fff',
+                shadowColor: '#fff',
                 elevation: 0,
+              },
+              headerTitleStyle: {
+                color: '#2e64e5',
+                fontFamily: 'Kufam-SemiBoldItalic',
+                fontSize: 18,
               },
               headerBackTitleVisible: false,
               headerBackImage: () => (
@@ -293,7 +318,7 @@ const MemosStack = ({navigation}) => (
     options={{
       headerTitleAlign: 'center',
       headerTitleStyle: {
-        color: '#2e64e5',
+        color: '#e13661',
         fontFamily: 'Kufam-SemiBoldItalic',
         fontSize: 18,
       },
@@ -307,7 +332,7 @@ const MemosStack = ({navigation}) => (
             name="menu"
             size={22}
             backgroundColor="#fff"
-            color="#2e64e5"
+            color="#e13661"
             onPress={() => navigation.openDrawer()}
             
             
@@ -322,17 +347,22 @@ const MemosStack = ({navigation}) => (
       name="addMemos"
       component={AddMemos}
       options={{
-        title: 'Add Note',
+        title: 'Add Memo',
         headerTitleAlign: 'center',
         headerStyle: {
-        backgroundColor: 'red',
+        backgroundColor: 'white',
         shadowColor: '#2e64e515',
         elevation: 0,
+        },
+        headerTitleStyle: {
+          color: '#e13661',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
         },
         headerBackTitleVisible: false,
         headerBackImage: () => (
           <View style={{marginLeft: 15}}>
-            <Ionicons name="arrow-back" size={25} color="#2e64e5" />
+            <Ionicons name="arrow-back" size={25} color="#e13661" />
           </View>
         ),
         
@@ -347,11 +377,16 @@ const MemosStack = ({navigation}) => (
         title: 'Details',
         headerTitleAlign: 'center',
         headerStyle: {
-        backgroundColor: '#2e64e515',
-        shadowColor: '#2e64e515',
+        backgroundColor: '#fff',
         elevation: 0,
         
         },
+        headerTitleStyle: {
+          color: '#e13661',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
+        },
+        
         headerBackTitleVisible: false,
         headerBackImage: () => (
           <View style={{marginLeft: 15}}>
@@ -389,15 +424,13 @@ const MemosStack = ({navigation}) => (
 );
 
 const AppStack = () => {
-  
-
   return (
 
     <Tab.Navigator
       tabBarOptions={{
         activeTintColor: '#2e64e5',
       }}>
-      <Tab.Screen
+      {/*<Tab.Screen
         name="Home"
         component={FeedStack}
         options={({route}) => ({
@@ -410,7 +443,7 @@ const AppStack = () => {
             />
           ),
         })}
-      />
+      />*/}
       <Tab.Screen
         name="Car"
         component={CarDrawer}

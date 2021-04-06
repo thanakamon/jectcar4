@@ -62,6 +62,14 @@ const GasTotal = (props) => {
             });
           });
         });
+      
+      const price=list.reduce((prev,cur)=>{
+        console.log("Prev>>>>>>",prev);
+        console.log("Cur>>>>>>",cur);
+        return prev+Number(cur.Raka)
+      },0)
+
+      console.log("PRICE>>>>>>>>>>>>>>>>>>>>>",price);
 
       setGas(list);
 
@@ -94,7 +102,7 @@ const GasTotal = (props) => {
   return (
     <View style = {styles.container}>
         <ScrollView>
-          <Text style = {styles.TextGas}>รายการบันทึกเติมเชื้อเพลิงล่าสุด</Text>
+          
           <FlatList 
 					
 					data={gas}
@@ -123,15 +131,9 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     flexDirection: 'column',
-    backgroundColor: '#fff',
+    backgroundColor: "#D9F1F1",
   },
-  TextGas:{
-    color: 'red',
-    fontSize: 20,
-    alignSelf: 'center',
-    marginHorizontal: wp('17%'),
-    marginVertical: wp('2%')
-  },
+  
 
 });
 

@@ -1,6 +1,5 @@
 import React, {useState, useContext,Component} from 'react';
-import { Platform, StyleSheet, Text, View, TextInput, ToastAndroid } from "react-native";
-import { Button } from 'react-native-elements';
+import { Platform, StyleSheet, Text, View, TextInput, ToastAndroid,Button } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import firestore from '@react-native-firebase/firestore';
@@ -13,7 +12,6 @@ const  AddGas = (props)=> {
     const [miles, setMiles] = useState(null);
     const [raka, setRaka] = useState();
     
-    
     console.log("item=",item);
     const submitGas = async () => {
   
@@ -23,7 +21,7 @@ const  AddGas = (props)=> {
         CarRegistration : item.CarRegistration,
         GasDate: firestore.Timestamp.fromDate(new Date()),
         Miles: miles,
-        Raka: raka,
+        Raka: Number(raka),
         
 
       })
@@ -43,8 +41,9 @@ const  AddGas = (props)=> {
     }
     return (
       <View style={styles.container}>
+        <View style={styles.container2}>
         <Text style={styles.headerText}>
-         ไมล์สะสม
+         Miles
         </Text>
         <TextInput
           style={styles.InputText}
@@ -55,7 +54,7 @@ const  AddGas = (props)=> {
         />
         
          <Text style={styles.headerText}>
-         ค่าใช้จ่าย
+         Cost
         </Text>
         <TextInput
           style={styles.InputText}
@@ -64,18 +63,14 @@ const  AddGas = (props)=> {
           value={raka}
           onChangeText={(content) => setRaka(content)}
         />
-        <Button
-          icon={
-            <Icon
-            name="save"
-            size={30}
-            color="#215F80" />
-            }
+        <View style={styles.btn}>
+        <Button  
+          
             title="   Save"
-         
-            type="clear"
             onPress={() => { submitGas();  props.navigation.navigate('detialCar') }}
         />
+        </View>
+        </View>
       </View>
  
       );
@@ -84,7 +79,7 @@ export default AddGas;
 
 const styles = StyleSheet.create({
   headerText: {
-    fontSize: 18,
+    fontSize: 22,
     textAlign: "left",
     margin: 10,
     fontWeight: "bold"
@@ -92,13 +87,17 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    margin: 20 ,
     borderRadius : 15,
-    backgroundColor: "#e5e5e5"
+    backgroundColor: "#D9F1F1"
+  },
+  container2: {
+    margin:20,
+    borderRadius : 15,
+    backgroundColor: "#fff"
   },
   InputText: {
     height: 40,
-    width: "60%", 
+    width: "80%", 
     borderColor: 'gray', 
     borderWidth: 1, 
     marginTop: 10  ,
@@ -107,12 +106,11 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     
   },
-  bnt: {
-    width :'60%',
-    borderColor: 'gray',
-    borderWidth: 1,
+  btn: {
+    width :'30%',
+    marginTop: 40,
     marginBottom: 20  ,
-    marginLeft: 40,
-    justifyContent: 'flex-end'
+   
+    alignSelf:'center'
   },
 });

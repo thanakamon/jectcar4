@@ -48,6 +48,11 @@ const SharedCar = (props) => {
               CarRegistration,
               email,
               img,
+              Insurance,
+              Tax,
+              DateFirst,
+              Repayment,
+              Installment,
               
               
             } = doc.data();
@@ -57,6 +62,11 @@ const SharedCar = (props) => {
               CarRegistration,
               email,
               img: img,
+              Insurance,
+              Tax,
+              DateFirst,
+              Repayment,
+              Installment,
               
               
             });

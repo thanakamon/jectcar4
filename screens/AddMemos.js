@@ -143,13 +143,13 @@ import { AuthContext } from '../navigation/AuthProvider';
     <View style={styles.container}>
       <ScrollView>
           <TextInput style={styles.textTitle}
-            placeholder="ADD TITLE..."
+            placeholder="TITLE..."
             value={title}
             onChangeText={(content) => settitle(content)}
           />
           <TextInput style={styles.textDescription}
             underlineColorAndroid="transparent"
-            placeholder="ADD DESCRIPTION..."
+            placeholder="DESCRIPTION..."
             
             multiline={true} 
             value={memos}
@@ -180,9 +180,10 @@ import { AuthContext } from '../navigation/AuthProvider';
         </ActionButton.Item>
         <ActionButton.Item
           buttonColor="#9b59b6"
-          title="Take Photo"
+          title="Shared"
+          onPress={takePhotoFromCamera}
           >
-          <Icon name="save" style={styles.actionButtonIcon} />
+          <Icon name="share" style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>
         <SubmitBtn onPress={() => { submitMemos();  props.navigation.navigate('Memos') }}>
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
 		elevation: 10,
 		alignItems: 'center',
 		justifyContent: 'center',
-		bottom: 30,
+		marginBottom:20,
 		right: 30
 	},
   textTitle:{

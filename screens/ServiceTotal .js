@@ -43,7 +43,7 @@ const ServiceTotal = (props) => {
       .collection('Service')
       .where('CarRegistration','==',item.CarRegistration)
       
-      //.orderBy('GasDate', 'desc')
+      .orderBy('Service', 'desc')
       
       .get()
       .then((querySnapshot) => {
@@ -109,7 +109,7 @@ const ServiceTotal = (props) => {
             onRefresh={onRefresh}
           />
         }>
-          <Text style = {styles.TextGas}>รายการบันทึกการซ่อมล่าสุด</Text>
+          
           <FlatList 
 					
 					data={service}
@@ -136,15 +136,9 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     flexDirection: 'column',
-    backgroundColor: '#fff',
+    backgroundColor: "#D9F1F1",
   },
-  TextGas:{
-    color: 'red',
-    fontSize: 20,
-    alignSelf: 'center',
-    marginHorizontal: wp('17%'),
-    marginVertical: wp('2%')
-  },
+  
 
 });
 

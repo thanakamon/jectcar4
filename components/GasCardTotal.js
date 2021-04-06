@@ -20,7 +20,7 @@ export const GasCard = (props) => {
     <TouchableOpacity key={item.id} style = {styles.container} >
           <Text style = {styles.TextDate}>{moment(item.GasDate.toDate()).format('MMM Do YY')}</Text>
           <Text style = {styles.raka}>{item.Raka}</Text>
-          <Text style = {styles.bat}>บาท</Text>
+          <Text style = {styles.bat}>THB</Text>
     </TouchableOpacity> 
         
           
@@ -40,25 +40,26 @@ const styles = StyleSheet.create({
         height:hp('10%'),
         width: wp('91%'),
         flexDirection: 'row',
-        backgroundColor: '#707070',
+        backgroundColor: '#fff',
+        borderRadius: 10,
         justifyContent: 'space-between',
         marginTop: 10,
         marginLeft : 15,
         
       },
       TextDate:{
-        color: 'white',
+        color: 'black',
         marginTop:29,
         marginLeft:15,
       },
       raka:{
-        color: 'white',
-        marginTop: 17,
+        color: 'black',
+        marginTop: 29,
         marginLeft: 150,
         
       },
       bat:{
-        color: 'white',
+        color: 'black',
         marginRight: 30,
         marginTop:29,
         

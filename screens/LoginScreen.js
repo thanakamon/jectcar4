@@ -22,37 +22,10 @@ const LoginScreen = ({navigation}) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
-        source={require('../assets/Logo50.png')}
+        source={require('../assets/def.jpg')}
         style={styles.logo}
       />
-      <Text style={styles.text}>Car Maintenance and Memos</Text>
-
-      <FormInput
-        labelValue={email}
-        onChangeText={(userEmail) => setEmail(userEmail)}
-        placeholderText="Email"
-        iconType="user"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-
-      <FormInput
-        labelValue={password}
-        onChangeText={(userPassword) => setPassword(userPassword)}
-        placeholderText="Password"
-        iconType="lock"
-        secureTextEntry={true}
-      />
-
-      <FormButton
-        buttonTitle="Sign In"
-        onPress={() => login(email, password)}
-      />
-
-      <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
-        <Text style={styles.navButtonText}>Forgot Password?</Text>
-      </TouchableOpacity>
+      
 
       {Platform.OS === 'android' ? (
         <View>
@@ -74,13 +47,7 @@ const LoginScreen = ({navigation}) => {
         </View>
       ) : null}
 
-      <TouchableOpacity
-        style={styles.forgotButton}
-        onPress={() => navigation.navigate('Signup')}>
-        <Text style={styles.navButtonText}>
-          Don't have an acount? Create here
-        </Text>
-      </TouchableOpacity>
+      
     </ScrollView>
   );
 };
@@ -89,15 +56,18 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex:1,
     padding: 20,
-    paddingTop: 50
+    paddingTop: 20,
+    backgroundColor: '#fff'
   },
   logo: {
-    height: 150,
-    width: 150,
-    resizeMode: 'cover',
+    height: 217,
+    width: '90%',
+    alignSelf:'center',
+    marginTop:80,
+    marginBottom:'60%'
+    
   },
   text: {
     fontFamily: 'Kufam-SemiBoldItalic',

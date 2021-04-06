@@ -15,6 +15,7 @@ const  DetailsMemos= (props) => {
 
   return (
     <View style = {styles.container} >
+       <View style = {styles.container2} >
        <ScrollView>    
         <Text style = {styles.Title} >{item.Title}</Text>
         <Card.Divider/>
@@ -25,19 +26,14 @@ const  DetailsMemos= (props) => {
         {item.postImg != null ? (
         <ProgressiveImage 
           source={{uri: item.postImg}}
-          style={{width: '100%', height: 250}}
+          style={{width: '90%', height: 250,alignSelf:'center',}}
           resizeMode='cover'
         />
       ) : <Divider />}
         
     </ScrollView>
-    <TouchableOpacity 
-					style={styles.actionButton}
-					
-          onPress={() => { props.navigation.navigate('editMemos' , {item: item}) }} 
-          
-
-				/>
+    </View>
+    
 					
 			
     </View>
@@ -47,16 +43,27 @@ const  DetailsMemos= (props) => {
 const styles = StyleSheet.create({
 	container:{
         flex:1,
+        backgroundColor:'#fccdc9'
+
     },
+    container2:{
+      width:'85%',
+      alignSelf:'center',
+      marginTop: 20,
+      backgroundColor:'white',
+      borderRadius:20,
+
+  },
     actionButton:{
         alignSelf : "flex-end",
         marginRight: 5,
+        
     },
     Title:{
         fontSize: 20,
         fontWeight: 'bold',
         marginTop: 10,
-        marginBottom:5,
+        marginBottom:10,
         marginLeft: 20,
         
     },
@@ -67,6 +74,9 @@ const styles = StyleSheet.create({
     },
     Details:{
         fontSize: 18,
+        marginRight:20,
+        marginLeft:20,
+        marginBottom:20
     },
     actionButton: {
       

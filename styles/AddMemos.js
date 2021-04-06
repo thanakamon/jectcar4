@@ -10,12 +10,13 @@ export const AddImage = styled.Image`
 export const StatusWrapper = styled.View`
     justify-content: center;
     align-items: center;
+   
 `;
 
 export const SubmitBtn = styled.TouchableOpacity`
     flex-direction: row;
     justify-content: center;
-    background-color: #f1a2ff;
+    background-color: blue;
     border-radius: 5px;
     padding: 10px 25px;
     margin-left: 155px;
@@ -29,7 +30,7 @@ export const SubmitBtnText = styled.Text`
     font-size: 18px;
     font-family: 'Lato-Bold';
     font-weight: bold;
-    color: #2e64e5;
+    color: #fff;
 `;
 
 export const AddReceipt = styled.Image`

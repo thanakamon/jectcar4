@@ -41,17 +41,7 @@ export function DrawerCar(props) {
 
                     </View>
                     <Drawer.Section style={styles.drawerSection}>
-                        <DrawerItem
-                            icon={({ color, size }) => (
-                                <Icon
-                                    name="home-outline"
-                                    color={color}
-                                    size={size}
-                                />
-                            )}
-                            label="Home"
-                            onPress={() => { props.navigation.navigate('Application') }}
-                        />
+                        
                         <DrawerItem
                             icon={({ color, size }) => (
                                 <Icon

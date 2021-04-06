@@ -37,7 +37,7 @@ const HomeCar = (props) => {
       await firestore()
       .collection('Car')
       .where('email','==',user.email)
-      //.orderBy('Time', 'desc')
+      .orderBy('Time', 'desc')
       .get()
       .then((querySnapshot) => {
         console.log('Total : ', querySnapshot.size);
@@ -47,6 +47,11 @@ const HomeCar = (props) => {
               Brand,
               CarRegistration,
               img,
+              Insurance,
+              Tax,
+              DateFirst,
+              Repayment,
+              Installment,
               
               
             } = doc.data();
@@ -55,6 +60,11 @@ const HomeCar = (props) => {
               Brand,
               CarRegistration,
               img,
+              Insurance,
+              Tax,
+              DateFirst,
+              Repayment,
+              Installment,
               
               
             });

@@ -46,7 +46,7 @@ const HomeMemos = (props) => {
       await firestore()
         .collection('Memos')
         .where('Email','==', user.email || 'Name','==', user.displayName )
-        .orderBy('postTime', 'asc')
+        .orderBy('postTime', 'desc')
         .get()
         .then((querySnapshot) => {
           console.log('Total Memos: ', querySnapshot.size);

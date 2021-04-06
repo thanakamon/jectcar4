@@ -42,17 +42,7 @@ export function DrawerContent(props) {
 
                     </View>
                     <Drawer.Section style={styles.drawerSection}>
-                        <DrawerItem
-                            icon={({ color, size }) => (
-                                <Icon
-                                    name="home-outline"
-                                    color={color}
-                                    size={size}
-                                />
-                            )}
-                            label="Home"
-                            onPress={() => { props.navigation.navigate('Application') }}
-                        />
+                        
                         <DrawerItem
                             icon={({ color, size }) => (
                                 <Icon
@@ -73,7 +63,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Notification"
-                            onPress={() => { props.navigation.navigate('addcar') }}
+                            //onPress={() => { props.navigation.navigate('addcar') }}
                         />
                         
                         

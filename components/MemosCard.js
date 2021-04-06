@@ -23,7 +23,7 @@ export const MemosCard = (props) => {
         <View style={{
             borderRadius: 10, 
             padding: 15,
-            backgroundColor: "#2FC2DF",
+            
             }}>
         <Text style={styles.date}>
             {moment(item.postTime.toDate()).format('DD MMMM ')}
@@ -51,22 +51,23 @@ const styles = StyleSheet.create({
   parentView: {
       borderRadius: 10,
       margin: 13,
-      flex: 1,   
+      flex: 1,  
+      backgroundColor: "#Ff94b6" 
   },
   date: {
-      color: 'white',
+      color: 'black',
       fontSize: 15,
       fontWeight: 'bold',
       alignSelf: 'flex-end'
   },
   title: {
-    color: 'white',
+    color: 'black',
     fontSize: 23,
     fontWeight: 'bold',
     marginTop: 10,
   },
   note: {
-      color: 'white',
+      color: 'black',
       marginTop: 10,
       fontSize: 17,
       fontWeight: 'bold',

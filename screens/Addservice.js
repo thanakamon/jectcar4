@@ -12,22 +12,48 @@ import {
   AddReceipt,
   StatusWrapper,
 } from '../styles/AddMemos';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 const items = [{
-  id: 'เทส , ',
-  name: 'Ondo'
+  id: 'Oil and Coolant Levels , ',
+  name: 'Oil and Coolant Levels'
 }, {
-  id: ' แบตเตอรี่ , ',
-  name: 'แบตเตอรี่'
+  id: ' Air Filter , ',
+  name: 'Air Filter'
 }, {
-  id: ' น้ำมันเครื่อง , ',
-  name: 'น้ำมัน'
+  id: ' Tire Pressure and Tread Depth , ',
+  name: 'Tire Pressure and Tread Depth'
 }, {
-  id: ' ช่วงล่าง ,',
-  name: 'หัวเทียน'
+  id: ' Headlights ,',
+  name: 'Headlights'
 }, {
-  id: ' เบรก , ',
-  name: 'ระบบเบรก'
-}];
+  id: ' Turn Signals , ',
+  name: 'Turn Signals'
+},{
+  id: ' Brake , ',
+  name: 'Brake'
+},{
+  id: ' OIL & FILTER , ',
+  name: 'OIL & FILTER'
+}
+,{
+  id: ' ROTATE TIRES , ',
+  name: 'ROTATE TIRES'
+}
+,{
+  id: ' SPARK PLUGS , ',
+  name: 'SPARK PLUGS'
+},{
+  id: ' SERPENTINE BELT , ',
+  name: 'SERPENTINE BELT'
+},{
+  id: ' BATTERY , ',
+  name: 'BATTERY'
+}
+,{
+  id: ' CHANGE TIRES , ',
+  name: 'CHANGE TIRES'
+}
+];
 
 
 const  AddService = (props)=> {
@@ -156,9 +182,9 @@ const  AddService = (props)=> {
     return (
       <View style={styles.container}>
             <ScrollView>
-        
+            <View style={styles.container2}>
         <Text style={styles.headerText}>
-         กิโลสะสม
+         Miles
         </Text>
         <TextInput
           style={styles.InputText}
@@ -169,7 +195,7 @@ const  AddService = (props)=> {
         onChangeText={(content) => setKilo(content)}
         />
          <Text style={styles.headerText}>
-         ค่าใช้จ่าย
+         Cost
         </Text>
         <TextInput
           style={styles.InputText}
@@ -180,7 +206,7 @@ const  AddService = (props)=> {
         />
         
         <Text style={styles.headerText}>
-         บริการ
+         Services
         </Text>
         <View style={styles.multiSelectContainer}>
           <MultiSelect
@@ -207,7 +233,7 @@ const  AddService = (props)=> {
 
 
         <Text style={styles.headerText}>
-         ผู้บริการ
+         Servicer
         </Text>
 
         <TextInput
@@ -217,7 +243,7 @@ const  AddService = (props)=> {
           onChangeText={(content) => setServiceProvider(content)}
         />
         <Text style={styles.headerText}>
-         หมายเหตุ
+         Note
         </Text>
 
         <TextInput
@@ -234,7 +260,7 @@ const  AddService = (props)=> {
           style={styles.btn}
           onPress={takePhotoFromCamera}
         >
-					<Text style={styles.btnText}>แนบใบเสร็จ + </Text>
+					<Text style={styles.btnText}>Add Receipt</Text>
 				</TouchableOpacity>
         
         {image != null ? <AddReceipt source={{uri: image.uri}} /> : null}
@@ -244,24 +270,21 @@ const  AddService = (props)=> {
             <ActivityIndicator size="large" color="#0000ff" />
           </StatusWrapper>
         ) : (
-          <Button style={styles.save}
-          icon={
-            <Icon
-            name="save"
-            size={30}
-            color="#215F80" />
-            }
+          <View style={styles.save}>
+          <Button 
+          
             title="Save"
          
-            type="clear"
+            
             onPress={() => { submitService();  props.navigation.navigate('detialCar') }}
         />
+        </View>
       
 
         )}
         
         
-        
+        </View>
         </ScrollView>
         
       </View>
@@ -280,13 +303,16 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    margin: 20 ,
+    backgroundColor: "#D9F1F1"
+  },
+  container2: {
+    margin: 20,
     borderRadius : 15,
-    backgroundColor: "#e5e5e5"
+    backgroundColor: "#fff"
   },
   InputText: {
     height: 40,
-    width: "60%", 
+    width: "80%", 
     borderColor: 'gray', 
     borderWidth: 1, 
     marginTop: 10  ,
@@ -297,14 +323,15 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 18,
-    textAlign: "left",
+    alignSelf:'center',
     margin: 10,
     fontWeight: "bold",
     color: "#fff" 
   },
   multiSelectContainer: {
-    width: '60%',
+    width: '80%',
     borderColor: 'gray',
+    borderWidth:1,
     marginBottom: 20  ,
     marginLeft: 40,
     justifyContent: 'flex-end'
@@ -314,9 +341,12 @@ const styles = StyleSheet.create({
 		borderRadius: 100,
     width :'35%', 
     marginBottom:20,
+    marginLeft:15
   },
   save:{
-    marginTop:20,
+    width:widthPercentageToDP('40%'),
+    margin:20,
+    alignSelf:'center'
   }
   
 });

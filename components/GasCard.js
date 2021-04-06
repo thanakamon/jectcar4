@@ -22,7 +22,7 @@ export const GasCardTotal = (props) => {
           <Text style = {styles.TextDate}>{moment(item.GasDate.toDate()).format('MMM Do YY')}</Text>
           
           <Text style = {styles.raka}>{item.Raka}</Text>
-          <Text style = {styles.bat}>บาท</Text>
+          <Text style = {styles.bat}>THB</Text>
           
         </Card>
     
@@ -38,22 +38,23 @@ const styles = StyleSheet.create({
     historybox:{
         height:55,
         flexDirection: 'row',
-        backgroundColor: '#707070',
+        backgroundColor: '#fff',
         justifyContent: 'space-between',
+        borderRadius: 10,
       },
       TextDate:{
-        color: 'white',
+        color: 'black',
         marginTop:17,
         marginLeft:15,
       },
       raka:{
-        color: 'white',
+        color: 'black',
         marginTop: 17,
         marginLeft: 150,
         
       },
       bat:{
-        color: 'white',
+        color: 'black',
         marginRight: 30,
         marginTop:17,
         

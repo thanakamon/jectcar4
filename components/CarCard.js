@@ -17,7 +17,7 @@ const CarCard = (props) => {
           <View style = {{flexDirection:'row'}}>
               <View>
                 <Image style ={styles.img} 
-                source={{ uri: item.img }}
+                source={item.img?{ uri: item.img }:require('../assets/def.jpg')}
                 //defaultSource={require('../assets/users/user-1.jpg')}
                 />
               </View>
