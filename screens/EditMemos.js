@@ -9,9 +9,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const  EditMemos= (props) => {
   const { user, logout } = useContext(AuthContext);
-  const {item} = props.route.params;
+  //const {item} = props.route.params;
 
-  console.log("item = ",item);
+  //console.log("item = ",item);
   //console.log("item = ",item);
   return (
     <View style = {styles.container} >

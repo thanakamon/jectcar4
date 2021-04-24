@@ -1,4 +1,4 @@
-import React, {useEffect, useState,useContext,useCallback} from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import {
   View,
   ScrollView,
@@ -16,28 +16,30 @@ import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import MemosCard from '../components/MemosCard';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
-import {AuthContext} from '../navigation/AuthProvider';
+import { AuthContext } from '../navigation/AuthProvider';
 
-  
+
 const HomeMemos = (props) => {
 
-  
 
   const [refreshing, setRefreshing] = useState(false);
 
-  const {user, logout} = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const [Memos, setMemos] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleted, setDeleted] = useState(false);
-  
-  
+
+  const [filterdData, setfilterdData] = useState([]);
+  const [masterData, setmasterData] = useState([]);
+  const [search, setsearch] = useState('');
+
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     fetchMemos().then(() => {
       setRefreshing(false);
     });
   }, [refreshing]);
-  
+
 
   const fetchMemos = async () => {
     try {
@@ -45,7 +47,7 @@ const HomeMemos = (props) => {
 
       await firestore()
         .collection('Memos')
-        .where('Email','==', user.email || 'Name','==', user.displayName )
+        .where('Email', '==', user.email || 'Name', '==', user.displayName)
         .orderBy('postTime', 'desc')
         .get()
         .then((querySnapshot) => {
@@ -57,26 +59,27 @@ const HomeMemos = (props) => {
               memosDetails,
               postImg,
               postTime,
-              
+
             } = doc.data();
             list.push({
               id: doc.id,
-              Title : title,
+              Title: title,
               MemosDetails: memosDetails,
-        
+
               postTime: postTime,
               postImg,
             });
           });
         });
 
-      setMemos(list);
+      setfilterdData(list);
+      setmasterData(list);
 
       if (loading) {
         setLoading(false);
       }
 
-      console.log('Memos: ', Memos);
+      console.log('Memos: ', filterdData);
     } catch (e) {
       console.log(e);
     }
@@ -106,8 +109,8 @@ const HomeMemos = (props) => {
           onPress: () => deleteMemos(memosId),
         },
       ],
-      
-      {cancelable: false},
+
+      { cancelable: false },
     );
   };
 
@@ -120,7 +123,7 @@ const HomeMemos = (props) => {
       .get()
       .then((documentSnapshot) => {
         if (documentSnapshot.exists) {
-          const {memosImg} = documentSnapshot.data();
+          const { memosImg } = documentSnapshot.data();
 
           if (memosImg != null) {
             const storageRef = storage().refFromURL(memosImg);
@@ -158,72 +161,86 @@ const HomeMemos = (props) => {
       .catch((e) => console.log('Error deleting posst.', e));
   };
 
- 
+  const searchFilter = (text) => {
+    if (text) {
+      const newData = masterData.filter((item) => {
+        const itemData = item.Title ? item.Title.toUpperCase() 
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        console.log("Titel", item)
+        return itemData.indexOf(textData) > -1;
+      });
+      setfilterdData(newData);
+      setsearch(text);
+    } else {
+      setfilterdData(masterData);
+      setsearch(text);
+
+    }
+  };
 
   const ListHeader = () => {
     return null;
   };
   return (
-    
-    <SafeAreaView style={{flex: 1}}>
+
+    <SafeAreaView style={{ flex: 1 }}>
       {loading ? (
         <ScrollView
-          style={{flex: 1}}
-          contentContainerStyle={{alignItems: 'center'}}>
+          style={{ flex: 1 }}
+          contentContainerStyle={{ alignItems: 'center' }}>
           <SkeletonPlaceholder>
-            <View style={{marginTop: 10, marginBottom: 30}}>   
+            <View style={{ marginTop: 10, marginBottom: 30 }}>
               <View
-                style={{marginTop: 6, width: 350, height: 200, borderRadius: 4}}
+                style={{ marginTop: 6, width: 350, height: 200, borderRadius: 4 }}
               />
             </View>
           </SkeletonPlaceholder>
           <SkeletonPlaceholder>
-            <View style={{marginTop: 10, marginBottom: 30}}>   
+            <View style={{ marginTop: 10, marginBottom: 30 }}>
               <View
-                style={{marginTop: 6, width: 350, height: 200, borderRadius: 4}}
+                style={{ marginTop: 6, width: 350, height: 200, borderRadius: 4 }}
               />
             </View>
           </SkeletonPlaceholder>
-          
+
         </ScrollView>
-        
+
       ) : (
-        
+
         <View style={styles.parentView}>
-				<StatusBar backgroundColor="white" barStyle="dark-content" />
-				<TextInput 
-					style={styles.search}
-					placeholder="search..."
-				/>
-				<FlatList 
-					style={styles.flatList}
-					data={Memos}
-					numColumns={2}
-					keyExtractor={(item) => item.id.toString()}
-					renderItem={({item}) => (
-            <MemosCard item={item} onDelete={handleDelete} parentProps={props} />
-            
-          )}
-          keyExtractor={(item) => item.id}
-          ListHeaderComponent={ListHeader}
-          ListFooterComponent={ListHeader}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-          
-            
-				/>
-        
-				<TouchableOpacity 
-					style={styles.actionButton}
-					
-          onPress={() => { props.navigation.navigate('addMemos') }}
-				>
-					<Text style={styles.actionButtonLogo}>+</Text>
-				</TouchableOpacity>
-			</View>
-        
+          <StatusBar backgroundColor="white" barStyle="dark-content" />
+          <TextInput
+            style={styles.search}
+            placeholder="search..."
+            value={search}
+            underlineColorAndroid="transparent"
+            onChangeText={(text) => searchFilter(text)}
+          />
+          <FlatList
+            style={styles.flatList}
+            data={filterdData}
+            numColumns={2}
+            keyExtractor={(item, index) => index.toString()}
+            //ItemSeparatorComponent = {ItemSeparatorView}
+            renderItem={({ item }) => (
+              <MemosCard item={item} onDelete={handleDelete} parentProps={props} />
+
+            )}
+            keyExtractor={(item) => item.id}
+            ListHeaderComponent={ListHeader}
+            ListFooterComponent={ListHeader}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+
+
+          />
+
+
+        </View>
+
       )}
     </SafeAreaView>
   );
@@ -231,48 +248,48 @@ const HomeMemos = (props) => {
 
 export default HomeMemos;
 const styles = StyleSheet.create({
-	parentView: {
-		backgroundColor: '#FFFFFF',
-		flex: 1,
-		position: 'relative'
-	},
-	search: {
-		width: '90%',
-		alignSelf: 'center',
-		marginTop: 30,
-		backgroundColor: 'white',
-		elevation: 4,
-		borderRadius: 50,
-		paddingHorizontal: 25,
-		fontSize: 20,
-	},
-	flatList: {
-		paddingHorizontal: 10,
-		marginTop: 20,
-	},
-	actionButton: {
-		width: 60,
-		height: 60,
-		backgroundColor: '#2e64e5',
-		borderRadius: 100, 
-		position: 'absolute',
-		elevation: 10,
-		alignItems: 'center',
-		justifyContent: 'center',
-		bottom: 30,
-		right: 30
-	},
-	actionButtonLogo: {
-		fontSize: 30,
-		fontWeight:'bold',
+  parentView: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+    position: 'relative'
+  },
+  search: {
+    width: '90%',
+    alignSelf: 'center',
+    marginTop: 30,
+    backgroundColor: 'white',
+    elevation: 4,
+    borderRadius: 50,
+    paddingHorizontal: 25,
+    fontSize: 20,
+  },
+  flatList: {
+    paddingHorizontal: 10,
+    marginTop: 20,
+  },
+  actionButton: {
+    width: 60,
+    height: 60,
+    backgroundColor: '#2e64e5',
+    borderRadius: 100,
+    position: 'absolute',
+    elevation: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    bottom: 30,
+    right: 30
+  },
+  actionButtonLogo: {
+    fontSize: 30,
+    fontWeight: 'bold',
     color: 'white'
-	},
-	isLoading: {
-		marginTop: 100,
-	},
-	isError: {
-		alignSelf: 'center',
-		fontSize: 20,
-		marginTop: 100,
-	}
+  },
+  isLoading: {
+    marginTop: 100,
+  },
+  isError: {
+    alignSelf: 'center',
+    fontSize: 20,
+    marginTop: 100,
+  }
 })

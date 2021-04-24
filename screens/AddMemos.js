@@ -1,4 +1,4 @@
-import React, {useState, useContext,Component} from 'react';
+import React, { useState, useContext, Component } from 'react';
 import {
   View,
   Text,
@@ -10,12 +10,12 @@ import {
   TouchableOpacity,
   Button,
   ScrollView
-  
+
 } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-picker';
-
+import { Dropdown } from 'react-native-material-dropdown-v2-fixed';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 
@@ -30,78 +30,80 @@ import {
 
 import { AuthContext } from '../navigation/AuthProvider';
 
- const AddMemosScreen = (props) => {
-  const {user, logout} = useContext(AuthContext);
+
+
+
+const AddMemosScreen = (props) => {
+  const { user, logout } = useContext(AuthContext);
 
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
   const [memos, setMemos] = useState(null);
   const [title, settitle] = useState(null);
+  const [category, setCategory] = useState(null);
 
-  
+
   const takePhotoFromCamera = () => {
     const options = {
-        maxWidth: 2000,
-        maxHeight: 2000,
-        storageOptions: {
-            skipBackup: true,
-            path: 'images'
-        }
+      maxWidth: 2000,
+      maxHeight: 2000,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images'
+      }
     };
     ImagePicker.showImagePicker(options, response => {
-        if (response.didCancel) {
-            console.log('User cancelled image picker');
-        } else if (response.error) {
-            console.log('ImagePicker Error: ', response.error);
-        } else if (response.customButton) {
-            console.log('User tapped custom button: ', response.customButton);
-        } else {
-            const source = { uri: response.uri };
-            console.log(source);
-            setImage(source);
-        }
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        console.log(source);
+        setImage(source);
+      }
     });
   };
 
-    const submitMemos = async () => {
+  const submitMemos = async () => {
     const imageUrl = await uploadImage();
     console.log('Image Url: ', imageUrl);
     console.log('memos: ', memos);
 
     firestore()
-    .collection('Memos')
-    .add({
-      Name: user.displayName,
-      Email: user.email,
-      title: title,
-      memosDetails: memos,
-      postImg: imageUrl,
-      postTime: firestore.Timestamp.fromDate(new Date()),
-      
-    })
-    .then(() => {
-      console.log('Post Added!');
-      Alert.alert(
-        'Saved',
-        'Suscess',
-      );
-      setMemos(null);
-    })
-    .catch((error) => {
-      console.log('Something went wrong with added post to firestore.', error);
-    });
-  }
+      .collection('Memos')
+      .add({
+        Name: user.displayName,
+        Email: user.email,
+        title: title,
+        category: category,
+        memosDetails: memos,
+        postImg: imageUrl,
+        postTime: firestore.Timestamp.fromDate(new Date()),
+
+      })
+      .then(() => {
+        console.log('Post Added!');
+        
+        setMemos(null);
+      })
+      .catch((error) => {
+        console.log('Something went wrong with added post to firestore.', error);
+      });
+  };
 
   const uploadImage = async () => {
-      if( image == null ) {
+    if (image == null) {
       return null;
     }
     const { uri } = image;
-        const filename = uri.substring(uri.lastIndexOf('/') + 1);
-        const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-        setUploading(true);
-        setTransferred(0);
+    const filename = uri.substring(uri.lastIndexOf('/') + 1);
+    const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+    setUploading(true);
+    setTransferred(0);
 
     const storageRef = storage().ref(`photos/${filename}`);
     const task = storageRef.putFile(uploadUri);
@@ -114,10 +116,10 @@ import { AuthContext } from '../navigation/AuthProvider';
 
       setTransferred(
         Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-          100,
+        100,
       );
     });
-    
+
     try {
       await task;
 
@@ -139,25 +141,46 @@ import { AuthContext } from '../navigation/AuthProvider';
 
   };
 
+  const data = [{
+    value: 'General',
+  }, {
+    value: 'Education',
+  }, {
+    value: 'Family',
+  }];
+
+
   return (
     <View style={styles.container}>
       <ScrollView>
-          <TextInput style={styles.textTitle}
-            placeholder="TITLE..."
-            value={title}
-            onChangeText={(content) => settitle(content)}
-          />
-          <TextInput style={styles.textDescription}
-            underlineColorAndroid="transparent"
-            placeholder="DESCRIPTION..."
-            
-            multiline={true} 
-            value={memos}
-            onChangeText={(content) => setMemos(content)}
-          />
+        <TextInput style={styles.textTitle}
+          placeholder="TITLE..."
+          value={title}
+          onChangeText={(content) => settitle(content)}
+        />
+        <Dropdown style={styles.Dropdown}
+          icon='chevron-down'
+          iconColor='#000'
+          label='category'
+          baseColor='#fff'
+          labelFontSize= '18'
+          data={data}
+          value={category}
+          onChangeText={(content) => setCategory(content)}
           
-       
-        {image != null ? <AddImage source={{uri: image.uri}} /> : null}
+        />
+
+        <TextInput style={styles.textDescription}
+          underlineColorAndroid="transparent"
+          placeholder="DESCRIPTION..."
+
+          multiline={true}
+          value={memos}
+          onChangeText={(content) => setMemos(content)}
+        />
+
+
+        {image != null ? <AddImage source={{ uri: image.uri }} /> : null}
         {uploading ? (
           <StatusWrapper>
             <Text>{transferred} % Completed!</Text>
@@ -165,12 +188,12 @@ import { AuthContext } from '../navigation/AuthProvider';
           </StatusWrapper>
         ) : (
           <Button
-          
-          title="Learn More"
-          color="#fff"
-        />
+
+            title="Learn More"
+            color="#fff"
+          />
         )}
-      </ScrollView> 
+      </ScrollView>
       <ActionButton buttonColor="#2e64e5">
         <ActionButton.Item
           buttonColor="#9b59b6"
@@ -182,17 +205,17 @@ import { AuthContext } from '../navigation/AuthProvider';
           buttonColor="#9b59b6"
           title="Shared"
           onPress={takePhotoFromCamera}
-          >
+        >
           <Icon name="share" style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>
-        <SubmitBtn onPress={() => { submitMemos();  props.navigation.navigate('Memos') }}>
-            <SubmitBtnText>บันทึก</SubmitBtnText>
-        </SubmitBtn>
-        
+      <SubmitBtn onPress={() => { submitMemos(); props.navigation.navigate('Memos') }}>
+        <SubmitBtnText>บันทึก</SubmitBtnText>
+      </SubmitBtn>
+
     </View>
 
-    
+
   );
 };
 
@@ -201,7 +224,16 @@ export default AddMemosScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'white',
+    backgroundColor: 'white',
+
+  },
+  Dropdown : {
+    width: '35%',
+    height: 80,
+    marginLeft: 10,
+    backgroundColor: 'white',
+    fontSize:16,
+    
     
   },
   actionButtonIcon: {
@@ -210,39 +242,39 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   actionButton: {
-		width: 60,
-		height: 60,
-		backgroundColor: '#2e64e5',
-		borderRadius: 100, 
-		position: 'absolute',
-		elevation: 10,
-		alignItems: 'center',
-		justifyContent: 'center',
-		marginBottom:20,
-		right: 30
-	},
-  textTitle:{
+    width: 60,
+    height: 60,
+    backgroundColor: '#2e64e5',
+    borderRadius: 100,
+    position: 'absolute',
+    elevation: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+    right: 30
+  },
+  textTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#000',
     fontFamily: 'Lato-Regular',
     marginTop: 20,
-    marginLeft:10,
-    marginRight:10,
+    marginLeft: 10,
+    marginRight: 10,
     borderBottomColor: 'black',
     borderBottomWidth: 3,
   },
-  textDescription:{
+  textDescription: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#000',
     fontFamily: 'Lato-Regular',
     marginTop: 20,
-    marginLeft:10,
-    marginRight:10,
-    
+    marginLeft: 10,
+    marginRight: 10,
+
   },
-  
-  
-	
+
+
+
 });

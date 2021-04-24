@@ -18,13 +18,13 @@ export const GasCardTotal = (props) => {
   return (
 
     
-        <Card key={item.id} style = {styles.historybox} >
+        <TouchableOpacity key={item.id} style = {styles.historybox} >
           <Text style = {styles.TextDate}>{moment(item.GasDate.toDate()).format('MMM Do YY')}</Text>
           
           <Text style = {styles.raka}>{item.Raka}</Text>
           <Text style = {styles.bat}>THB</Text>
           
-        </Card>
+        </TouchableOpacity>
     
 
 
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'space-between',
         borderRadius: 10,
+        marginBottom :11,
       },
       TextDate:{
         color: 'black',

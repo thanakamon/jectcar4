@@ -32,7 +32,7 @@ const DetailService = (props) => {
                 </View>
                 <View style = {style.CardBox}>
                     <Text style = {style.Text}>Cost</Text>
-                    <Text style = {style.Text}>3000</Text>
+                    <Text style = {style.Text}>{item.Cost}</Text>
                 </View>
                 <View style = {style.CardBox}>
                     <Text style = {style.Text}>Services  </Text>

@@ -18,7 +18,9 @@ export const ServiceCard = (props) => {
   return (
 
     
-     <Card key={item.id} style = {styles.historybox} >
+     <TouchableOpacity key={item.id} style = {styles.historybox}
+      onPress={() => { navigation.navigate('detailService', {item: item}) }}
+     >
         <Text style = {styles.TextDate}>
         {moment(item.ServiceDate.toDate()).format('MMM Do YY')}
         {'\n'}
@@ -27,7 +29,7 @@ export const ServiceCard = (props) => {
      
         
      
-      </Card>   
+      </TouchableOpacity>   
           
           
         
@@ -47,6 +49,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       justifyContent: 'space-between',
       borderRadius:10,
+      marginBottom:11,
     },
     TextDate:{
       color: 'black',

@@ -30,7 +30,7 @@ export const MemosCard = (props) => {
         </Text>
         
         <Text numberOfLines={1} style={styles.title}>
-            {item.Title}
+            {item.Title.toUpperCase()}
         </Text>
         
         

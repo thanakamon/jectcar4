@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 
     },
     container2:{
-      width:'85%',
+      width:'90%',
       alignSelf:'center',
       marginTop: 20,
       backgroundColor:'white',

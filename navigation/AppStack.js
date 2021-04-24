@@ -45,30 +45,6 @@ const CarDrawer = ({navigation}) => (
   </Drawer.Navigator>
   
 );
-const FeedStack = ({navigation}) => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name="Car and Memos"
-      component={HomeScreen}
-      options={{
-        headerTitleAlign: 'center',
-        headerTitleStyle: {
-          color: '#2e64e5',
-          fontFamily: 'Kufam-SemiBoldItalic',
-          fontSize: 18,
-        },
-        headerStyle: {
-          shadowColor: '#fff',
-          elevation: 0,
-        },
-        
-      }}
-    /> 
-    
-    
-  </Stack.Navigator>
-  
-);
 
 const CarStack = ({navigation}) => (
   <Stack.Navigator >
@@ -326,6 +302,18 @@ const MemosStack = ({navigation}) => (
         shadowColor: '#000',
         elevation: 0,
       },
+      headerRight: () => (
+        <View style={{marginRight: 10}}>
+          <FontAwesome5.Button
+            name="plus"
+            size={22}
+            backgroundColor="#fff"
+            color="#e13661"
+            onPress={() => navigation.navigate('addMemos')}
+            
+          />
+        </View>
+      ), 
       headerLeft: () => (
         <View style={{marginLeft: 10}}>
           <Icon.Button
@@ -334,8 +322,6 @@ const MemosStack = ({navigation}) => (
             backgroundColor="#fff"
             color="#e13661"
             onPress={() => navigation.openDrawer()}
-            
-            
           />
         </View>
       ),
@@ -386,7 +372,18 @@ const MemosStack = ({navigation}) => (
           fontFamily: 'Kufam-SemiBoldItalic',
           fontSize: 18,
         },
-        
+        headerRight: () => (
+          <View style={{marginRight: 10}}>
+            <FontAwesome5.Button
+              name="edit"
+              size={22}
+              backgroundColor="#fff"
+              color="#e13661"
+              onPress={() => navigation.navigate('editMemos')}
+              
+            />
+          </View>
+        ), 
         headerBackTitleVisible: false,
         headerBackImage: () => (
           <View style={{marginLeft: 15}}>
