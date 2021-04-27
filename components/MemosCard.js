@@ -13,10 +13,12 @@ export const MemosCard = (props) => {
   const {item,onDelete, parentProps}=props;
   const {navigation} = parentProps;
   const {user, logout} = useContext(AuthContext);
-  
+  console.log("jj",item);
   return (
 
-    <TouchableOpacity  key={item.id} style={styles.parentView} 
+    <TouchableOpacity  key={item.id} style={{backgroundColor:item.color, borderRadius: 10,
+      margin: 13,
+      flex: 1,  }} 
     onPress={() => { navigation.navigate('detailsMemos',{item: item}) }}
     onLongPress={() => onDelete(item.id)}
       >
@@ -26,7 +28,7 @@ export const MemosCard = (props) => {
             
             }}>
         <Text style={styles.date}>
-            {moment(item.postTime.toDate()).format('DD MMMM ')}
+            {item.category}
         </Text>
         
         <Text numberOfLines={1} style={styles.title}>
@@ -48,12 +50,6 @@ export const MemosCard = (props) => {
 export default MemosCard;
 
 const styles = StyleSheet.create({
-  parentView: {
-      borderRadius: 10,
-      margin: 13,
-      flex: 1,  
-      backgroundColor: "#Ff94b6" 
-  },
   date: {
       color: 'black',
       fontSize: 15,

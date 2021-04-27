@@ -3,10 +3,9 @@ import {View, TouchableOpacity, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import HomeScreen from '../screens/HomeScreen';
+import SharedMemos from '../screens/SharedMemos';
 import AddMemos from '../screens/AddMemos';
 import HomeCar from '../screens/HomeCar';
 import HomeMemos from '../screens/HomeMemos';
@@ -24,14 +23,9 @@ import SharedCar from '../screens/SharedCar';
 import AddService from '../screens/Addservice';
 import Service from '../screens/ServiceTotal ';
 
-
-
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
-
-
 
 const MemosDrawer = ({navigation}) => (
   <Drawer.Navigator headerMode='none' drawerContent={props => <DrawerContent{...props}/>}>
@@ -289,7 +283,6 @@ const CarStack = ({navigation}) => (
 const MemosStack = ({navigation}) => (
   
   <Stack.Navigator>
-    
     <Stack.Screen name="Memos" component={HomeMemos} 
     options={{
       headerTitleAlign: 'center',
@@ -303,7 +296,8 @@ const MemosStack = ({navigation}) => (
         elevation: 0,
       },
       headerRight: () => (
-        <View style={{marginRight: 10}}>
+        <View style={{marginRight: 10,flexDirection:'row'}}>
+          
           <FontAwesome5.Button
             name="plus"
             size={22}
@@ -351,11 +345,32 @@ const MemosStack = ({navigation}) => (
             <Ionicons name="arrow-back" size={25} color="#e13661" />
           </View>
         ),
-        
-        
       }}
     />
-
+    <Stack.Screen
+      name="SharedMemos"
+      component={SharedMemos}
+      options={{
+        title: 'Shared with me',
+        headerTitleAlign: 'center',
+        headerStyle: {
+        backgroundColor: 'white',
+        shadowColor: '#2e64e515',
+        elevation: 0,
+        },
+        headerTitleStyle: {
+          color: '#e13661',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
+        },
+        headerBackTitleVisible: false,
+        headerBackImage: () => (
+          <View style={{marginLeft: 15}}>
+            <Ionicons name="arrow-back" size={25} color="#e13661" />
+          </View>
+        ),
+      }}
+    />
     <Stack.Screen
       name="detailsMemos"
       component={DetailsMemos}
@@ -427,20 +442,7 @@ const AppStack = () => {
       tabBarOptions={{
         activeTintColor: '#2e64e5',
       }}>
-      {/*<Tab.Screen
-        name="Home"
-        component={FeedStack}
-        options={({route}) => ({
-          tabBarLabel: 'Home',
-          tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons
-              name="home-outline"
-              color={color}
-              size={size}
-            />
-          ),
-        })}
-      />*/}
+      
       <Tab.Screen
         name="Car"
         component={CarDrawer}

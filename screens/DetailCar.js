@@ -10,7 +10,6 @@ import {
   Image,
 } from 'react-native';
 import { Header, Card, Container, Body, Title, Tabs, Tab, List, Icon } from 'native-base';
-import AnimatedProgressWheel from 'react-native-progress-wheel';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { AuthContext } from '../navigation/AuthProvider';
 import GasCard from '../components/GasCard';
@@ -22,20 +21,19 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 const DetailsCar = (props) => {
   const { user, logout } = useContext(AuthContext);
   const { item } = props.route.params
-
-  console.log("item = ", item);
   const [service, setService] = useState(null);
-
+  const [kilo, setKilo] = useState();
   const [gas, setGas] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleted, setDeleted] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0)
-
   const [totalService, setTotalService] = useState(0);
-
+  const [itemDate, setitemDate] = useState({ ...item, diff: moment(item.Insurance).diff(moment(), "days") });
+  const [itemBaterry, setitemBaterry] = useState({});
   const [Total, setTotal] = useState(0);
 
+  //console.log("Betttt",list1);
   useEffect(() => {
     setTotal(totalPrice + totalService);
   }, [totalPrice, totalService])
@@ -62,7 +60,7 @@ const DetailsCar = (props) => {
 
         .get()
         .then((querySnapshot) => {
-          console.log('Total : ', querySnapshot.size);
+          //console.log('Total : ', querySnapshot.size);
 
           querySnapshot.forEach((doc) => {
             const {
@@ -91,7 +89,7 @@ const DetailsCar = (props) => {
         setLoading(false);
       }
 
-      console.log('gas: ', gas);
+      //console.log('gas: ', gas);
     } catch (e) {
       console.log(e);
     }
@@ -128,8 +126,6 @@ const DetailsCar = (props) => {
               ServiceDate,
               ServiceProvider,
               TotalKilo,
-
-
             } = doc.data();
             list1.push({
               id1: doc.id,
@@ -141,6 +137,7 @@ const DetailsCar = (props) => {
               ServiceProvider: ServiceProvider,
               TotalKilo: TotalKilo,
 
+
             });
           });
         });
@@ -151,14 +148,16 @@ const DetailsCar = (props) => {
       }, 0))
 
 
-
+      setKilo(list1[0].TotalKilo);
+      setitemBaterry({ ...list1, diff: moment(list1[0].ServiceDate).add(1, 'Y').add(8, 'M').diff(moment(), 'days') })
       setService(list1);
+      console.log(list1[0].TotalKilo);
 
       if (loading) {
         setLoading(false);
       }
 
-      console.log('gas: ', service);
+      //console.log('gas: ', service);
     } catch (e) {
       console.log(e);
     }
@@ -178,6 +177,8 @@ const DetailsCar = (props) => {
     return null;
   };
 
+
+
   return (
     <Tabs>
       <Tab heading="Home">
@@ -193,108 +194,85 @@ const DetailsCar = (props) => {
           >
 
             <Card style={styles.contbox}>
+              
               <View style={styles.Card}>
-                <Text>อายุรถ 6 เดือน</Text>
                 <View style={{ flexDirection: 'row' }}>
                   <View>
-                    <Image style={styles.img1}
-                      source={item.img ? { uri: item.img } : require('../assets/def.jpg')}
-                    //defaultSource={require('../assets/users/user-1.jpg')}
-                    />
-                  </View>
-                  <View style={styles.carregis} >
-                    <Text style={{ fontSize: 20, marginBottom: hp('1.5%') }} >Brand: {item.Brand}</Text>
-                    <Text style={{ fontSize: 14 }}>Registration: {item.CarRegistration}</Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <View>
-                    <Text>วันสิ้นอายุ</Text>
-                    <Text>Apr 10th 21</Text>
+                    <Icon style={styles.icon}
+                      name='car' />
                   </View>
                   <View>
-                    <AnimatedCircularProgress
-                      size={60}
-                      width={15}
-                      fill={67}
-                      tintColor="#00e0ff"
-                      onAnimationComplete={() => console.log('onAnimationComplete')}
-                      backgroundColor="#3d5875" >
-                      {
-                        (fill) => (
-                          <Text>
-                            67
-                          </Text>
-                        )
-                      }
-                    </AnimatedCircularProgress>
+                    <Text style={styles.brand}>{item.Brand}</Text>
+                    <Text style={styles.CarRegistration}>{item.CarRegistration}</Text>
                   </View>
-
                 </View>
                 <View>
-                  <Text>ชำระค่างวด</Text>
+                  <Text style={styles.dateTax1}>Expiration date</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                   <View>
-                    <AnimatedCircularProgress
-                      size={80}
-                      width={15}
-                      fill={1}
-                      tintColor="#00e0ff"
+                    <AnimatedCircularProgress style={styles.pro1}
+                      size={95}
+                      width={17}
+                      fill={200 * 100 / 365}
+                      tintColor="green"
                       onAnimationComplete={() => console.log('onAnimationComplete')}
-                      backgroundColor="#3d5875" >
+                      backgroundColor="red" >
                       {
                         (fill) => (
-                          <Text>
-                            9
+                          <Text >
+                            {itemDate.diff} Day
                           </Text>
                         )
                       }
                     </AnimatedCircularProgress>
                   </View>
                   <View>
-                    <AnimatedCircularProgress
-                      size={80}
-                      width={15}
-                      fill={48}
-                      tintColor="#00e0ff"
+                    <AnimatedCircularProgress style={styles.pro2}
+                      size={95}
+                      width={17}
+                      fill={450 * 100 / 630}
+                      tintColor="green"
                       onAnimationComplete={() => console.log('onAnimationComplete')}
-                      backgroundColor="#3d5875" >
+                      backgroundColor="red" >
                       {
                         (fill) => (
                           <Text>
-                            48
+                            {itemBaterry.diff} Day
+
                           </Text>
                         )
                       }
                     </AnimatedCircularProgress>
                   </View>
                   <View>
-                    <AnimatedCircularProgress
-                      size={80}
-                      width={15}
-                      fill={46}
-                      tintColor="#00e0ff"
+                    <AnimatedCircularProgress style={styles.pro3}
+                      size={95}
+                      width={17}
+                      fill={kilo * 100 / 60000}
+                      tintColor="red"
                       onAnimationComplete={() => console.log('onAnimationComplete')}
-                      backgroundColor="#3d5875" >
+                      backgroundColor="green" >
                       {
                         (fill) => (
                           <Text>
-                            46
+                            {kilo}Km
                           </Text>
+
                         )
                       }
                     </AnimatedCircularProgress>
                   </View>
 
+
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                  <Text> 1 เมษายน</Text>
-                  <Text>           48 งวด </Text>
-                  <Text>      งวดคงเหลือ</Text>
+                  <Text style={styles.A}>Tax</Text>
+                  <Text style={styles.B}>Battery</Text>
+                  <Text style={styles.C}>Break</Text>
                 </View>
+
               </View>
-
             </Card>
 
 
@@ -367,14 +345,6 @@ const DetailsCar = (props) => {
             </View>
             <View style={styles.Brand2}>
               <View style={styles.CardDetail}>
-                <Text style={{ fontSize: 18, color: 'black' }}>Tax</Text>
-                <Text style={{ fontSize: 18, color: 'black' }}>0</Text>
-              </View>
-              <View style={styles.CardDetail}>
-                <Text style={{ fontSize: 18, color: 'black' }}>Installment</Text>
-                <Text style={{ fontSize: 18, color: 'black' }}>0</Text>
-              </View>
-              <View style={styles.CardDetail}>
                 <Text style={{ fontSize: 18, color: 'black' }}>Fuel</Text>
                 <Text style={{ fontSize: 18, color: 'black' }}>{totalPrice}</Text>
               </View>
@@ -392,42 +362,10 @@ const DetailsCar = (props) => {
         </View>
       </Tab>
 
-      <Tab heading="Stat">
-        <View style={styles.Brand}>
-          <View style={styles.con2}>
-            <View style={styles.CarTopic}>
-              <Text style={{ fontSize: 25, color: 'black', alignSelf: 'flex-start', marginLeft: 20, }}>{item.Brand}</Text>
-              <Text style={{ fontSize: 15, color: 'black', alignSelf: 'flex-start', marginLeft: 20 }}>{item.CarRegistration}</Text>
-            </View>
-            <View style={styles.Brand2}>
-              <View style={styles.CardDetail}>
-                <Text style={{ fontSize: 18, color: 'black' }}>Tax</Text>
-                <Text style={{ fontSize: 18, color: 'black' }}>0</Text>
-              </View>
-              <View style={styles.CardDetail}>
-                <Text style={{ fontSize: 18, color: 'black' }}>Installment</Text>
-                <Text style={{ fontSize: 18, color: 'black' }}>0</Text>
-              </View>
-              <View style={styles.CardDetail}>
-                <Text style={{ fontSize: 18, color: 'black' }}>Fuel</Text>
-                <Text style={{ fontSize: 18, color: 'black' }}>{totalPrice}</Text>
-              </View>
-              <View style={styles.CardDetail}>
-                <Text style={{ fontSize: 18, color: 'black' }}>Maintenance</Text>
-                <Text style={{ fontSize: 18, color: 'black' }}>{totalService}</Text>
-              </View>
-              <View style={{ alignSelf: 'flex-end', flexDirection: 'row', fontSize: 20, marginTop: hp('3%') }}>
-                <Text style={{ marginHorizontal: wp('3%'), fontSize: 20, color: 'black', marginBottom: 10 }}>Total</Text>
-                <Text style={{ marginHorizontal: wp('3%'), fontSize: 20, color: 'black', marginBottom: 10 }}>{Total}</Text>
-                <Text style={{ marginHorizontal: wp('3%'), fontSize: 20, color: 'black', marginBottom: 10 }}>THB</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </Tab>
-      
+
+
     </Tabs>
-    
+
 
   );
 };
@@ -437,6 +375,54 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#707070',
+  },
+  icon:{
+    fontSize:110,
+    color:'#D35400'
+  },
+  brand: {
+    fontSize: 30,
+    marginLeft: '10%',
+    marginTop: 15
+  },
+  CarRegistration: {
+    fontSize: 18,
+    marginLeft: '10%',
+  },
+  dateTax1: {
+    fontSize:25,
+    marginBottom: 15,
+    borderBottomColor: 'black',
+    borderBottomWidth: 3,
+  },
+  Tax: {
+    fontSize: 20,
+    marginLeft: '10%',
+  },
+  pro1: {
+    marginLeft: 20,
+  },
+  pro2: {
+    marginLeft: 20
+  },
+  pro3: {
+    marginLeft: 20
+  },
+  proText: {
+    fontSize: 16,
+  },
+  A: {
+    fontSize: 16,
+    marginLeft: 55
+  },
+  B: {
+    fontSize: 16,
+    marginLeft: 80
+  },
+  C: {
+    fontSize: 16,
+    marginLeft: 70
+
   },
   img1: {
     display: 'flex',
@@ -494,9 +480,19 @@ const styles = StyleSheet.create({
   TextCen: {
     color: 'black',
     alignSelf: 'center',
-    marginHorizontal: wp('1ถ%'),
-    marginVertical: wp('2%'),
+    marginBottom: 16,
     fontSize: 25,
+  },
+  TextCen1: {
+    color: 'black',
+    alignSelf: 'center',
+    fontSize: 25,
+  },
+  TextCarRe: {
+    color: 'black',
+    alignSelf: 'center',
+    fontSize: 15,
+    marginBottom: 10,
   },
 
   transparent: {

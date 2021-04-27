@@ -15,8 +15,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 
 const DetailService = (props) => {
     const {item}=props.route.params
-    
-    
+
     return(
         <View style = {style.container}>
             <ScrollView>

@@ -9,7 +9,8 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
-  ScrollView
+  ScrollView,
+  Switch
 
 } from 'react-native';
 import ActionButton from 'react-native-action-button';
@@ -35,14 +36,14 @@ import { AuthContext } from '../navigation/AuthProvider';
 
 const AddMemosScreen = (props) => {
   const { user, logout } = useContext(AuthContext);
-
+  const [EmailShared, setEmailShared] = useState(null);
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
   const [memos, setMemos] = useState(null);
   const [title, settitle] = useState(null);
   const [category, setCategory] = useState(null);
-
+  const [Shared, setShared] = useState(false);
 
   const takePhotoFromCamera = () => {
     const options = {
@@ -83,11 +84,12 @@ const AddMemosScreen = (props) => {
         memosDetails: memos,
         postImg: imageUrl,
         postTime: firestore.Timestamp.fromDate(new Date()),
+        EmailShared: EmailShared,
 
       })
       .then(() => {
         console.log('Post Added!');
-        
+
         setMemos(null);
       })
       .catch((error) => {
@@ -147,6 +149,8 @@ const AddMemosScreen = (props) => {
     value: 'Education',
   }, {
     value: 'Family',
+  }, {
+    value: '',
   }];
 
 
@@ -163,12 +167,32 @@ const AddMemosScreen = (props) => {
           iconColor='#000'
           label='category'
           baseColor='#fff'
-          labelFontSize= '18'
+          labelFontSize='18'
           data={data}
           value={category}
           onChangeText={(content) => setCategory(content)}
-          
         />
+        <View>
+          <View style={styles.Shared}>
+            <Text style={styles.TextShared}>Shared</Text>
+            <Switch style={{ marginLeft: 10 }} onValueChange={() => setShared(!Shared)} value={Shared} />
+          </View>
+          {Shared && (
+            <>
+              <TextInput style={styles.Shared1}
+                underlineColorAndroid="transparent"
+                placeholder="Email"
+                multiline={true}
+                value={EmailShared}
+                onChangeText={(content) => setEmailShared(content)}
+              />
+            </>
+          )}
+        </View>
+
+
+
+
 
         <TextInput style={styles.textDescription}
           underlineColorAndroid="transparent"
@@ -201,13 +225,6 @@ const AddMemosScreen = (props) => {
           onPress={takePhotoFromCamera}>
           <Icon name="camera-outline" style={styles.actionButtonIcon} />
         </ActionButton.Item>
-        <ActionButton.Item
-          buttonColor="#9b59b6"
-          title="Shared"
-          onPress={takePhotoFromCamera}
-        >
-          <Icon name="share" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
       </ActionButton>
       <SubmitBtn onPress={() => { submitMemos(); props.navigation.navigate('Memos') }}>
         <SubmitBtnText>บันทึก</SubmitBtnText>
@@ -227,14 +244,30 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
 
   },
-  Dropdown : {
+  TextShared: {
+    fontSize: 18,
+    marginLeft: 20,
+    marginBottom: 10,
+    color: 'black',
+    textAlign: "center"
+  },
+  Shared: {
+    flexDirection: 'row',
+    marginTop: 10,
+
+  },
+  Shared1: {
+    marginLeft: 20,
+    fontSize: 16,
+  },
+  Dropdown: {
     width: '35%',
     height: 80,
     marginLeft: 10,
     backgroundColor: 'white',
-    fontSize:16,
-    
-    
+    fontSize: 16,
+
+
   },
   actionButtonIcon: {
     fontSize: 25,

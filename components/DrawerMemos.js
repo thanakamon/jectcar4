@@ -19,6 +19,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon1 from 'react-native-vector-icons/Ionicons'
 
+
 export function DrawerContent(props) {
     const { user, logout } = useContext(AuthContext);
     //console.log(user);
@@ -52,9 +53,9 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Shared with me"
-                            onPress={() => { props.navigation.navigate('addcar') }}
+                            onPress={() => { props.navigation.navigate('SharedMemos') }}
                         />
-                        <DrawerItem
+                        {/*<DrawerItem
                             icon={({ color, size }) => (
                                 <Icon1
                                     name="notifications-outline"
@@ -63,8 +64,8 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Notification"
-                            //onPress={() => { props.navigation.navigate('addcar') }}
-                        />
+                           // onPress={() => { props.navigation.navigate('addcar') }}
+                            />*/}
                         
                         
                     </Drawer.Section>

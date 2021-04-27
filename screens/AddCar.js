@@ -188,9 +188,9 @@ const Addcar = (props) => {
         date={dateins} // Initial date from state
         mode="date" // The enum of date, datetime and time
         placeholder="Insurance expiration date"
-        format="DD-MM-YYYY"
-        minDate="01-01-2020"
-        maxDate="01-01-2030"
+        format="YYYY-MM-DD"
+        minDate="2020-01-01"
+        maxDate="2030-01-01"
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         customStyles={{
@@ -207,16 +207,18 @@ const Addcar = (props) => {
         }}
         onDateChange={(date) => {
           setDateIns(date);
+          console.log(date);
         }}
+
       />
       <DatePicker
         style={styles.datePickerStyle}
         date={datetax} // Initial date from state
         mode="date" // The enum of date, datetime and time
         placeholder="Tax expiration date"
-        format="DD-MM-YYYY"
-        minDate="01-01-2020"
-        maxDate="01-01-2030"
+        format="YYYY-MM-DD"
+        minDate="2020-01-01"
+        maxDate="2030-01-01"
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         customStyles={{
@@ -249,9 +251,9 @@ const Addcar = (props) => {
               date={datefirst} // Initial date from state
               mode="date" // The enum of date, datetime and time
               placeholder="First payment date"
-              format="DD-MM-YYYY"
-              minDate="01-01-2020"
-              maxDate="01-01-2030"
+              format="YYYY-MM-DD"
+              minDate="2020-01-01"
+              maxDate="2030-01-01"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{

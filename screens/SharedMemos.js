@@ -19,7 +19,7 @@ import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../navigation/AuthProvider';
 
 
-const SharedMemos = (props) => {
+const HomeMemos = (props) => {
 
 
   const [refreshing, setRefreshing] = useState(false);
@@ -46,8 +46,8 @@ const SharedMemos = (props) => {
 
       await firestore()
         .collection('Memos')
-        .where('Email', '==', user.email || 'Name', '==', user.displayName)
-        .orderBy('postTime', 'desc')
+        .where('EmailShared', '==', user.email)
+        //.orderBy('postTime', 'desc')
         .get()
         .then((querySnapshot) => {
           console.log('Total Memos: ', querySnapshot.size);
@@ -248,7 +248,7 @@ const SharedMemos = (props) => {
   );
 };
 
-export default SharedMemos;
+export default HomeMemos;
 const styles = StyleSheet.create({
   parentView: {
     backgroundColor: '#FFFFFF',
