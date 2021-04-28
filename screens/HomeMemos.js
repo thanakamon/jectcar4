@@ -51,7 +51,6 @@ const SharedMemos = (props) => {
         .get()
         .then((querySnapshot) => {
           console.log('Total Memos: ', querySnapshot.size);
-
           querySnapshot.forEach((doc) => {
             const {
               title,
